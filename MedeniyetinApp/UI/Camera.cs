@@ -8,6 +8,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MedeniyetinApp.UI;
 using AForge.Video;
 using AForge.Video.DirectShow;
 
@@ -17,12 +18,15 @@ namespace MedeniyetinApp.UI
     public partial class Camera : Form
     {
 
+        Login loginfrm;
         MJPEGStream stream;
-
-        public Camera()
+        
+        public Camera(Login loginfrm)
         {
             InitializeComponent();
-            String url = "http://192.168.137.57:81/stream";
+            this.loginfrm = loginfrm;
+
+            String url = $"http://{loginfrm.cameraIP.Text}:81/stream";
             stream = new MJPEGStream(url);
             stream.NewFrame += GetNewFrame;
         }
