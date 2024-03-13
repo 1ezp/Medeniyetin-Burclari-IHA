@@ -16,3 +16,4 @@ C:\Users\hekmt\Desktop\Medeniyetin-Burclari-IHA\MedeniyetinApp\bin\Debug\AForge.
 C:\Users\hekmt\Desktop\Medeniyetin-Burclari-IHA\MedeniyetinApp\obj\Debug\MedeniyetinApp.UI.Camera.resources
 C:\Users\hekmt\Desktop\Medeniyetin-Burclari-IHA\MedeniyetinApp\obj\Debug\MedeniyetinApp.csproj.CopyComplete
 C:\Users\hekmt\Desktop\Medeniyetin-Burclari-IHA\MedeniyetinApp\obj\Debug\MedeniyetinApp.UI.Login.resources
+C:\Users\hekmt\Desktop\Medeniyetin-Burclari-IHA\MedeniyetinApp\obj\Debug\MedeniyetinApp.UI.Map.resources
