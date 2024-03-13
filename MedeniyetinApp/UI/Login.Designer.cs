@@ -30,9 +30,11 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.cameraIP = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -45,10 +47,14 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(464, 52);
             this.panel1.TabIndex = 2;
+            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
+            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.textBox1);
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.button2);
+            this.panel2.Controls.Add(this.cameraIP);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -57,16 +63,16 @@
             this.panel2.Size = new System.Drawing.Size(464, 490);
             this.panel2.TabIndex = 3;
             // 
-            // textBox1
+            // cameraIP
             // 
-            this.textBox1.BackColor = System.Drawing.Color.Gray;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(41, 222);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(354, 36);
-            this.textBox1.TabIndex = 3;
+            this.cameraIP.BackColor = System.Drawing.Color.Gray;
+            this.cameraIP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.cameraIP.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cameraIP.ForeColor = System.Drawing.Color.White;
+            this.cameraIP.Location = new System.Drawing.Point(41, 222);
+            this.cameraIP.Name = "cameraIP";
+            this.cameraIP.Size = new System.Drawing.Size(354, 36);
+            this.cameraIP.TabIndex = 3;
             // 
             // label1
             // 
@@ -92,6 +98,28 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // button2
+            // 
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.ForeColor = System.Drawing.Color.White;
+            this.button2.Location = new System.Drawing.Point(100, 337);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(225, 55);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "Start";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(106, 25);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(243, 29);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Medeniyetin Burclari";
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -116,7 +144,9 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button2;
+        public System.Windows.Forms.TextBox cameraIP;
+        private System.Windows.Forms.Label label2;
     }
 }
