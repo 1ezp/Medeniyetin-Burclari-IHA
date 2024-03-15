@@ -44,7 +44,9 @@ namespace MedeniyetinApp.UI
         private void button2_Click(object sender, EventArgs e)
         {
             Camera cameraFrm = new Camera(this);
+            Map mapFrm = new Map();
             cameraFrm.Show();
+            mapFrm.Show();  
             this.Hide();
         }
     }
