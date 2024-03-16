@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using MedeniyetinApp.UI;
 using AForge.Video;
 using AForge.Video.DirectShow;
+using System.Net.Http;
 
 
 namespace MedeniyetinApp.UI
@@ -18,26 +19,102 @@ namespace MedeniyetinApp.UI
     public partial class Camera : Form
     {
 
-        Login loginfrm;
+        
+        String host;
         MJPEGStream stream;
 
         private Point mouseLocation;
         bool isMax = false;
 
-        public Camera(Login loginfrm)
+        public Camera(string host)
         {
             InitializeComponent();
-            this.loginfrm = loginfrm;
-
-            String url = $"http://{loginfrm.cameraIP.Text}:81/stream";
+            this.host = host;
+            changeRes();
+            String url = $"http://{host}:81/stream";
             stream = new MJPEGStream(url);
+            
             stream.NewFrame += GetNewFrame;
         }
 
         void GetNewFrame(object sender, NewFrameEventArgs e)
         {
-            Bitmap bmp = (Bitmap)e.Frame.Clone();
-            cameraBox.Image = bmp;
+            
+            Invoke((MethodInvoker)delegate
+            {
+                Bitmap bmp = (Bitmap)e.Frame.Clone();
+                pnlX.Text = panel2.Height.ToString();
+                pnlY.Text = panel2.Width.ToString();
+
+
+
+                double x =  (Convert.ToDouble(panel2.Height) / 360.0 * 180.0) + 15;
+                double y = (Convert.ToDouble(panel2.Width) / 240.0 * 120.0) - 15;
+
+                bmpX.Text = Convert.ToString(x);
+                bmpY.Text = Convert.ToString(y);
+
+                DrawRedDot(bmp, Convert.ToInt32(y), Convert.ToInt32(x), 30);
+                cameraBox.Image = bmp;
+            });
+            
+        }
+        void DrawRedDot(Bitmap bmp, int x, int y, int size)
+        {
+            // Check if the coordinates are within the bitmap's bounds
+            // Check if the coordinates are within the bitmap's bounds
+            if (x >= 0 && y >= 0 && x + size < bmp.Width && y + size < bmp.Height)
+            {
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    // Define the border pen with red color and the specified width
+                    Pen borderPen = new Pen(Color.Red, 2);
+
+                    // Draw the border of the square (rectangle)
+                    g.DrawRectangle(borderPen, x, y, size, size);
+                }
+            }
+        }
+
+
+        void changeRes()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                // Set the request headers if needed
+                client.DefaultRequestHeaders.Add("Accept", "*/*");
+                client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.9,ar-AE;q=0.8,ar;q=0.7");
+                client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+                client.DefaultRequestHeaders.Add("DNT", "1");
+                client.DefaultRequestHeaders.Add("Referer", $"http://{host}/");
+                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
+
+                // Construct the URL with query parameters
+                string url = $"http://{host}/control?var=framesize&val=13";
+
+                try
+                {
+                    // Send the GET request synchronously
+                    HttpResponseMessage response = client.GetAsync(url).Result;
+
+                    // Check if the request was successful
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Read the response content
+                        string responseBody = response.Content.ReadAsStringAsync().Result;
+                        Console.WriteLine("Response: " + responseBody);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error: " + response.StatusCode);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                }
+
+            }
         }
 
         private void Camera_Load(object sender, EventArgs e)

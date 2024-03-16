@@ -43,10 +43,10 @@ namespace MedeniyetinApp.UI
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Camera cameraFrm = new Camera(this);
+            Camera cameraFrm = new Camera(cameraIP.Text);
             Map mapFrm = new Map();
             cameraFrm.Show();
-            mapFrm.Show();  
+            //mapFrm.Show();  
             this.Hide();
         }
     }

@@ -48,7 +48,9 @@ namespace MedeniyetinApp.UI
             map.Zoom = 12;
 
 
-            map.MapProvider = GoogleHybridMapProvider.Instance;
+            //map.MapProvider = GoogleHybridMapProvider.Instance;
+            map.MapProvider = GoogleKoreaHybridMapProvider.Instance;
+
             GMapProviders.GoogleMap.ApiKey = "AIzaSyA9k7og3eKp8ni-Wv-xHYE5Vq5Js4jJ0yI";
             map.Dock = DockStyle.Fill;
             pnlMap.Controls.Add(map);
@@ -63,7 +65,7 @@ namespace MedeniyetinApp.UI
             PointLatLng initialPosition = new PointLatLng(x, y);
             IHA = new GMarkerGoogle(initialPosition, GMarkerGoogleType.red);
             IHA.ToolTipText = "IHA";
-            IHA.ToolTip.Font = new Font("Arial", 14, FontStyle.Bold);
+            IHA.ToolTip.Font = new Font("Arial", 15, FontStyle.Bold);
             IHA.ToolTipMode = MarkerTooltipMode.Always;
             IHA.IsVisible = true;
             markerOverlay.Markers.Add(IHA);
