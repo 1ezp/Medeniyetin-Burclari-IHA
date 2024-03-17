@@ -62,6 +62,7 @@
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Map";
+            this.ShowIcon = false;
             this.Text = "Map";
             this.ResumeLayout(false);
 

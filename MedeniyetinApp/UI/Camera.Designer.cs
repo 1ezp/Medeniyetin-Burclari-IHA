@@ -30,15 +30,15 @@
         {
             this.cameraBox = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.bmpX = new System.Windows.Forms.Label();
-            this.bmpY = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.pnlY = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.pnlX = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.bmpY = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.bmpX = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.cameraBox)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -71,51 +71,6 @@
             this.panel1.DoubleClick += new System.EventHandler(this.panel1_DoubleClick);
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.cameraBox);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 30);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1252, 705);
-            this.panel2.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 16);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "bmp x:";
-            // 
-            // bmpX
-            // 
-            this.bmpX.AutoSize = true;
-            this.bmpX.Location = new System.Drawing.Point(64, 9);
-            this.bmpX.Name = "bmpX";
-            this.bmpX.Size = new System.Drawing.Size(14, 16);
-            this.bmpX.TabIndex = 1;
-            this.bmpX.Text = "0";
-            // 
-            // bmpY
-            // 
-            this.bmpY.AutoSize = true;
-            this.bmpY.Location = new System.Drawing.Point(158, 9);
-            this.bmpY.Name = "bmpY";
-            this.bmpY.Size = new System.Drawing.Size(14, 16);
-            this.bmpY.TabIndex = 3;
-            this.bmpY.Text = "0";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(106, 9);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 16);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "bmp y:";
             // 
             // pnlY
             // 
@@ -152,6 +107,51 @@
             this.label6.Size = new System.Drawing.Size(37, 16);
             this.label6.TabIndex = 4;
             this.label6.Text = "pnl x:";
+            // 
+            // bmpY
+            // 
+            this.bmpY.AutoSize = true;
+            this.bmpY.Location = new System.Drawing.Point(158, 9);
+            this.bmpY.Name = "bmpY";
+            this.bmpY.Size = new System.Drawing.Size(14, 16);
+            this.bmpY.TabIndex = 3;
+            this.bmpY.Text = "0";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(106, 9);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(47, 16);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "bmp y:";
+            // 
+            // bmpX
+            // 
+            this.bmpX.AutoSize = true;
+            this.bmpX.Location = new System.Drawing.Point(64, 9);
+            this.bmpX.Name = "bmpX";
+            this.bmpX.Size = new System.Drawing.Size(14, 16);
+            this.bmpX.TabIndex = 1;
+            this.bmpX.Text = "0";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 16);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "bmp x:";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.cameraBox);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 30);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1252, 705);
+            this.panel2.TabIndex = 2;
             // 
             // Camera
             // 

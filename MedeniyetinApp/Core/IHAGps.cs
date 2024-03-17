@@ -23,8 +23,6 @@ namespace MedeniyetinApp.Core
             {
                 serialPort = new SerialPort(port, 115200);
                 serialPort.Open();
-                //serialPort.DataReceived += SerialPortDataReceived;
-                //new Thread(SerialPortDataReceived).Start();
             }
             catch (Exception ex)
             {
@@ -49,29 +47,45 @@ namespace MedeniyetinApp.Core
 
         public String TargetLat()
         {
-            string data = serialPort.ReadLine();
-            string[] parts = data.Split(':');
-            if (parts.Length >= 2)
+            try
             {
-                String latitude = parts[0];
+                string data = serialPort.ReadLine();
+                string[] parts = data.Split(':');
+                if (parts.Length >= 2)
+                {
+                    String latitude = parts[0];
 
-                // Successfully parsed latitude as a double
-                return latitude;
+                    // Successfully parsed latitude as a double
+                    return latitude;
+                }
+                return "";
             }
-            return "";
+            catch
+            {
+                return "error";
+            }
+            
         }
         public String TargetLng()
         {
-            string data = serialPort.ReadLine();
-            string[] parts = data.Split(':');
-            if (parts.Length >= 2)
+            try
             {
-                String lng = parts[1];
+                string data = serialPort.ReadLine();
+                string[] parts = data.Split(':');
+                if (parts.Length >= 2)
+                {
+                    String lng = parts[1];
 
-                // Successfully parsed latitude as a double
-                return lng;
+                    // Successfully parsed latitude as a double
+                    return lng;
+                }
+                return "";
             }
-            return "";
+            catch
+            {
+                return "error";
+            }
+            
         }
     }
 }

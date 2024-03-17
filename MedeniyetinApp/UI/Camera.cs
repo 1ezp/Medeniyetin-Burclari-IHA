@@ -73,17 +73,18 @@ namespace MedeniyetinApp.UI
 
         void changeRes()
         {
+
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("Accept", "*/*");
-                client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.9,ar-AE;q=0.8,ar;q=0.7");
-                client.DefaultRequestHeaders.Add("Connection", "keep-alive");
-                client.DefaultRequestHeaders.Add("DNT", "1");
-                client.DefaultRequestHeaders.Add("Referer", $"http://{host}/");
-                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
-                string url = $"http://{host}/control?var=framesize&val=13";
                 try
                 {
+                    client.DefaultRequestHeaders.Add("Accept", "*/*");
+                    client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.9,ar-AE;q=0.8,ar;q=0.7");
+                    client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+                    client.DefaultRequestHeaders.Add("DNT", "1");
+                    client.DefaultRequestHeaders.Add("Referer", $"http://{host}/");
+                    client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
+                    string url = $"http://{host}/control?var=framesize&val=13";
                     HttpResponseMessage response = client.GetAsync(url).Result;
                 }
                 catch (Exception ex)
