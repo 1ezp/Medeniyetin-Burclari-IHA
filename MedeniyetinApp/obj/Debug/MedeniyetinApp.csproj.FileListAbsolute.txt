@@ -34,3 +34,4 @@ C:\Users\hekmt\Desktop\Medeniyetin-Burclari-IHA\MedeniyetinApp\bin\Debug\Newtons
 C:\Users\hekmt\Desktop\Medeniyetin-Burclari-IHA\MedeniyetinApp\bin\Debug\System.Data.SqlClient.xml
 C:\Users\hekmt\Desktop\Medeniyetin-Burclari-IHA\MedeniyetinApp\bin\Debug\System.Data.SQLite.xml
 C:\Users\hekmt\Desktop\Medeniyetin-Burclari-IHA\MedeniyetinApp\bin\Debug\System.Security.Principal.Windows.xml
+C:\Users\hekmt\Desktop\Medeniyetin-Burclari-IHA\MedeniyetinApp\obj\Debug\MedeniyetinApp.UI.Test.resources

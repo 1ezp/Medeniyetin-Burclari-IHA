@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO.Ports;
+using MedeniyetinApp.Core;
+using System.Threading;
 
 namespace MedeniyetinApp.UI
 {
@@ -16,13 +19,46 @@ namespace MedeniyetinApp.UI
         public Login()
         {
             InitializeComponent();
+            PopulateSerialPortComboBox();
+
+            
+
         }
 
-        private void button1_Click(object sender, EventArgs e)
+
+        private void PopulateSerialPortComboBox()
+        {
+            cmbPorts.Items.Clear();
+            string[] portNames = SerialPort.GetPortNames();
+            foreach (string portName in portNames)
+            {
+                cmbPorts.Items.Add(portName);
+                
+            }
+
+            if (cmbPorts.Items.Count > 0)
+            {
+                cmbPorts.SelectedIndex = 0;
+            }
+        }
+
+
+        private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            Test test = new Test(cmbPorts.Text); 
+            test.Show();
+            //Camera cameraFrm = new Camera(cameraIP.Text);
+            //Map mapFrm = new Map();
+            //cameraFrm.Show();
+            //mapFrm.Show();  
+            this.Hide();
+        }
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
@@ -39,15 +75,6 @@ namespace MedeniyetinApp.UI
                 mousePose.Offset(mouseLocation.X, mouseLocation.Y);
                 Location = mousePose;
             }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            Camera cameraFrm = new Camera(cameraIP.Text);
-            Map mapFrm = new Map();
-            cameraFrm.Show();
-            //mapFrm.Show();  
-            this.Hide();
         }
     }
 }

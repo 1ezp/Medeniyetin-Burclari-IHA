@@ -33,7 +33,6 @@ namespace MedeniyetinApp.UI
             changeRes();
             String url = $"http://{host}:81/stream";
             stream = new MJPEGStream(url);
-            
             stream.NewFrame += GetNewFrame;
         }
 
@@ -48,29 +47,24 @@ namespace MedeniyetinApp.UI
 
 
 
-                double x =  (Convert.ToDouble(panel2.Height) / 360.0 * 180.0) + 15;
-                double y = (Convert.ToDouble(panel2.Width) / 240.0 * 120.0) - 15;
+                double x =  (Convert.ToDouble(panel2.Height) / 360.0 * 180.0) - 25;
+                double y = (Convert.ToDouble(panel2.Width) / 240.0 * 120.0) - 25;
 
                 bmpX.Text = Convert.ToString(x);
                 bmpY.Text = Convert.ToString(y);
 
-                DrawRedDot(bmp, Convert.ToInt32(y), Convert.ToInt32(x), 30);
+                DrawRedDot(bmp, Convert.ToInt32(y), Convert.ToInt32(x), 50);
                 cameraBox.Image = bmp;
             });
             
         }
         void DrawRedDot(Bitmap bmp, int x, int y, int size)
         {
-            // Check if the coordinates are within the bitmap's bounds
-            // Check if the coordinates are within the bitmap's bounds
             if (x >= 0 && y >= 0 && x + size < bmp.Width && y + size < bmp.Height)
             {
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
-                    // Define the border pen with red color and the specified width
                     Pen borderPen = new Pen(Color.Red, 2);
-
-                    // Draw the border of the square (rectangle)
                     g.DrawRectangle(borderPen, x, y, size, size);
                 }
             }
@@ -81,33 +75,16 @@ namespace MedeniyetinApp.UI
         {
             using (HttpClient client = new HttpClient())
             {
-                // Set the request headers if needed
                 client.DefaultRequestHeaders.Add("Accept", "*/*");
                 client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.9,ar-AE;q=0.8,ar;q=0.7");
                 client.DefaultRequestHeaders.Add("Connection", "keep-alive");
                 client.DefaultRequestHeaders.Add("DNT", "1");
                 client.DefaultRequestHeaders.Add("Referer", $"http://{host}/");
                 client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
-
-                // Construct the URL with query parameters
                 string url = $"http://{host}/control?var=framesize&val=13";
-
                 try
                 {
-                    // Send the GET request synchronously
                     HttpResponseMessage response = client.GetAsync(url).Result;
-
-                    // Check if the request was successful
-                    if (response.IsSuccessStatusCode)
-                    {
-                        // Read the response content
-                        string responseBody = response.Content.ReadAsStringAsync().Result;
-                        Console.WriteLine("Response: " + responseBody);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Error: " + response.StatusCode);
-                    }
                 }
                 catch (Exception ex)
                 {
@@ -138,7 +115,7 @@ namespace MedeniyetinApp.UI
 
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 Point mousePose = Control.MousePosition;
                 mousePose.Offset(mouseLocation.X, mouseLocation.Y);
@@ -148,7 +125,7 @@ namespace MedeniyetinApp.UI
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 mouseLocation = new Point(-e.X, -e.Y);
             }
