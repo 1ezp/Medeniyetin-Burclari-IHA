@@ -11,14 +11,6 @@ Servo wingServo;
 int balancedWingServoValue = 90;     // Servo values
 // int balancedTailServoValue = 90;
 
-int x;                                    // Variables
-int pushedByX;
-int xAmmountChecker = 0;
-// int y;
-// int pushedByY;
-// int yAmmountChecker = 0;
-
-
 void setup(){
 
   wingServo.attach(16);          // Servo
@@ -27,9 +19,6 @@ void setup(){
   pinMode(LED_BUILTIN, OUTPUT);       // Pinmodes
 
   Serial.begin(9600);                 // Serial
-
-  // Random x,y values
-  assignRandomValue();
 }
 
 void loop(){
@@ -51,72 +40,25 @@ void loop(){
     balancedWingServoValue = 90;         // Reset servo values
     // balancedTailServoValue = 90;
 
-    xAmmountChecker=0;
-    // yAmmountChecker=0;
-
-    assignRandomValue();
     Serial.println("----------Started----------");
   }
-
 
   if(x > 180){
 
     balancedWingServoValue-=5;
-    if(xAmmountChecker == 10){
-
-      pushedByX = random(1, 50);
-      x = x - pushedByX;
-      xAmmountChecker=0;
-    }
-    else{
-
-      xAmmountChecker++;
-    }
   }
   else if(x < 180){
 
     balancedWingServoValue+=5;
-    if(xAmmountChecker == 10){
-
-      pushedByX = random(1, 50);
-      x = x + pushedByX;
-      xAmmountChecker=0;
-    }
-    else{
-
-      xAmmountChecker++;
-    }
   }
 
   // if(y > 120){
 
   //   balancedTailServoValue+=5;
-
-  //   if(yAmmountChecker == 10){
-
-  //     pushedByY = random(1, 50){
-  //     y = y - pushedByY;
-  //     yAmmountChecker=0;
-  //   }
-  //   else{
-
-  //     yAmmountChecker+=1
-  //   }
-
   // }
   // else if(y < 120){
 
   //   balancedTailServoValue-=5;
-  //   if(yAmmountChecker == 50){
-
-  //     pushedByY = random(1, 10);
-  //     y = y + pushedByY;
-  //     yAmmountChecker=0;
-  //   }
-  //   else{
-  //
-  //     yAmmountChecker+=1
-  //   }
   // }
 
   // Keeping the values above 0 and under 180
@@ -138,7 +80,7 @@ void loop(){
   // }
 
   // Write the servo values
-  wingServo.write(balancedWingServoValue);
+  // wingServo.write(balancedWingServoValue);
   // tailServo.write(balancedTailServoValue);
 
   Serial.print("X: ");
@@ -148,10 +90,4 @@ void loop(){
   // Serial.print("Y: ");
   // Serial.println(y);
   Serial.println("----------");
-}
-
-void assignRandomValue(){
-
-  x = random(0, 361);
-  // y = random(0, 241);
 }
