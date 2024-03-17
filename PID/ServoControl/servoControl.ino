@@ -17,17 +17,20 @@ int balancedWingServoValue = 90;          // Servo values
 int x;                                    // Variables
 // int y;
 
+bool shouldWriteServo = false;
+
 // -------------------------------------------------------------------------
 // ------------------------------Setup--------------------------------------
 
 void setup(){
 
-  wingServo.attach(16);          // Servo
+  wingServo.attach(16);                   // Servo
   // tailServo.attach();
 
-  pinMode(LED_BUILTIN, OUTPUT);       // Pinmodes
+  pinMode(LED_BUILTIN, OUTPUT);           // Pinmodes
+  pinMode(15, OUTPUT);
 
-  Serial.begin(9600);                 // Serial and I2C
+  Serial.begin(9600);                     // Serial and I2C
   unoSerial.begin(9600);
 }
 
@@ -36,39 +39,30 @@ void setup(){
 
 void loop(){
 
-  if (unoSerial.available()) {        // When data available
+  if (unoSerial.available()) {            // When data available
 
     x = unoSerial.parseInt();
+
+    shouldWriteServo = true;
+    digitalWrite(15, HIGH);
   }
+  else{
 
-  // When we reached the target
-  if(x == 180){
+    shouldWriteServo = false;
+    digitalWrite(15, LOW);
 
-    Serial.println("----------Finished----------");
-
-    digitalWrite(LED_BUILTIN, HIGH);
-    delay(500);
-    digitalWrite(LED_BUILTIN, LOW);
-    delay(500);
-    digitalWrite(LED_BUILTIN, HIGH);
-    delay(500);
-    digitalWrite(LED_BUILTIN, LOW);
-    delay(500);
-
-    balancedWingServoValue = 90;         // Reset servo values
+    balancedWingServoValue = 90;
     // balancedTailServoValue = 90;
-
-    Serial.println("----------Started----------");
   }
 
-  // if(x > 180){
+  if(x > 180){
 
-  //   balancedWingServoValue-=5;
-  // }
-  // else if(x < 180){
+    balancedWingServoValue-=5;
+  }
+  else if(x < 180){
 
-  //   balancedWingServoValue+=5;
-  // }
+    balancedWingServoValue+=5;
+  }
 
   // if(y > 120){
 
@@ -98,16 +92,17 @@ void loop(){
   // }
 
   // Write the servo values
-  // wingServo.write(balancedWingServoValue);
-  // tailServo.write(balancedTailServoValue);
+  if(shouldWriteServo){
 
-  Serial.print("X: ");
-  Serial.println(x);
-  Serial.print("Wing: ");
-  Serial.println(balancedWingServoValue);
-  // Serial.print("Y: ");
-  // Serial.println(y);
-  Serial.println("----------");
+    wingServo.write(balancedWingServoValue);
+    // tailServo.write(balancedTailServoValue);
+  }
 
-  delay(100);
+  // Serial.print("X: ");
+  // Serial.println(x);
+  // Serial.print("Wing: ");
+  // Serial.println(balancedWingServoValue);
+  // // Serial.print("Y: ");
+  // // Serial.println(y);
+  // Serial.println("----------");
 }
