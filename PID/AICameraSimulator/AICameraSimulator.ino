@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include <SoftwareSerial.h>
-SoftwareSerial espSerial(A4, A5);
+SoftwareSerial espSerial(A2, A3);
 
 const int potentiometerPin = A0;
 const int buttonPin = A1;
@@ -25,9 +25,9 @@ void loop(){
 
   bilgi = analogRead(potentiometerPin);
   bilgi = map(bilgi, 0, 1023, 0, 360);
-
   if(digitalRead(buttonPin) == 0){
 
     espSerial.println(bilgi);
   }
+  delay(100);
 }
