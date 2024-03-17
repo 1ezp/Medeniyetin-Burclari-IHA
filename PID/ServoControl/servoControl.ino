@@ -22,7 +22,7 @@ bool shouldWriteServo = false;            // For safety
 #define SETPOINT 180                      // PID values
 #define KP 5.0
 #define KI 0.8
-#define KD 1.0
+#define KD 2.0
 #define MIN_ANGLE 0
 #define MAX_ANGLE 180
 
@@ -59,11 +59,6 @@ void loop(){
 
     shouldWriteServo = true;
 
-    prevErrorX = 0;
-    integralX = 0;
-    prevErrorY = 0;
-    integralY = 0;
-
     digitalWrite(15, HIGH);
   }
   else{
@@ -73,6 +68,11 @@ void loop(){
 
     balancedWingServoValue = 90;
     // balancedTailServoValue = 90;
+
+    prevErrorX = 0;
+    integralX = 0;
+    prevErrorY = 0;
+    integralY = 0;
   }
 // ---------------------Calculate the PID---------------------
 
