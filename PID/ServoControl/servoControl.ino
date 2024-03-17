@@ -8,8 +8,17 @@
 Servo wingServo;
 // Servo tailServo;
 
-int balancedWingServoValue = 90;     // Servo values
+#include <SoftwareSerial.h>               // SoftwareSerial for communication with arduino
+SoftwareSerial unoSerial(5, 4);           // RX, TX
+
+int balancedWingServoValue = 90;          // Servo values
 // int balancedTailServoValue = 90;
+
+int x;                                    // Variables
+// int y;
+
+// -------------------------------------------------------------------------
+// ------------------------------Setup--------------------------------------
 
 void setup(){
 
@@ -18,10 +27,19 @@ void setup(){
 
   pinMode(LED_BUILTIN, OUTPUT);       // Pinmodes
 
-  Serial.begin(9600);                 // Serial
+  Serial.begin(9600);                 // Serial and I2C
+  unoSerial.begin(9600);
 }
 
+// -------------------------------------------------------------------------
+// -------------------------------Loop--------------------------------------
+
 void loop(){
+
+  if (unoSerial.available()) {        // When data available
+
+    x = unoSerial.parseInt();
+  }
 
   // When we reached the target
   if(x == 180){
@@ -43,14 +61,14 @@ void loop(){
     Serial.println("----------Started----------");
   }
 
-  if(x > 180){
+  // if(x > 180){
 
-    balancedWingServoValue-=5;
-  }
-  else if(x < 180){
+  //   balancedWingServoValue-=5;
+  // }
+  // else if(x < 180){
 
-    balancedWingServoValue+=5;
-  }
+  //   balancedWingServoValue+=5;
+  // }
 
   // if(y > 120){
 
@@ -90,4 +108,6 @@ void loop(){
   // Serial.print("Y: ");
   // Serial.println(y);
   Serial.println("----------");
+
+  delay(100);
 }
