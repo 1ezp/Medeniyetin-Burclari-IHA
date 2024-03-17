@@ -26,8 +26,10 @@ bool shouldWriteServo = false;            // For safety
 #define MIN_ANGLE 0
 #define MAX_ANGLE 180
 
-double prevError = 0;                     // PID variables
-double integral = 0;
+double prevErrorX = 0;                     // PID variables
+double integralX = 0;
+double prevErrorY = 0;
+double integralY = 0;
 
 // -------------------------------------------------------------------------
 // ------------------------------Setup--------------------------------------
@@ -56,6 +58,12 @@ void loop(){
     x = unoSerial.parseInt();
 
     shouldWriteServo = true;
+
+    prevErrorX = 0;
+    integralX = 0;
+    prevErrorY = 0;
+    integralY = 0;
+
     digitalWrite(15, HIGH);
   }
   else{
@@ -69,6 +77,7 @@ void loop(){
 // ---------------------Calculate the PID---------------------
 
   calculatePIDForX();
+  // calculatePIDForY();
 
 // ---------------------Adgust Range---------------------
 
@@ -111,22 +120,25 @@ void loop(){
 
 }
 
+// -------------------------------------------------------------------------
+// -------------------------------XPID--------------------------------------
+
 void calculatePIDForX(){
 
   // Calculate error
   double error = SETPOINT - x;
 
   // Calculate integral
-  integral += error;
+  integralX += error;
 
   // Calculate derivative
-  double derivative = error - prevError;
+  double derivative = error - prevErrorY;
 
   // Calculate control signal
-  double output = KP * error + KI * integral + KD * derivative;
+  double output = KP * error + KI * integralX + KD * derivative;
 
   // Update previous error
-  prevError = error;
+  prevErrorY = error;
 
   // Calculate servo angle
   balancedWingServoValue = SETPOINT + output;
@@ -134,3 +146,30 @@ void calculatePIDForX(){
   // Ensure servo angle is within bounds
   balancedWingServoValue = constrain(balancedWingServoValue, MIN_ANGLE, MAX_ANGLE);
 }
+
+// -------------------------------------------------------------------------
+// -------------------------------YPID--------------------------------------
+
+// void calculatePIDForY(){
+
+//   // Calculate error
+//   double error = SETPOINT - y;
+
+//   // Calculate integral
+//   integralY += error;
+
+//   // Calculate derivative
+//   double derivative = error - prevErrorY;
+
+//   // Calculate control signal
+//   double output = KP * error + KI * integralY + KD * derivative;
+
+//   // Update previous error
+//   prevErrorY = error;
+
+//   // Calculate servo angle
+//   balancedTailServoValue = SETPOINT + output;
+
+//   // Ensure servo angle is within bounds
+//   balancedTailServoValue = constrain(balancedTailServoValue, MIN_ANGLE, MAX_ANGLE);
+// }
