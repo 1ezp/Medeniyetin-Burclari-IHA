@@ -10,11 +10,13 @@
 SoftwareSerial espSerial(A4, A5);
 
 const int potentiometerPin = A0;
+const int buttonPin = A1;
 int bilgi;
 
 void setup(){
 
   pinMode(potentiometerPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
   Serial.begin(9600);
   espSerial.begin(9600);
 }
@@ -23,7 +25,9 @@ void loop(){
 
   bilgi = analogRead(potentiometerPin);
   bilgi = map(bilgi, 0, 1023, 0, 360);
-  espSerial.println(bilgi);
-  Serial.println(bilgi);
-  delay(100);
+
+  if(digitalRead(buttonPin) == 0){
+
+    espSerial.println(bilgi);
+  }
 }
