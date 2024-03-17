@@ -17,14 +17,24 @@ int balancedWingServoValue = 90;          // Servo values
 int x;                                    // Variables
 // int y;
 
-bool shouldWriteServo = false;
+bool shouldWriteServo = false;            // For safety
+
+#define SETPOINT 180                      // PID values
+#define KP 5.0
+#define KI 0.8
+#define KD 1.0
+#define MIN_ANGLE 0
+#define MAX_ANGLE 180
+
+double prevError = 0;                     // PID variables
+double integral = 0;
 
 // -------------------------------------------------------------------------
 // ------------------------------Setup--------------------------------------
 
 void setup(){
 
-  wingServo.attach(16);                   // Servo
+  wingServo.attach(13);                   // Servo
   // tailServo.attach();
 
   pinMode(LED_BUILTIN, OUTPUT);           // Pinmodes
@@ -38,6 +48,8 @@ void setup(){
 // -------------------------------Loop--------------------------------------
 
 void loop(){
+
+// ---------------------Read---------------------
 
   if (unoSerial.available()) {            // When data available
 
@@ -54,24 +66,11 @@ void loop(){
     balancedWingServoValue = 90;
     // balancedTailServoValue = 90;
   }
+// ---------------------Calculate the PID---------------------
 
-  if(x > 180){
+  calculatePIDForX();
 
-    balancedWingServoValue-=5;
-  }
-  else if(x < 180){
-
-    balancedWingServoValue+=5;
-  }
-
-  // if(y > 120){
-
-  //   balancedTailServoValue+=5;
-  // }
-  // else if(y < 120){
-
-  //   balancedTailServoValue-=5;
-  // }
+// ---------------------Adgust Range---------------------
 
   // Keeping the values above 0 and under 180
   if(balancedWingServoValue <= 0){
@@ -91,6 +90,8 @@ void loop(){
   //   balancedTailServoValue = 180;
   // }
 
+// ---------------------Servo---------------------
+
   // Write the servo values
   if(shouldWriteServo){
 
@@ -98,11 +99,38 @@ void loop(){
     // tailServo.write(balancedTailServoValue);
   }
 
-  // Serial.print("X: ");
-  // Serial.println(x);
-  // Serial.print("Wing: ");
-  // Serial.println(balancedWingServoValue);
+// ---------------------Debugging---------------------
+
+  Serial.print("X: ");
+  Serial.print(x);
+  Serial.print("   Servo: ");
+  Serial.println(balancedWingServoValue);
   // // Serial.print("Y: ");
   // // Serial.println(y);
   // Serial.println("----------");
+
+}
+
+void calculatePIDForX(){
+
+  // Calculate error
+  double error = SETPOINT - x;
+
+  // Calculate integral
+  integral += error;
+
+  // Calculate derivative
+  double derivative = error - prevError;
+
+  // Calculate control signal
+  double output = KP * error + KI * integral + KD * derivative;
+
+  // Update previous error
+  prevError = error;
+
+  // Calculate servo angle
+  balancedWingServoValue = SETPOINT + output;
+
+  // Ensure servo angle is within bounds
+  balancedWingServoValue = constrain(balancedWingServoValue, MIN_ANGLE, MAX_ANGLE);
 }
