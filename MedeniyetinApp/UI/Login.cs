@@ -53,8 +53,8 @@ namespace MedeniyetinApp.UI
         {
             //Test test = new Test(cmbPorts.Text); 
             //test.Show();
-            Camera cameraFrm = new Camera(cameraIP.Text);
-            cameraFrm.Show();
+            //Camera cameraFrm = new Camera(cameraIP.Text);
+            //cameraFrm.Show();
             Map mapFrm = new Map(cmbPorts.Text);
             mapFrm.Show();  
             this.Hide();

@@ -48,13 +48,21 @@ namespace MedeniyetinApp.UI
             string lat = gpsData.TargetLat();
             string lng = gpsData.TargetLng();
 
-            if (lat != "error" && lng != "error" && lat != "0" && lng != "0")
+            if (lat != "error" && lng != "error" )
             {
-                Invoke((MethodInvoker)delegate
+                if (lat == "0" || lng == "0")
                 {
                     removeIHA();
-                    addIHA(Convert.ToDouble(lat), Convert.ToDouble(lng), GMarkerGoogleType.red, "IHA");
-                });
+                }
+                else
+                {
+                    Invoke((MethodInvoker)delegate
+                    {
+                        removeIHA();
+                        addIHA(Convert.ToDouble(lat), Convert.ToDouble(lng), GMarkerGoogleType.red, "IHA");
+                    });
+                }
+                
             }
         }
 
