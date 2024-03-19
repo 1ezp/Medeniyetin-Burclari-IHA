@@ -48,9 +48,9 @@ namespace MedeniyetinApp.UI
             string lat = gpsData.TargetLat();
             string lng = gpsData.TargetLng();
 
-            if (lat != "error" && lng != "error" )
+            if (lat != "error" && lng != "error")
             {
-                if (lat == "0" || lng == "0")
+                if (lat == "0" || lng == "0" || lat == "" || lng == "")
                 {
                     removeIHA();
                 }
