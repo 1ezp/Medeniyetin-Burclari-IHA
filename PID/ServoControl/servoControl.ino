@@ -69,6 +69,9 @@ void loop(){
     balancedWingServoValue = 90;
     // balancedTailServoValue = 90;
 
+    wingServo.write(90);
+    // tailServo.write(90);
+
     prevErrorX = 0;
     integralX = 0;
     prevErrorY = 0;
@@ -76,8 +79,10 @@ void loop(){
   }
 // ---------------------Calculate the PID---------------------
 
-  calculatePIDForX();
-  // calculatePIDForY();
+  if(shouldWriteServo){
+    calculatePIDForX();
+    // calculatePIDForY();
+  }
 
 // ---------------------Adgust Range---------------------
 
@@ -145,6 +150,7 @@ void calculatePIDForX(){
 
   // Ensure servo angle is within bounds
   balancedWingServoValue = constrain(balancedWingServoValue, MIN_ANGLE, MAX_ANGLE);
+
 }
 
 // -------------------------------------------------------------------------
