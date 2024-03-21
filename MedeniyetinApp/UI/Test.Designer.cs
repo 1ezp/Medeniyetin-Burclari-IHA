@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.lbTargetLat = new System.Windows.Forms.Label();
             this.lbTargetLng = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.richTextBox = new System.Windows.Forms.RichTextBox();
+            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.SuspendLayout();
             // 
             // label1
@@ -74,11 +77,25 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "Target Lng:";
             // 
+            // richTextBox
+            // 
+            this.richTextBox.Location = new System.Drawing.Point(34, 287);
+            this.richTextBox.Name = "richTextBox";
+            this.richTextBox.Size = new System.Drawing.Size(307, 266);
+            this.richTextBox.TabIndex = 4;
+            this.richTextBox.Text = "";
+            // 
+            // serialPort1
+            // 
+            this.serialPort1.ErrorReceived += new System.IO.Ports.SerialErrorReceivedEventHandler(this.serialPort1_ErrorReceived);
+            this.serialPort1.PinChanged += new System.IO.Ports.SerialPinChangedEventHandler(this.serialPort1_PinChanged);
+            // 
             // Test
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(372, 450);
+            this.ClientSize = new System.Drawing.Size(372, 575);
+            this.Controls.Add(this.richTextBox);
             this.Controls.Add(this.lbTargetLng);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lbTargetLat);
@@ -96,5 +113,7 @@
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.Label lbTargetLat;
         public System.Windows.Forms.Label lbTargetLng;
+        private System.Windows.Forms.RichTextBox richTextBox;
+        private System.IO.Ports.SerialPort serialPort1;
     }
 }

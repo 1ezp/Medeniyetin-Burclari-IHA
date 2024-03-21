@@ -31,13 +31,13 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnExit = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.cmbPorts = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnStart = new System.Windows.Forms.Button();
             this.cameraIP = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnRefresh = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -82,6 +82,18 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(464, 490);
             this.panel2.TabIndex = 3;
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRefresh.ForeColor = System.Drawing.Color.White;
+            this.btnRefresh.Location = new System.Drawing.Point(355, 263);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(40, 33);
+            this.btnRefresh.TabIndex = 9;
+            this.btnRefresh.Text = "R";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // cmbPorts
             // 
@@ -146,17 +158,6 @@
             this.label1.Size = new System.Drawing.Size(140, 29);
             this.label1.TabIndex = 2;
             this.label1.Text = "Camera IP:";
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRefresh.ForeColor = System.Drawing.Color.White;
-            this.btnRefresh.Location = new System.Drawing.Point(355, 263);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(40, 33);
-            this.btnRefresh.TabIndex = 9;
-            this.btnRefresh.Text = "R";
-            this.btnRefresh.UseVisualStyleBackColor = true;
             // 
             // Login
             // 

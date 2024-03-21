@@ -1,91 +1,114 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 using System.IO.Ports;
-using MedeniyetinApp.UI;
-using System.Windows.Forms;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace MedeniyetinApp.Core
 {
     public class IHAGps
     {
-        public String Lat;
-        public String Lng;
-        static SerialPort serialPort;
+        private SerialPort serialPort;
 
-
-        public IHAGps(String port)
+        public IHAGps(string port)
         {
             try
             {
                 serialPort = new SerialPort(port, 115200);
                 serialPort.Open();
+
+
+                BackgroundWorker updateWorker = new BackgroundWorker();
+                updateWorker.WorkerSupportsCancellation = true;
+                updateWorker.DoWork += UpdateWorker_DoWork;
+                //updateWorker.RunWorkerAsync();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error initializing serial port: " + ex.Message);
-                return;
+                Application.Exit();
             }
-
         }
-        private void SerialPortDataReceived()
+
+        private void UpdateWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            string data = serialPort.ReadLine();
-            if (!string.IsNullOrEmpty(data))
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            while (true)
             {
-                string[] parts = data.Split(':');
-                if (parts.Length >= 2)
+                try
                 {
-                    Lat = parts[0];
-                    Lng = parts[1];
-                }
+                    if (serialPort.IsOpen)
+                    {
+                        serialPort.Close();
+                    }
+                    serialPort.Open();
+                }catch (Exception) { }
+                
+                Thread.Sleep(5000);
             }
         }
 
-        public String TargetLat()
+        public void Reload(object sender, EventArgs e)
         {
-            try
+            if (serialPort.IsOpen)
             {
-                string data = serialPort.ReadLine();
-                string[] parts = data.Split(':');
-                if (parts.Length >= 2)
-                {
-                    String latitude = parts[0];
+                serialPort.Close();
+            }
+            serialPort.Open();
 
-                    // Successfully parsed latitude as a double
-                    return latitude;
-                }
-                return "";
-            }
-            catch
-            {
-                return "error";
-            }
-            
         }
-        public String TargetLng()
+
+        public double TargetLat()
         {
             try
             {
                 string data = serialPort.ReadLine();
-                string[] parts = data.Split(':');
-                if (parts.Length >= 2)
-                {
-                    String lng = parts[1];
+                serialPort.DiscardInBuffer();
 
-                    // Successfully parsed latitude as a double
-                    return lng;
+                if (data == "-1")
+                {
+                    return -1.0;
                 }
-                return "";
+                string[] parts = data.Split(':');
+                return Convert.ToDouble(parts[0]);
             }
             catch
             {
-                return "error";
+                return -1.0;
             }
-            
+        }
+
+        public double TargetLng()
+        {
+            try
+            {
+                string data = serialPort.ReadLine();
+                serialPort.DiscardInBuffer();
+                if (data == "-1")
+                {
+                    return -1.0;
+                }
+                string[] parts = data.Split(':');
+                return Convert.ToDouble(parts[1]);
+            }
+            catch
+            {
+                return -1.0;
+            }
+        }
+
+        public string ReadData()
+        {
+
+            try
+            {
+                return serialPort.ReadLine();
+            }
+            catch
+            {
+                return "-1";
+            }
         }
     }
 }
