@@ -32,13 +32,11 @@
             this.labelLng = new System.Windows.Forms.Label();
             this.labelLat = new System.Windows.Forms.Label();
             this.pnlMap = new System.Windows.Forms.Panel();
-            this.labelCounter = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.labelCounter);
             this.panel1.Controls.Add(this.labelLng);
             this.panel1.Controls.Add(this.labelLat);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -79,16 +77,6 @@
             this.pnlMap.Size = new System.Drawing.Size(1388, 683);
             this.pnlMap.TabIndex = 1;
             // 
-            // labelCounter
-            // 
-            this.labelCounter.AutoSize = true;
-            this.labelCounter.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCounter.Location = new System.Drawing.Point(690, 4);
-            this.labelCounter.Name = "labelCounter";
-            this.labelCounter.Size = new System.Drawing.Size(8, 12);
-            this.labelCounter.TabIndex = 2;
-            this.labelCounter.Text = ".";
-            // 
             // Map
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -114,6 +102,5 @@
         private System.Windows.Forms.Panel pnlMap;
         private System.Windows.Forms.Label labelLng;
         private System.Windows.Forms.Label labelLat;
-        private System.Windows.Forms.Label labelCounter;
     }
 }

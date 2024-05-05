@@ -21,8 +21,7 @@ namespace MedeniyetinApp.UI
     public partial class Map : Form
     {
 
-        private IHAGps gpsData;
-
+        IHAApi api = new IHAApi();
 
         private Point mouseLocation;
         bool isMax = false;
@@ -32,49 +31,24 @@ namespace MedeniyetinApp.UI
 
         // points
         GMarkerGoogle IhaMarker;
-        int counter=0;
+
+
+        GMarkerGoogle IkaMarker;
+
 
         public Map(String port)
         {
             InitializeComponent();
             LoadMap();
-            gpsData = new IHAGps(port);
-            //System.Windows.Forms.Timer updateTimer = new System.Windows.Forms.Timer();
-            //updateTimer.Interval = 1000;
-            //updateTimer.Tick += UpdateTimer_Target;
-            //updateTimer.Start();
 
             BackgroundWorker updateWorker = new BackgroundWorker();
-            //updateWorker.WorkerReportsProgress = false; // No progress reporting
             updateWorker.WorkerSupportsCancellation = true;
             updateWorker.DoWork += UpdateWorker_DoWork;
             updateWorker.RunWorkerAsync();
 
         }
 
-        //object sender, EventArgs e
-        private void UpdateTimer_Target(object sender, DoWorkEventArgs e)
-        {
-                double lat = gpsData.TargetLat();
-                double lng = gpsData.TargetLng();
-            Invoke((MethodInvoker)delegate
-            {
-                labelLat.Text = Convert.ToString(lat);
-                labelLng.Text = Convert.ToString(lng);
-                if (lat == -1.0 && lng == -1.0)
-                {
-                    removeIHA();
-                }
-                else
-                {
-                        
-                    removeIHA();
-                    addIHA(lat, lng, GMarkerGoogleType.red, "IHA");
-                }
-
-            });
-            Thread.Sleep(500);
-        }
+        
 
         private void UpdateWorker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -82,12 +56,12 @@ namespace MedeniyetinApp.UI
 
             while (true)
             {
-                double lat = gpsData.TargetLat();
-                double lng = gpsData.TargetLng();
+                GPSInfo gpsInfo = api.GetGPSInfo();
+                double lat = Convert.ToDouble( gpsInfo.Latitude );
+                double lng = Convert.ToDouble(gpsInfo.Longitude);
                 this.Invoke((MethodInvoker)delegate
                 {
-                    counter += 1;
-                    labelCounter.Text = Convert.ToString(counter);
+
                     labelLat.Text = Convert.ToString(lat);
                     labelLng.Text = Convert.ToString(lng);
                     if (lat == -1.0 && lng == -1.0)
@@ -97,7 +71,8 @@ namespace MedeniyetinApp.UI
                     else
                     {
                         removeIHA();
-                        addIHA(lat, lng, GMarkerGoogleType.red, "IHA");
+                        addMarker(IhaMarker, lat, lng, GMarkerGoogleType.red, "IHA");
+                        //addIHA(lat, lng, GMarkerGoogleType.red, "IHA");
                     }
                 });
 
@@ -139,10 +114,26 @@ namespace MedeniyetinApp.UI
 
         }
 
+        private void addMarker(GMarkerGoogle Marker, double x, double y, GMarkerGoogleType color, String title)
+        {
+            // position
+            PointLatLng initialPosition = new PointLatLng(x, y);
+
+            Marker = new GMarkerGoogle(initialPosition, color);
+            Marker.ToolTipText = title;
+            Marker.ToolTip.Font = new Font("Arial", 15, FontStyle.Bold);
+            Marker.ToolTipMode = MarkerTooltipMode.Always;
+            Marker.IsVisible = true;
+            markerOverlay.Markers.Add(Marker);
+
+        }
+
+
         private void addIHA(double x, double y, GMarkerGoogleType color, String title)
         {
             // position
             PointLatLng initialPosition = new PointLatLng(x, y);
+
 
             IhaMarker = new GMarkerGoogle(initialPosition, color);
             IhaMarker.ToolTipText = title;
