@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+//using System.Threading.Tasks;
 
 using MedeniyetinApp.Core;
 
@@ -13,13 +14,14 @@ using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+using System.Threading;
 
 namespace MedeniyetinApp.UI
 {
     public partial class Map : Form
     {
 
-        private IHAGps gpsData;
+        IHAApi api = new IHAApi();
 
         private Point mouseLocation;
         bool isMax = false;
@@ -30,41 +32,55 @@ namespace MedeniyetinApp.UI
         // points
         GMarkerGoogle IhaMarker;
 
+
+        GMarkerGoogle IkaMarker;
+
+
         public Map(String port)
         {
             InitializeComponent();
-            
-            gpsData = new IHAGps(port);
             LoadMap();
-            Timer updateTimer = new Timer();
-            updateTimer.Interval = 1000;
-            updateTimer.Tick += UpdateTimer_Target;
-            updateTimer.Start();
+
+            BackgroundWorker updateWorker = new BackgroundWorker();
+            updateWorker.WorkerSupportsCancellation = true;
+            updateWorker.DoWork += UpdateWorker_DoWork;
+            updateWorker.RunWorkerAsync();
 
         }
 
-        private void UpdateTimer_Target(object sender, EventArgs e)
-        {
-            string lat = gpsData.TargetLat();
-            string lng = gpsData.TargetLng();
+        
 
-            if (lat != "error" && lng != "error")
+        private void UpdateWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            while (true)
             {
-                if (lat == "0" || lng == "0" || lat == "" || lng == "")
+                GPSInfo gpsInfo = api.GetGPSInfo();
+                double lat = Convert.ToDouble( gpsInfo.Latitude );
+                double lng = Convert.ToDouble(gpsInfo.Longitude);
+                this.Invoke((MethodInvoker)delegate
                 {
-                    removeIHA();
-                }
-                else
-                {
-                    Invoke((MethodInvoker)delegate
+
+                    labelLat.Text = Convert.ToString(lat);
+                    labelLng.Text = Convert.ToString(lng);
+                    if (lat == -1.0 && lng == -1.0)
                     {
-                        removeIHA();
-                        addIHA(Convert.ToDouble(lat), Convert.ToDouble(lng), GMarkerGoogleType.red, "IHA");
-                    });
-                }
-                
+                        
+                        removeMarker(IhaMarker);
+                    }
+                    else
+                    {
+                        removeMarker(IhaMarker);
+                        addMarker(IhaMarker, lat, lng, GMarkerGoogleType.red, "IHA");
+                    }
+                });
+
+                //Thread.Sleep(1000); // Adjust the delay as needed
+
             }
         }
+
 
         private void LoadMap()
         {
@@ -98,30 +114,32 @@ namespace MedeniyetinApp.UI
 
         }
 
-        private void addIHA(double x,double y, GMarkerGoogleType color,String title)
+        private void addMarker(GMarkerGoogle Marker, double x, double y, GMarkerGoogleType color, String title)
         {
             // position
             PointLatLng initialPosition = new PointLatLng(x, y);
 
-            IhaMarker = new GMarkerGoogle(initialPosition, color);
-            IhaMarker.ToolTipText = title;
-            IhaMarker.ToolTip.Font = new Font("Arial", 15, FontStyle.Bold);
-            IhaMarker.ToolTipMode = MarkerTooltipMode.Always;
-            IhaMarker.IsVisible = true;
-            markerOverlay.Markers.Add(IhaMarker);
-             
+            Marker = new GMarkerGoogle(initialPosition, color);
+            Marker.ToolTipText = title;
+            Marker.ToolTip.Font = new Font("Arial", 15, FontStyle.Bold);
+            Marker.ToolTipMode = MarkerTooltipMode.Always;
+            Marker.IsVisible = true;
+            markerOverlay.Markers.Add(Marker);
 
         }
 
 
-        public void removeIHA()
+        void removeMarker(GMarkerGoogle Marker)
         {
-            if (markerOverlay.Markers.Contains(IhaMarker))
+            if (markerOverlay.Markers.Contains(Marker))
             {
-                markerOverlay.Markers.Remove(IhaMarker);
+                markerOverlay.Markers.Remove(Marker);
             }
-            
+
+
         }
+
+
 
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
@@ -153,8 +171,9 @@ namespace MedeniyetinApp.UI
                 WindowState = FormWindowState.Maximized;
                 isMax = true;
             }
-            
+
         }
+
 
     }
 }
