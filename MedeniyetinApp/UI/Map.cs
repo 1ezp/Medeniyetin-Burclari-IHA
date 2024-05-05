@@ -66,13 +66,13 @@ namespace MedeniyetinApp.UI
                     labelLng.Text = Convert.ToString(lng);
                     if (lat == -1.0 && lng == -1.0)
                     {
-                        removeIHA();
+                        
+                        removeMarker(IhaMarker);
                     }
                     else
                     {
-                        removeIHA();
+                        removeMarker(IhaMarker);
                         addMarker(IhaMarker, lat, lng, GMarkerGoogleType.red, "IHA");
-                        //addIHA(lat, lng, GMarkerGoogleType.red, "IHA");
                     }
                 });
 
@@ -129,32 +129,17 @@ namespace MedeniyetinApp.UI
         }
 
 
-        private void addIHA(double x, double y, GMarkerGoogleType color, String title)
+        void removeMarker(GMarkerGoogle Marker)
         {
-            // position
-            PointLatLng initialPosition = new PointLatLng(x, y);
-
-
-            IhaMarker = new GMarkerGoogle(initialPosition, color);
-            IhaMarker.ToolTipText = title;
-            IhaMarker.ToolTip.Font = new Font("Arial", 15, FontStyle.Bold);
-            IhaMarker.ToolTipMode = MarkerTooltipMode.Always;
-            IhaMarker.IsVisible = true;
-            markerOverlay.Markers.Add(IhaMarker);
-
-
-        }
-
-
-        void removeIHA()
-        {
-            if (markerOverlay.Markers.Contains(IhaMarker))
+            if (markerOverlay.Markers.Contains(Marker))
             {
-                markerOverlay.Markers.Remove(IhaMarker);
+                markerOverlay.Markers.Remove(Marker);
             }
-            
+
 
         }
+
+
 
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
