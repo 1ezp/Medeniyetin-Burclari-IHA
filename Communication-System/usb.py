@@ -1,26 +1,40 @@
 from data import *
 import serial
 import serial.tools.list_ports
-import os
+import os,time
 
 port = "COM5"
 ser = serial.Serial(port, 115200, timeout=.1)
-ser.close()
-ser.open()
+
 def start():
-   
+
    while True:
-      ser.reset_input_buffer() 
-      #line = ser.readline().decode("utf-8")
-      line =  ser.read_until('\n').decode()
-      if line != '':
-         try:
-            data = line.split(",")
-            IHA.update({"IHALat": float(data[0]), "IHALong": float(data[1])})   
-            """ print(data)
-            ser.flush() """
-         except:
-            pass
+      try:
+         recivedData = ser.readline().decode()
+         if recivedData != '':
+            data = recivedData.split(",")
+            if data[0] == 0 and data[1] == 0:
+               IHA.update({"Lat": -1, "Long": -1})   
+            else: 
+               IHA.update({"Lat": float(data[0]), "Long": float(data[1])})                  
+      except:
+         pass
+
+"""       
+      #if recivedData != '':
+      try:
+         recivedData = ser.readline().decode()
+         data = recivedData.split(",")
+         if data[0] == '0.000000' and data[1] == '0.000000':
+            IHA.update({"Lat": -1, "Long": -1})   
+         else: 
+            IHA.update({"Lat": float(data[0]), "Long": float(data[1])})   
+            
+         print(data)
+      except:
+         pass
+       """
+      
 
 
 if __name__ == "__main__":
