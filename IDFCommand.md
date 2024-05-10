@@ -49,7 +49,6 @@ CONFIG_SSID
 
 ```
 
-
 # Helpful Commands
 
 printenv ENV_Variable
