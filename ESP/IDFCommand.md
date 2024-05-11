@@ -81,6 +81,8 @@ printenv ENV_Variable
 #include "driver/gpio.h"
 #include "driver/ledc.h"
 // #include "driver/adc.h"
+// #include "esp_adc/adc_oneshot.h"
+// #include "esp_adc/adc_continuous.h"
 
 ## Timing
 
@@ -162,6 +164,39 @@ While in Binary, when it tries to takes and the task has not given yet, it will 
 gpio_set_direction(LEDPIN, GPIO_MODE_OUTPUT);
 gpio_set_level(LEDPIN, 1);
 gpio_set_level(LEDPIN, 0);
+
+```
+
+## ADC (analogRead)
+
+Check the pdf for the GPIO pins and the corresponding channel number (page 1447), check the oneshot for the programming channel number term
+
+```cpp
+#include "driver/adc.h"
+
+// Create adc1 or adc2 handle
+adc_oneshot_unit_handle_t adc1_handle;
+
+// Make the config for the adc
+adc_oneshot_unit_init_cfg_t init_config1 = {
+
+    .unit_id = ADC_UNIT_1,
+    .ulp_mode = ADC_ULP_MODE_DISABLE,
+};
+
+// Assign the config to the handler
+ESP_ERROR_CHECK(adc_oneshot_new_unit(&init_config1, &adc1_handle));
+
+// Make the config for the expected electricity
+adc_oneshot_chan_cfg_t potConfig = {
+
+    .atten          = ADC_ATTEN_DB_12,
+    .bitwidth       = ADC_BITWIDTH_12
+};
+ESP_ERROR_CHECK(adc_oneshot_config_channel(adc1_handle, ADC_CHANNEL_5, &potConfig));
+
+// Assign the read to raw
+adc_oneshot_read(adc1_handle, ADC_CHANNEL_5, &raw);
 
 ```
 
