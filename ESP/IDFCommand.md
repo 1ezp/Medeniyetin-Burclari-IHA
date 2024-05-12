@@ -123,7 +123,10 @@ int map(int x, int in_min, int in_max, int out_min, int out_max) {
 ## Task
 
 ```cpp
-xTaskCreate(vTask1, "vTask1", 2048, NULL, 1, NULL);
+xTaskCreate(vTask1, "vTask1", 2048, NULL, 1, NULL, 0);
+//                             ^          ^        ^
+//                             |__Memory  |        |___________Core Number
+//                                        |_____ Priorety
 
 SemaphoreHandle_t vTask1Semaphore = NULL;
 
