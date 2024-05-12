@@ -1,0 +1,101 @@
+[0;33m--- esp-idf-monitor 1.4.0 on /dev/ttyUSB1 115200 ---[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H ---[0m
+[0;33m0x420099c5: app_main at /home/diamond/Desktop/Github/Medeniyetin-Burclari-IHA/ESP/ESPNOW/Transmitter/main/main.c:167 (discriminator 1)
+[0m
+[0;33m0x4037c32b: _esp_error_check_failed at /home/diamond/.platformio/lib/esp-idf/components/esp_system/esp_err.c:49
+[0m
+[0;33m0x40375afa: panic_abort at /home/diamond/.platformio/lib/esp-idf/components/esp_system/panic.c:463
+0x4037c335: esp_system_abort at /home/diamond/.platformio/lib/esp-idf/components/esp_system/port/esp_system_chip.c:92
+0x403844e9: abort at /home/diamond/.platformio/lib/esp-idf/components/newlib/abort.c:38
+0x4037c32b: _esp_error_check_failed at /home/diamond/.platformio/lib/esp-idf/components/esp_system/esp_err.c:49
+0x420099c5: app_main at /home/diamond/Desktop/Github/Medeniyetin-Burclari-IHA/ESP/ESPNOW/Transmitter/main/main.c:167 (discriminator 1)
+0x4207d90f: main_task at /home/diamond/.platformio/lib/esp-idf/components/freertos/app_startup.c:208
+0x4037ce11: vPortTaskWrapper at /home/diamond/.platformio/lib/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:134
+[0m
+[0;33m0x40375a34: esp_restart_noos at /home/diamond/.platformio/lib/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c:158
+[0m
+[0;33m0x420099c5: app_main at /home/diamond/Desktop/Github/Medeniyetin-Burclari-IHA/ESP/ESPNOW/Transmitter/main/main.c:167 (discriminator 1)
+[0m
+[0;33m0x4037c32b: _esp_error_check_failed at /home/diamond/.platformio/lib/esp-idf/components/esp_system/esp_err.c:49
+[0m
+[0;33m0x40375afa: panic_abort at /home/diamond/.platformio/lib/esp-idf/components/esp_system/panic.c:463
+0x4037c335: esp_system_abort at /home/diamond/.platformio/lib/esp-idf/components/esp_system/port/esp_system_chip.c:92
+0x403844e9: abort at /home/diamond/.platformio/lib/esp-idf/components/newlib/abort.c:38
+0x4037c32b: _esp_error_check_failed at /home/diamond/.platformio/lib/esp-idf/components/esp_system/esp_err.c:49
+0x420099c5: app_main at /home/diamond/Desktop/Github/Medeniyetin-Burclari-IHA/ESP/ESPNOW/Transmitter/main/main.c:167 (discriminator 1)
+0x4207d90f: main_task at /home/diamond/.platformio/lib/esp-idf/components/freertos/app_startup.c:208
+0x4037ce11: vPortTaskWrapper at /home/diamond/.platformio/lib/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:134
+[0m
+[0;33m0x40375a34: esp_restart_noos at /home/diamond/.platformio/lib/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c:158
+[0m
+[0;33m0x420099c5: app_main at /home/diamond/Desktop/Github/Medeniyetin-Burclari-IHA/ESP/ESPNOW/Transmitter/main/main.c:167 (discriminator 1)
+[0m
+[0;33m0x4037c32b: _esp_error_check_failed at /home/diamond/.platformio/lib/esp-idf/components/esp_system/esp_err.c:49
+[0m
+[0;33m0x40375afa: panic_abort at /home/diamond/.platformio/lib/esp-idf/components/esp_system/panic.c:463
+0x4037c335: esp_system_abort at /home/diamond/.platformio/lib/esp-idf/components/esp_system/port/esp_system_chip.c:92
+0x403844e9: abort at /home/diamond/.platformio/lib/esp-idf/components/newlib/abort.c:38
+0x4037c32b: _esp_error_check_failed at /home/diamond/.platformio/lib/esp-idf/components/esp_system/esp_err.c:49
+0x420099c5: app_main at /home/diamond/Desktop/Github/Medeniyetin-Burclari-IHA/ESP/ESPNOW/Transmitter/main/main.c:167 (discriminator 1)
+0x4207d90f: main_task at /home/diamond/.platformio/lib/esp-idf/components/freertos/app_startup.c:208
+0x4037ce11: vPortTaskWrapper at /home/diamond/.platformio/lib/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:134
+[0m
+[0;33m0x40375a34: esp_restart_noos at /home/diamond/.platformio/lib/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c:158
+[0m
+[0;33m0x420099c5: app_main at /home/diamond/Desktop/Github/Medeniyetin-Burclari-IHA/ESP/ESPNOW/Transmitter/main/main.c:167 (discriminator 1)
+[0m
+[0;33m0x4037c32b: _esp_error_check_failed at /home/diamond/.platformio/lib/esp-idf/components/esp_system/esp_err.c:49
+[0m
+[0;33m0x40375afa: panic_abort at /home/diamond/.platformio/lib/esp-idf/components/esp_system/panic.c:463
+0x4037c335: esp_system_abort at /home/diamond/.platformio/lib/esp-idf/components/esp_system/port/esp_system_chip.c:92
+0x403844e9: abort at /home/diamond/.platformio/lib/esp-idf/components/newlib/abort.c:38
+0x4037c32b: _esp_error_check_failed at /home/diamond/.platformio/lib/esp-idf/components/esp_system/esp_err.c:49
+0x420099c5: app_main at /home/diamond/Desktop/Github/Medeniyetin-Burclari-IHA/ESP/ESPNOW/Transmitter/main/main.c:167 (discriminator 1)
+0x4207d90f: main_task at /home/diamond/.platformio/lib/esp-idf/components/freertos/app_startup.c:208
+0x4037ce11: vPortTaskWrapper at /home/diamond/.platformio/lib/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:134
+[0m
+[0;33m0x40375a34: esp_restart_noos at /home/diamond/.platformio/lib/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c:158
+[0m
+[0;33m0x420099c5: app_main at /home/diamond/Desktop/Github/Medeniyetin-Burclari-IHA/ESP/ESPNOW/Transmitter/main/main.c:167 (discriminator 1)
+[0m
+[0;33m0x4037c32b: _esp_error_check_failed at /home/diamond/.platformio/lib/esp-idf/components/esp_system/esp_err.c:49
+[0m
+[0;33m0x40375afa: panic_abort at /home/diamond/.platformio/lib/esp-idf/components/esp_system/panic.c:463
+0x4037c335: esp_system_abort at /home/diamond/.platformio/lib/esp-idf/components/esp_system/port/esp_system_chip.c:92
+0x403844e9: abort at /home/diamond/.platformio/lib/esp-idf/components/newlib/abort.c:38
+0x4037c32b: _esp_error_check_failed at /home/diamond/.platformio/lib/esp-idf/components/esp_system/esp_err.c:49
+0x420099c5: app_main at /home/diamond/Desktop/Github/Medeniyetin-Burclari-IHA/ESP/ESPNOW/Transmitter/main/main.c:167 (discriminator 1)
+0x4207d90f: main_task at /home/diamond/.platformio/lib/esp-idf/components/freertos/app_startup.c:208
+0x4037ce11: vPortTaskWrapper at /home/diamond/.platformio/lib/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:134
+[0m
+[0;33m0x40375a34: esp_restart_noos at /home/diamond/.platformio/lib/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c:158
+[0m
+[0;33m0x420099c5: app_main at /home/diamond/Desktop/Github/Medeniyetin-Burclari-IHA/ESP/ESPNOW/Transmitter/main/main.c:167 (discriminator 1)
+[0m
+[0;33m0x4037c32b: _esp_error_check_failed at /home/diamond/.platformio/lib/esp-idf/components/esp_system/esp_err.c:49
+[0m
+[0;33m0x40375afa: panic_abort at /home/diamond/.platformio/lib/esp-idf/components/esp_system/panic.c:463
+0x4037c335: esp_system_abort at /home/diamond/.platformio/lib/esp-idf/components/esp_system/port/esp_system_chip.c:92
+0x403844e9: abort at /home/diamond/.platformio/lib/esp-idf/components/newlib/abort.c:38
+0x4037c32b: _esp_error_check_failed at /home/diamond/.platformio/lib/esp-idf/components/esp_system/esp_err.c:49
+0x420099c5: app_main at /home/diamond/Desktop/Github/Medeniyetin-Burclari-IHA/ESP/ESPNOW/Transmitter/main/main.c:167 (discriminator 1)
+0x4207d90f: main_task at /home/diamond/.platformio/lib/esp-idf/components/freertos/app_startup.c:208
+0x4037ce11: vPortTaskWrapper at /home/diamond/.platformio/lib/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:134
+[0m
+[0;33m0x40375a34: esp_restart_noos at /home/diamond/.platformio/lib/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c:158
+[0m
+[0;33m0x420099c5: app_main at /home/diamond/Desktop/Github/Medeniyetin-Burclari-IHA/ESP/ESPNOW/Transmitter/main/main.c:167 (discriminator 1)
+[0m
+[0;33m0x4037c32b: _esp_error_check_failed at /home/diamond/.platformio/lib/esp-idf/components/esp_system/esp_err.c:49
+[0m
+[0;33m0x40375afa: panic_abort at /home/diamond/.platformio/lib/esp-idf/components/esp_system/panic.c:463
+0x4037c335: esp_system_abort at /home/diamond/.platformio/lib/esp-idf/components/esp_system/port/esp_system_chip.c:92
+0x403844e9: abort at /home/diamond/.platformio/lib/esp-idf/components/newlib/abort.c:38
+0x4037c32b: _esp_error_check_failed at /home/diamond/.platformio/lib/esp-idf/components/esp_system/esp_err.c:49
+0x420099c5: app_main at /home/diamond/Desktop/Github/Medeniyetin-Burclari-IHA/ESP/ESPNOW/Transmitter/main/main.c:167 (discriminator 1)
+0x4207d90f: main_task at /home/diamond/.platformio/lib/esp-idf/components/freertos/app_startup.c:208
+0x4037ce11: vPortTaskWrapper at /home/diamond/.platformio/lib/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:134
+[0m
+[0;33m0x40375a34: esp_restart_noos at /home/diamond/.platformio/lib/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c:158
+[0m
+[0m

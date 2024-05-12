@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "main",
-    "project_version":    "629e319",
+    "project_version":    "1ab7a80-dirty",
     "project_path":       "/home/diamond/Desktop/Github/Medeniyetin-Burclari-IHA/ESP/ESPNOW/Transmitter",
     "idf_path":           "/home/diamond/.platformio/lib/esp-idf",
     "build_dir":          "/home/diamond/Desktop/Github/Medeniyetin-Burclari-IHA/ESP/ESPNOW/Transmitter/build",

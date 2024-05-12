@@ -22,6 +22,10 @@
 // Electric
 #include "driver/gpio.h"
 #include "driver/ledc.h"
+#include "esp_adc/adc_oneshot.h"
+// #include "esp_adc/adc_continuous.h"
+// Servo
+// #include "driver/mcpwm_prelude.h"
 // #include "driver/adc.h"
 
 // --------------------------------------------------
@@ -40,14 +44,6 @@ void analogWrite(int mode, int channel, int value){
 
     ESP_ERROR_CHECK(ledc_set_duty(mode, channel, value));
     ESP_ERROR_CHECK(ledc_update_duty(mode, channel));
-}
-
-void servoWrite(int mode, int channel, int value, int milliseconds){
-
-    ESP_ERROR_CHECK(ledc_set_duty(mode, channel, value));
-    ESP_ERROR_CHECK(ledc_update_duty(mode, channel));
-    delay(milliseconds);
-    ESP_ERROR_CHECK(ledc_stop(mode, channel, value));
 }
 
 void lockSemaphore(SemaphoreHandle_t semaphore) {
@@ -141,6 +137,37 @@ static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data
 
 // --------------------------------------------------
 
+// -----------Calculate Manual Servo Value-----------
+
+int calculate(int position){
+
+    if(position >= 620 && position <= 780){             // 1.
+
+        position = 0;
+    }
+    else if(position > 780 && position < 850){          // 2.
+
+        position = 1;
+    }
+    else if(position < 620 && position > 550){          // 3.
+
+        position = 2;
+    }
+    else if(position <= 550){                           // 4.
+
+        position = 2;
+    }
+    else if(position >= 850){                           // 5.
+
+        position = 1;
+    }
+
+    return position;
+}
+
+// --------------------------------------------------
+
+
 // ---------------------Main-------------------------
 
 void app_main(void){
@@ -149,16 +176,53 @@ void app_main(void){
     ESP_ERROR_CHECK(init_esp_now());
     ESP_ERROR_CHECK(register_peer(peer_mac));
 
-    uint8_t dataOn[1] = {255};
-    uint8_t dataOff[1] = {0};
+    // ----------Joystick----------
+
+    int xRaw = 0;
+    int yRaw = 0;
+
+    adc_oneshot_unit_handle_t adc1_handle;
+    adc_oneshot_unit_init_cfg_t init_config1 = {
+
+        .unit_id = ADC_UNIT_1,
+        .ulp_mode = ADC_ULP_MODE_DISABLE,
+    };
+    ESP_ERROR_CHECK(adc_oneshot_new_unit(&init_config1, &adc1_handle));
+
+    adc_oneshot_chan_cfg_t joystickXvalueOneshotConfig = {
+
+        .atten          = ADC_ATTEN_DB_12,
+        .bitwidth       = ADC_BITWIDTH_12
+    };
+    ESP_ERROR_CHECK(adc_oneshot_config_channel(adc1_handle, ADC_CHANNEL_3, &joystickXvalueOneshotConfig));
+
+    adc_oneshot_chan_cfg_t joystickYvalueOneshotConfig = {
+
+        .atten          = ADC_ATTEN_DB_12,
+        .bitwidth       = ADC_BITWIDTH_12
+    };
+    ESP_ERROR_CHECK(adc_oneshot_config_channel(adc1_handle, ADC_CHANNEL_4, &joystickYvalueOneshotConfig));
+
+    // --------------------
+
+    int data[2] = {0, 0};
 
     while(true){
 
-        esp_now_send_data(peer_mac, dataOn, 1);
-        delay(1000);
+        // Read Joystick
+        adc_oneshot_read(adc1_handle, ADC_CHANNEL_3, &xRaw);
+        adc_oneshot_read(adc1_handle, ADC_CHANNEL_4, &yRaw);
 
-        esp_now_send_data(peer_mac, dataOff, 1);
-        delay(1000);
+        data[0] = map(xRaw, 0, 4096, 0, 1024);
+        data[1] = map(yRaw, 0, 4096, 0, 1024);
+
+        data[0] = calculate(data[0]);
+        data[1] = calculate(data[1]);
+
+        printf("Data0: %d, Data1: %d\n", data[0], data[1]);
+
+        esp_now_send_data(peer_mac, (const uint8_t *)data, sizeof(data));
+        delay(10);
     }
 }
 
