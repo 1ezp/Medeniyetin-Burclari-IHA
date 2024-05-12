@@ -22,7 +22,11 @@
 // Electric
 #include "driver/gpio.h"
 #include "driver/ledc.h"
-// #include "driver/adc.h"
+// #include "esp_adc/adc_oneshot.h"
+// #include "esp_adc/adc_continuous.h"
+// Servo
+#include "driver/mcpwm_prelude.h"
+#include "driver/adc.h"
 
 // --------------------------------------------------
 
@@ -40,14 +44,6 @@ void analogWrite(int mode, int channel, int value){
 
     ESP_ERROR_CHECK(ledc_set_duty(mode, channel, value));
     ESP_ERROR_CHECK(ledc_update_duty(mode, channel));
-}
-
-void servoWrite(int mode, int channel, int value, int milliseconds){
-
-    ESP_ERROR_CHECK(ledc_set_duty(mode, channel, value));
-    ESP_ERROR_CHECK(ledc_update_duty(mode, channel));
-    delay(milliseconds);
-    ESP_ERROR_CHECK(ledc_stop(mode, channel, value));
 }
 
 void lockSemaphore(SemaphoreHandle_t semaphore) {
@@ -133,58 +129,37 @@ static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data
     return ESP_OK;
 }
 
-int brightness = 0;
-bool firstReceive = false;
+int data[2] = {0, 0};
 
-void recv_cb(const esp_now_recv_info_t * esp_now_info, const uint8_t *data, int data_len){
+void recv_cb(const esp_now_recv_info_t * esp_now_info, const uint8_t *bilgi, int data_len){
 
-    ESP_LOGI(TAG, "Data Received: " MACSTR " %s", MAC2STR(esp_now_info->src_addr), data);
-    firstReceive = true;
-    brightness = data[0];
+    // ESP_LOGI(TAG, "Data Received: " MACSTR " %s", MAC2STR(esp_now_info->src_addr), bilgi);
+    memcpy(data, bilgi, sizeof(data));
 }
 
 // ----------
 
 // --------------------------------------------------
 
-// --------------------Led1--------------------------
 
-#define led1TimerNum            LEDC_TIMER_0
-#define led1Mode                LEDC_LOW_SPEED_MODE
-#define led1ChannelNum          LEDC_CHANNEL_0
-#define led1DutyRes             LEDC_TIMER_8_BIT
-#define led1Freq                (4000)
+// ---------------------rlServo----------------------
 
-int led1Duty = (0);
-#define led1OutputPin       (16)
+#define SERVO_MIN_PULSEWIDTH_US     500  // Minimum pulse width in microsecond
+#define SERVO_MAX_PULSEWIDTH_US     2500  // Maximum pulse width in microsecond
+#define SERVO_MIN_DEGREE            -90   // Minimum angle
+#define SERVO_MAX_DEGREE            90    // Maximum angle
 
-static void led1Init(void){
+#define SERVO_PULSE_GPIO             15        // GPIO connects to the PWM signal line
+#define SERVO_TIMEBASE_RESOLUTION_HZ 1000000  // 1MHz, 1us per tick
+#define SERVO_TIMEBASE_PERIOD        20000    // 20000 ticks, 20ms
 
-    // led1 timer configuration
-    ledc_timer_config_t led1Timer = {
+static inline uint32_t example_angle_to_compare(int angle){
 
-        .speed_mode       = led1Mode,
-        .duty_resolution  = led1DutyRes,
-        .timer_num        = led1TimerNum,
-        .freq_hz          = led1Freq,
-        .clk_cfg          = LEDC_AUTO_CLK
-    };
-    ESP_ERROR_CHECK(ledc_timer_config(&led1Timer));
-
-    // led1 channel configuration
-    ledc_channel_config_t led1Channel = {
-        .speed_mode     = led1Mode,
-        .channel        = led1ChannelNum,
-        .timer_sel      = led1TimerNum,
-        .intr_type      = LEDC_INTR_DISABLE,
-        .gpio_num       = led1OutputPin,
-        .duty           = 0,
-        .hpoint         = 0
-    };
-    ESP_ERROR_CHECK(ledc_channel_config(&led1Channel));
+    return (angle - SERVO_MIN_DEGREE) * (SERVO_MAX_PULSEWIDTH_US - SERVO_MIN_PULSEWIDTH_US) / (SERVO_MAX_DEGREE - SERVO_MIN_DEGREE) + SERVO_MIN_PULSEWIDTH_US;
 }
 
 // --------------------------------------------------
+
 
 // ---------------------Main-------------------------
 
@@ -193,16 +168,104 @@ void app_main(void){
     ESP_ERROR_CHECK(init_wifi());
     ESP_ERROR_CHECK(init_esp_now());
     ESP_ERROR_CHECK(register_peer(peer_mac));
-    led1Init();
+
+    // ------rlServo-------
+
+    // Create timer and operator
+
+    mcpwm_timer_handle_t rlTimer = NULL;
+    mcpwm_timer_config_t rlTimer_config = {
+        .group_id = 0,
+        .clk_src = MCPWM_TIMER_CLK_SRC_DEFAULT,
+        .resolution_hz = SERVO_TIMEBASE_RESOLUTION_HZ,
+        .period_ticks = SERVO_TIMEBASE_PERIOD,
+        .count_mode = MCPWM_TIMER_COUNT_MODE_UP,
+    };
+    ESP_ERROR_CHECK(mcpwm_new_timer(&rlTimer_config, &rlTimer));
+
+    mcpwm_oper_handle_t rlOper = NULL;
+    mcpwm_operator_config_t rlOper_config = {
+        .group_id = 0, // operator must be in the same group to the timer
+    };
+    ESP_ERROR_CHECK(mcpwm_new_operator(&rlOper_config, &rlOper));
+
+    // Connect timer and operator
+    ESP_ERROR_CHECK(mcpwm_operator_connect_timer(rlOper, rlTimer));
+
+    // Create comparator and generator from the operator
+
+    mcpwm_cmpr_handle_t rlComparator = NULL;
+    mcpwm_comparator_config_t rlComparator_config = {
+        .flags.update_cmp_on_tez = true,
+    };
+    ESP_ERROR_CHECK(mcpwm_new_comparator(rlOper, &rlComparator_config, &rlComparator));
+
+    mcpwm_gen_handle_t rlGenerator = NULL;
+    mcpwm_generator_config_t rlGenerator_config = {
+        .gen_gpio_num = SERVO_PULSE_GPIO,
+    };
+    ESP_ERROR_CHECK(mcpwm_new_generator(rlOper, &rlGenerator_config, &rlGenerator));
+
+    // Set generator action on timer and compare event
+
+    // Go high on counter empty
+    ESP_ERROR_CHECK(mcpwm_generator_set_action_on_timer_event(rlGenerator,
+                                                              MCPWM_GEN_TIMER_EVENT_ACTION(MCPWM_TIMER_DIRECTION_UP, MCPWM_TIMER_EVENT_EMPTY, MCPWM_GEN_ACTION_HIGH)));
+    // Go low on compare threshold
+    ESP_ERROR_CHECK(mcpwm_generator_set_action_on_compare_event(rlGenerator,
+                                                                MCPWM_GEN_COMPARE_EVENT_ACTION(MCPWM_TIMER_DIRECTION_UP, rlComparator, MCPWM_GEN_ACTION_LOW)));
+
+    // Enable and start timer
+    ESP_ERROR_CHECK(mcpwm_timer_enable(rlTimer));
+    ESP_ERROR_CHECK(mcpwm_timer_start_stop(rlTimer, MCPWM_TIMER_START_NO_STOP));
+
+    // --------------------
+
+    int currentXAngle = 0;
+    int currentYAngle = 0;
 
     while(true){
 
-        if(firstReceive){
+        if(data[0] == 1){
 
-            analogWrite(led1Mode, led1ChannelNum, brightness);
+            currentXAngle+=5;
+        }
+        else if(data[0] == 2){
+
+            currentXAngle-=5;
         }
 
-        delay(100);
+        if(data[1] == 1){
+
+            currentYAngle+=5;
+        }
+        else if(data[1] == 2){
+
+            currentYAngle-=5;
+        }
+
+        if(currentXAngle < -70){
+
+            currentXAngle = -70;
+        }
+        else if(currentXAngle > 70){
+
+            currentXAngle = 70;
+        }
+
+        if(currentYAngle < -70){
+
+            currentYAngle = -70;
+        }
+        else if(currentYAngle > 70){
+
+            currentYAngle = 70;
+        }
+
+        printf("X: %d, Y: %d\n", currentXAngle, currentYAngle);
+        ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(rlComparator, example_angle_to_compare(currentXAngle)));
+
+        delay(10);
     }
 }
 
