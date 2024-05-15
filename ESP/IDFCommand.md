@@ -77,6 +77,7 @@ printenv ENV_Variable
 #include "esp_mac.h"
 #include "esp_event.h"
 #include "nvs_flash.h"
+#include "driver/uart.h"
 // Electric
 #include "driver/gpio.h"
 #include "driver/ledc.h"
