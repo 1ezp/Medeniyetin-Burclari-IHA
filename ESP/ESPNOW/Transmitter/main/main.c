@@ -105,6 +105,7 @@ static esp_err_t register_peer(uint8_t *peer_addr){
     esp_now_peer_info.ifidx = ESP_IF_WIFI_STA;
 
     esp_now_add_peer(&esp_now_peer_info);
+
     return ESP_OK;
 }
 
@@ -112,7 +113,7 @@ void send_cb(const uint8_t *mac_addr, esp_now_send_status_t status){
 
     if (status == ESP_NOW_SEND_SUCCESS){
 
-        ESP_LOGI(TAG, "Send Success");
+        // ESP_LOGI(TAG, "Send Success");
     }
     else{
 
@@ -122,15 +123,32 @@ void send_cb(const uint8_t *mac_addr, esp_now_send_status_t status){
 
 // ----------
 
-void recv_cb(const esp_now_recv_info_t * esp_now_info, const uint8_t *data, int data_len){
+float data[2] = {-1, -1};
+bool isTarget = false;
 
-    ESP_LOGI(TAG, "Data Received: " MACSTR " %s", MAC2STR(esp_now_info->src_addr), data);
-}
+void fixLocation();
 
 static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data, size_t len){
 
     esp_now_send(peer_addr, data, len);
     return ESP_OK;
+}
+
+void recv_cb(const esp_now_recv_info_t * esp_now_info, const uint8_t *bilgi, int data_len){
+
+    // ESP_LOGI(TAG, "Data Received: " MACSTR " %s", MAC2STR(esp_now_info->src_addr), data);
+    memcpy(data, bilgi, sizeof(data));
+    if(data[0] < 0 && data[0] != -1){
+
+        data[0] = data[0] * -1;
+        isTarget = true;
+    }
+    else{
+
+        isTarget = false;
+    }
+
+    fixLocation();
 }
 
 // ----------
@@ -163,6 +181,28 @@ int calculate(int position){
     }
 
     return position;
+}
+
+// --------------------------------------------------
+
+
+// -------------------fixLocation--------------------
+
+float real_lat = -1;
+float real_lng = -1;
+
+void fixLocation(){
+
+
+    int degrees = (int)data[0] / 100;
+    float minutes = data[0] - ((float) degrees * 100.0);
+    real_lat = degrees + (minutes / 60.0);
+
+    degrees = (int)data[1] / 100;
+    minutes = data[1] - ((float) degrees * 100.0);
+    real_lng = degrees + (minutes / 60.0);
+
+    printf("lat: %f\t\tlng: %f\n", real_lat, real_lng);
 }
 
 // --------------------------------------------------
@@ -205,7 +245,10 @@ void app_main(void){
 
     // --------------------
 
-    int data[2] = {0, 0};
+    #define isTargetPIN 16
+
+    int dataToSend[2] = {0, 0};
+    gpio_set_direction(isTargetPIN, GPIO_MODE_OUTPUT);
 
     while(true){
 
@@ -213,15 +256,23 @@ void app_main(void){
         adc_oneshot_read(adc1_handle, ADC_CHANNEL_3, &xRaw);
         adc_oneshot_read(adc1_handle, ADC_CHANNEL_4, &yRaw);
 
-        data[0] = map(xRaw, 0, 4096, 0, 1024);
-        data[1] = map(yRaw, 0, 4096, 0, 1024);
+        dataToSend[0] = map(xRaw, 0, 4096, 0, 1024);
+        dataToSend[1] = map(yRaw, 0, 4096, 0, 1024);
 
-        data[0] = calculate(data[0]);
-        data[1] = calculate(data[1]);
+        dataToSend[0] = calculate(dataToSend[0]);
+        dataToSend[1] = calculate(dataToSend[1]);
 
-        printf("Data0: %d, Data1: %d\n", data[0], data[1]);
+        if(isTarget){
 
-        esp_now_send_data(peer_mac, (const uint8_t *)data, sizeof(data));
+            gpio_set_level(isTargetPIN, 1);
+        }
+        else{
+
+            gpio_set_level(isTargetPIN, 0);
+        }
+
+
+        esp_now_send_data(peer_mac, (const uint8_t *)dataToSend, sizeof(dataToSend));
         delay(10);
     }
 }
