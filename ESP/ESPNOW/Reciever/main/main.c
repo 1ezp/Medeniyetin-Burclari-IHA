@@ -22,6 +22,7 @@
 // Electric
 #include "driver/gpio.h"
 #include "driver/ledc.h"
+#include "driver/uart.h"
 // #include "esp_adc/adc_oneshot.h"
 // #include "esp_adc/adc_continuous.h"
 // Servo
@@ -62,7 +63,7 @@ int map(int x, int in_min, int in_max, int out_min, int out_max) {
 
 #define ESP_CHANNEL 1
 
-static uint8_t peer_mac [ESP_NOW_ETH_ALEN] = {0x48, 0x27, 0xe2, 0xfc, 0x30, 0x76};  // Transmitter mac
+static uint8_t peer_mac [ESP_NOW_ETH_ALEN] = {0x48, 0x27, 0xe2, 0xfc, 0x30, 0x7c};  // Transmitter mac
 
 static const char *TAG = "esp_now_init";
 
@@ -113,27 +114,30 @@ void send_cb(const uint8_t *mac_addr, esp_now_send_status_t status){
 
     if (status == ESP_NOW_SEND_SUCCESS){
 
-        ESP_LOGI(TAG, "Send Success");
+        // ESP_LOGI(TAG, "Send Success");
     }
     else{
 
-        ESP_LOGI(TAG, "Send Failed");
+        // ESP_LOGI(TAG, "Send Failed");
     }
 }
 
 // ----------
+
+int data[2] = {0, 0};
+float dataToSend[2] = {-1, -1};
+
+bool isManual = true;
+bool isPixhawlk = false;
+bool isPID = false;
+
+bool isTarget = true;
 
 static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data, size_t len){
 
     esp_now_send(peer_addr, data, len);
     return ESP_OK;
 }
-
-int data[2] = {0, 0};
-
-bool isManual = true;
-bool isPixhawlk = false;
-bool isPID = false;
 
 void recv_cb(const esp_now_recv_info_t * esp_now_info, const uint8_t *bilgi, int data_len){
 
@@ -417,6 +421,105 @@ void servoWrite(void *pvParameters){
 // --------------------------------------------------
 
 
+// ---------------------GPS--------------------------
+
+static const int RX_BUF_SIZE = 2048;
+
+#define TXD_PIN 17
+#define RXD_PIN 18
+
+float latitude, longitude;
+
+bool isWritingGpsBusy = false;
+
+void gpsInit(){
+
+    const uart_config_t gps_uart_config = {
+
+        .baud_rate = 9600,
+        .data_bits = UART_DATA_8_BITS,
+        .parity    = UART_PARITY_DISABLE,
+        .stop_bits = UART_STOP_BITS_1,
+        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+        .source_clk = UART_SCLK_APB
+    };
+
+    uart_driver_install(UART_NUM_1, RX_BUF_SIZE*2, 0, 0, NULL, 0);
+    uart_param_config(UART_NUM_1, &gps_uart_config);
+    uart_set_pin(UART_NUM_1, TXD_PIN, RXD_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+}
+
+void gpsRead(){
+
+    uint8_t* data = (uint8_t*)malloc(RX_BUF_SIZE+1);
+
+    while(true){
+
+        const int rxBytes = uart_read_bytes(UART_NUM_1, data, RX_BUF_SIZE, 350 / portTICK_PERIOD_MS);
+        if(rxBytes > 0){
+
+            data[rxBytes] = 0;
+
+            // Find GNGLL line
+            char* gngll = strstr((const char*)data, "$GNGLL");
+
+            if(gngll != NULL){
+
+                isWritingGpsBusy = true;
+                delay(15);
+
+                // Extract latitude and longitude
+                if(sscanf(gngll, "$GNGLL,%f,N,%f,E", &latitude, &longitude) == 2){
+
+                    dataToSend[0] = latitude;
+                    dataToSend[1] = longitude;
+                }
+                else{
+
+                    latitude = -1;
+                    longitude = -1;
+                }
+
+                isWritingGpsBusy = false;
+                delay(15);
+            }
+        }
+    }
+
+    free(data);
+}
+
+// --------------------------------------------------
+
+
+// -------------------SendingTask---------------------
+
+void sendGps(){
+
+    while(true){
+
+        while(!isWritingGpsBusy){
+
+            if(isTarget && dataToSend[0] > 0){
+
+                dataToSend[0] = dataToSend[0] * -1;
+            }
+            else if(!isTarget && dataToSend[0] < 0){
+
+                dataToSend[0] = dataToSend[0] * -1;
+            }
+
+            esp_now_send_data(peer_mac, (const uint8_t *)dataToSend, sizeof(dataToSend));
+            delay(10);
+        }
+
+        delay(10);
+    }
+}
+
+// --------------------------------------------------
+
+
 // ---------------------Main-------------------------
 
 #define pixhawlkPin 4
@@ -426,6 +529,17 @@ void app_main(void){
     ESP_ERROR_CHECK(init_wifi());
     ESP_ERROR_CHECK(init_esp_now());
     ESP_ERROR_CHECK(register_peer(peer_mac));
+
+    // --------GPS---------
+
+    gpsInit();
+    xTaskCreate(gpsRead, "gpsRead", 1024*2, NULL, 1, NULL);
+
+    // --------------------
+
+    xTaskCreate(sendGps, "sendGps", 1024*2, NULL, 1, NULL);
+
+    // --------------------
 
     // --------GPIO--------
 
@@ -444,7 +558,7 @@ void app_main(void){
             if(isManualTaskOpen){
 
                 previousRlMillis = esp_timer_get_time() / 1000;
-                xTaskCreate(servoWrite, "servoWrite", 4096, NULL, 1, NULL);
+                xTaskCreate(servoWrite, "servoWrite", 1024*3, NULL, 1, NULL);
             }
         }
 
@@ -452,6 +566,7 @@ void app_main(void){
 
         else if(isPixhawlk){
 
+            gpio_set_level(pixhawlkPin, 1);
             isManualTaskOpen = true;
         }
 
@@ -461,6 +576,7 @@ void app_main(void){
 
         else if(isPID){
 
+            gpio_set_level(pixhawlkPin, 0);
             isManualTaskOpen = true;
         }
 
