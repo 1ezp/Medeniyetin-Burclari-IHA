@@ -124,7 +124,7 @@ void send_cb(const uint8_t *mac_addr, esp_now_send_status_t status){
 
 // ----------
 
-int data[2] = {0, 0};
+bool data[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 float dataToSend[2] = {-1, -1};
 
 bool isManual = true;
@@ -184,7 +184,7 @@ long long int sensetivityX = 0;
 long long int sensetivityY = 0;
 
 #define sensitivityTimeout 75
-#define servoPillTimeout 100
+#define servoPillTimeout 10
 
 void servoWrite(void *pvParameters){
 
@@ -288,7 +288,7 @@ void servoWrite(void *pvParameters){
     // ---------X----------
 
         // When the joystick is in the middle
-        if(data[0] == 0){
+        if(data[0] == 0 && data[1] == 0){
 
             if((esp_timer_get_time() / 1000) - previousRlMillis >= servoPillTimeout){
 
@@ -318,7 +318,7 @@ void servoWrite(void *pvParameters){
         }
 
         // When the joystick is in the left
-        else if(data[0] == 2){
+        else if(data[1] == 1){
 
             previousRlMillis = esp_timer_get_time() / 1000;
 
@@ -334,7 +334,7 @@ void servoWrite(void *pvParameters){
         // ---------Y----------
 
         // When the joystick is in the middle
-        if(data[1] == 0){
+        if(data[2] == 0 && data[3] == 0){
 
             if((esp_timer_get_time() / 1000) - previousUdMillis >= servoPillTimeout){
 
@@ -352,7 +352,7 @@ void servoWrite(void *pvParameters){
         }
 
         // When the joystick is in the bottom
-        else if(data[1] == 1){
+        else if(data[2] == 1){
 
             previousUdMillis = esp_timer_get_time() / 1000;
 
@@ -364,7 +364,7 @@ void servoWrite(void *pvParameters){
         }
 
         // When the joystick is in the top
-        else if(data[1] == 2){
+        else if(data[3] == 1){
 
             previousUdMillis = esp_timer_get_time() / 1000;
 
@@ -405,7 +405,6 @@ void servoWrite(void *pvParameters){
         delay(10);
 
         // --------------------
-
     }
 
     // --------------------
@@ -548,6 +547,8 @@ void app_main(void){
     // --------------------
 
     while(true){
+
+        // printf("Memory: %ld\n", esp_get_free_heap_size());
 
         // -------Manual-------
 
