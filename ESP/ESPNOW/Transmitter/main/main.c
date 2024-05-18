@@ -123,10 +123,15 @@ void send_cb(const uint8_t *mac_addr, esp_now_send_status_t status){
 
 // ----------
 
-float data[2] = {-1, -1};
-bool isTarget = false;
-
 void fixLocation();
+
+float data[2] = {-1, -1};
+bool dataToSend[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+
+int xRaw = 0;
+int yRaw = 0;
+
+bool isTarget = false;
 
 static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data, size_t len){
 
@@ -136,9 +141,10 @@ static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data
 
 void recv_cb(const esp_now_recv_info_t * esp_now_info, const uint8_t *bilgi, int data_len){
 
-    // ESP_LOGI(TAG, "Data Received: " MACSTR " %s", MAC2STR(esp_now_info->src_addr), data);
     memcpy(data, bilgi, sizeof(data));
-    if(data[0] < 0 && data[0] != -1){
+
+    // For handling target existence
+    if((data[0] < 0 && data[0] != -1) || data[0] == 1){
 
         data[0] = data[0] * -1;
         isTarget = true;
@@ -148,39 +154,52 @@ void recv_cb(const esp_now_recv_info_t * esp_now_info, const uint8_t *bilgi, int
         isTarget = false;
     }
 
-    fixLocation();
+    // When data is valid lat and lng
+    if(data[0] != -1 && data[1] != -1){
+
+        fixLocation();
+    }
 }
 
 // ----------
 
 // --------------------------------------------------
 
-// -----------Calculate Manual Servo Value-----------
+// ---------------Joystick And Servo-----------------
 
-int calculate(int position){
+void calculate(){
 
-    if(position >= 620 && position <= 780){             // 1.
+    if(xRaw >= 620 && xRaw <= 780){             // 1.
 
-        position = 0;
+        dataToSend[0] = 0;
+        dataToSend[1] = 0;
     }
-    else if(position > 780 && position < 850){          // 2.
+    else if(xRaw > 780){                        // 2.
 
-        position = 1;
+        dataToSend[0] = 0;
+        dataToSend[1] = 1;
     }
-    else if(position < 620 && position > 550){          // 3.
+    else if(xRaw < 620){                        // 3.
 
-        position = 2;
-    }
-    else if(position <= 550){                           // 4.
-
-        position = 2;
-    }
-    else if(position >= 850){                           // 5.
-
-        position = 1;
+        dataToSend[0] = 1;
+        dataToSend[1] = 0;
     }
 
-    return position;
+    if(yRaw >= 620 && yRaw <= 780){             // 1.
+
+        dataToSend[2] = 0;
+        dataToSend[3] = 0;
+    }
+    else if(yRaw > 780){                        // 2.
+
+        dataToSend[2] = 0;
+        dataToSend[3] = 1;
+    }
+    else if(yRaw < 620){                        // 3.
+
+        dataToSend[2] = 1;
+        dataToSend[3] = 0;
+    }
 }
 
 // --------------------------------------------------
@@ -192,7 +211,6 @@ float real_lat = -1;
 float real_lng = -1;
 
 void fixLocation(){
-
 
     int degrees = (int)data[0] / 100;
     float minutes = data[0] - ((float) degrees * 100.0);
@@ -207,8 +225,31 @@ void fixLocation(){
 
 // --------------------------------------------------
 
+// --------------------Buttons-----------------------
+
+#define takeControl_PIN 6
+
+void takeControl_init(){
+
+    gpio_config_t io_conf = {};
+    io_conf.intr_type = GPIO_INTR_DISABLE;
+    io_conf.mode = GPIO_MODE_INPUT;
+    io_conf.pin_bit_mask = (1ULL << takeControl_PIN);
+    io_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;
+    io_conf.pull_up_en = GPIO_PULLUP_ENABLE;
+    gpio_config(&io_conf);
+}
+
+int digitalRead(int pin){
+
+    return gpio_get_level(pin);
+}
+
+// --------------------------------------------------
 
 // ---------------------Main-------------------------
+
+#define isTargetPIN 15
 
 void app_main(void){
 
@@ -216,10 +257,9 @@ void app_main(void){
     ESP_ERROR_CHECK(init_esp_now());
     ESP_ERROR_CHECK(register_peer(peer_mac));
 
-    // ----------Joystick----------
+    gpio_set_direction(isTargetPIN, GPIO_MODE_OUTPUT);
 
-    int xRaw = 0;
-    int yRaw = 0;
+    // -----Joystick-------
 
     adc_oneshot_unit_handle_t adc1_handle;
     adc_oneshot_unit_init_cfg_t init_config1 = {
@@ -245,22 +285,21 @@ void app_main(void){
 
     // --------------------
 
-    #define isTargetPIN 16
-
-    int dataToSend[2] = {0, 0};
-    gpio_set_direction(isTargetPIN, GPIO_MODE_OUTPUT);
-
     while(true){
 
-        // Read Joystick
+        // ------Joystick------
+
         adc_oneshot_read(adc1_handle, ADC_CHANNEL_3, &xRaw);
         adc_oneshot_read(adc1_handle, ADC_CHANNEL_4, &yRaw);
 
-        dataToSend[0] = map(xRaw, 0, 4096, 0, 1024);
-        dataToSend[1] = map(yRaw, 0, 4096, 0, 1024);
+        xRaw = map(xRaw, 0, 4096, 0, 1024);
+        yRaw = map(yRaw, 0, 4096, 0, 1024);
 
-        dataToSend[0] = calculate(dataToSend[0]);
-        dataToSend[1] = calculate(dataToSend[1]);
+        calculate();
+
+        // --------------------
+
+        // ------PID Led-------
 
         if(isTarget){
 
@@ -271,9 +310,26 @@ void app_main(void){
             gpio_set_level(isTargetPIN, 0);
         }
 
+        // --------------------
+
+        // --------------------
+
+        printf("Read: %d\n", digitalRead(takeControl_PIN));
+        if(digitalRead(takeControl_PIN) == 0){
+
+            dataToSend[4] = 1;
+        }
+        else{
+
+            dataToSend[4] = 0;
+        }
+
+        // -------Send---------
 
         esp_now_send_data(peer_mac, (const uint8_t *)dataToSend, sizeof(dataToSend));
         delay(10);
+
+        // --------------------
     }
 }
 
