@@ -126,10 +126,7 @@ void send_cb(const uint8_t *mac_addr, esp_now_send_status_t status){
 void fixLocation();
 
 float data[2] = {-1, -1};
-char dataToSend[2] = {'C', 'C'};
-
-int xRaw = 0;
-int yRaw = 0;
+char dataToSend[3] = {'C', 'C', 'A'};
 
 static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data, size_t len){
 
@@ -153,6 +150,10 @@ void recv_cb(const esp_now_recv_info_t * esp_now_info, const uint8_t *bilgi, int
 // --------------------------------------------------
 
 // ---------------Joystick And Servo-----------------
+
+int xRaw = 0;
+int yRaw = 0;
+int speed = 0;
 
 void calculate(){
 
@@ -181,6 +182,12 @@ void calculate(){
 
         dataToSend[1] = 'A';
     }
+
+    // Speed
+    int rangePerChar = 1025 / 26;
+    int charIndex = speed / rangePerChar;
+    if (charIndex > 25) charIndex = 25; // Ensure we stay within 'A' to 'Z'
+    dataToSend[2] = 'A' + charIndex;
 }
 
 // --------------------------------------------------
@@ -307,6 +314,27 @@ void app_main(void){
 
     // --------------------
 
+
+    // -------Speed--------
+
+    adc_oneshot_unit_handle_t adc2_handle;
+    adc_oneshot_unit_init_cfg_t init_config2 = {
+
+        .unit_id = ADC_UNIT_2,
+        .ulp_mode = ADC_ULP_MODE_DISABLE,
+    };
+    ESP_ERROR_CHECK(adc_oneshot_new_unit(&init_config2, &adc2_handle));
+
+    adc_oneshot_chan_cfg_t speedPotOneshotConfig = {
+
+        .atten          = ADC_ATTEN_DB_12,
+        .bitwidth       = ADC_BITWIDTH_12
+    };
+    ESP_ERROR_CHECK(adc_oneshot_config_channel(adc2_handle, ADC_CHANNEL_6, &speedPotOneshotConfig));
+
+
+    // --------------------
+
     while(true){
 
         if(digitalRead(EngageManual_PIN) == 0){
@@ -344,9 +372,11 @@ void app_main(void){
 
             adc_oneshot_read(adc1_handle, ADC_CHANNEL_3, &xRaw);
             adc_oneshot_read(adc1_handle, ADC_CHANNEL_4, &yRaw);
+            adc_oneshot_read(adc2_handle, ADC_CHANNEL_6, &speed);
 
             xRaw = map(xRaw, 0, 4096, 0, 1024);
             yRaw = map(yRaw, 0, 4096, 0, 1024);
+            speed = map(speed, 0, 4096, 0, 1024);
 
             calculate();
 
@@ -370,6 +400,7 @@ void app_main(void){
 
         // -------Send---------
 
+        printf("%c  ,  %c\n", dataToSend[0], dataToSend[2]);
         esp_now_send_data(peer_mac, (const uint8_t *)dataToSend, sizeof(dataToSend));
         delay(10);
 
