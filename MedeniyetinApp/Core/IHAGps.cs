@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO.Ports;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -9,6 +10,19 @@ namespace MedeniyetinApp.Core
     public class IHAGps
     {
         private SerialPort serialPort;
+        float _IHALat;
+        float _IHALong;
+
+        public float IHALat
+        {
+            get { return _IHALat; }
+            set { _IHALat = value; }
+        }
+        public float IHALong
+        {
+            get { return _IHALong; }
+            set { _IHALong = value; }
+        }
 
         public IHAGps(string port)
         {
@@ -16,12 +30,8 @@ namespace MedeniyetinApp.Core
             {
                 serialPort = new SerialPort(port, 115200);
                 serialPort.Open();
+                serialPort.DataReceived += SerialPort_DataReceived;
 
-
-                BackgroundWorker updateWorker = new BackgroundWorker();
-                updateWorker.WorkerSupportsCancellation = true;
-                updateWorker.DoWork += UpdateWorker_DoWork;
-                //updateWorker.RunWorkerAsync();
             }
             catch (Exception ex)
             {
@@ -29,86 +39,17 @@ namespace MedeniyetinApp.Core
                 Application.Exit();
             }
         }
-
-        private void UpdateWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            BackgroundWorker worker = sender as BackgroundWorker;
+            SerialPort serialPort = (SerialPort)sender;
+            string data = serialPort.ReadLine();
+            string[] values = data.Split(',');
 
-            while (true)
-            {
-                try
-                {
-                    if (serialPort.IsOpen)
-                    {
-                        serialPort.Close();
-                    }
-                    serialPort.Open();
-                }catch (Exception) { }
-                
-                Thread.Sleep(5000);
-            }
-        }
-
-        public void Reload(object sender, EventArgs e)
-        {
-            if (serialPort.IsOpen)
-            {
-                serialPort.Close();
-            }
-            serialPort.Open();
+            _IHALat = float.Parse(values[0]);
+            _IHALat = float.Parse(values[1]);
 
         }
 
-        public double TargetLat()
-        {
-            try
-            {
-                string data = serialPort.ReadLine();
-                serialPort.DiscardInBuffer();
 
-                if (data == "-1")
-                {
-                    return -1.0;
-                }
-                string[] parts = data.Split(':');
-                return Convert.ToDouble(parts[0]);
-            }
-            catch
-            {
-                return -1.0;
-            }
-        }
-
-        public double TargetLng()
-        {
-            try
-            {
-                string data = serialPort.ReadLine();
-                serialPort.DiscardInBuffer();
-                if (data == "-1")
-                {
-                    return -1.0;
-                }
-                string[] parts = data.Split(':');
-                return Convert.ToDouble(parts[1]);
-            }
-            catch
-            {
-                return -1.0;
-            }
-        }
-
-        public string ReadData()
-        {
-
-            try
-            {
-                return serialPort.ReadLine();
-            }
-            catch
-            {
-                return "-1";
-            }
-        }
     }
 }
