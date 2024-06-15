@@ -50,21 +50,19 @@
             // 
             // labelLng
             // 
-            this.labelLng.AutoSize = true;
             this.labelLng.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelLng.Location = new System.Drawing.Point(169, 4);
+            this.labelLng.Location = new System.Drawing.Point(169, 3);
             this.labelLng.Name = "labelLng";
-            this.labelLng.Size = new System.Drawing.Size(8, 12);
+            this.labelLng.Size = new System.Drawing.Size(106, 14);
             this.labelLng.TabIndex = 1;
             this.labelLng.Text = ".";
             // 
             // labelLat
             // 
-            this.labelLat.AutoSize = true;
             this.labelLat.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelLat.Location = new System.Drawing.Point(12, 6);
+            this.labelLat.Location = new System.Drawing.Point(12, 3);
             this.labelLat.Name = "labelLat";
-            this.labelLat.Size = new System.Drawing.Size(8, 12);
+            this.labelLat.Size = new System.Drawing.Size(105, 13);
             this.labelLat.TabIndex = 0;
             this.labelLat.Text = ".";
             // 
@@ -91,7 +89,6 @@
             this.ShowIcon = false;
             this.Text = "Map";
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }

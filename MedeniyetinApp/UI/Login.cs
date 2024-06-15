@@ -66,12 +66,12 @@ namespace MedeniyetinApp.UI
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            Test test = new Test(cmbPorts.Text); 
-            test.Show();
+            //Test test = new Test(cmbPorts.Text); 
+            //test.Show();
             //Camera cameraFrm = new Camera(cameraIP.Text);
             //cameraFrm.Show();
-            //Map mapFrm = new Map(cmbPorts.Text);
-            //mapFrm.Show();  
+            Map mapFrm = new Map(cmbPorts.Text);
+            mapFrm.Show();  
             this.Hide();
         }
         private void panel1_MouseDown(object sender, MouseEventArgs e)
