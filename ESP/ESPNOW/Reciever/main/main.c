@@ -124,14 +124,15 @@ void send_cb(const uint8_t *mac_addr, esp_now_send_status_t status){
 
 // ----------
 
-bool data[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+char data[2] = {'C', 'C'};
 float dataToSend[2] = {-1, -1};
 
 bool isManual = true;
 bool isPixhawlk = false;
 bool isPID = false;
+bool isShutdown = false;
 
-bool isTarget = true;
+bool isTarget = true;               // When the AI camera has the target's location
 
 static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data, size_t len){
 
@@ -139,13 +140,48 @@ static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data
     return ESP_OK;
 }
 
+void checkMode();
 void recv_cb(const esp_now_recv_info_t * esp_now_info, const uint8_t *bilgi, int data_len){
 
     // ESP_LOGI(TAG, "Data Received: " MACSTR " %s", MAC2STR(esp_now_info->src_addr), bilgi);
     memcpy(data, bilgi, sizeof(data));
+    checkMode();
 }
 
 // ----------
+
+// --------------------------------------------------
+
+// ------------------setPlaneMode--------------------
+
+void checkMode(){
+
+    if(data[0] == 'C' || data[0] == 'A' || data[0] == 'B'){
+
+        // Nothing
+    }
+    else if(data[0] == 'D'){
+
+        isManual = false;
+        isPixhawlk = true;
+        isPID = false;
+        isShutdown = false;
+    }
+    else if(data[0] == 'E'){
+
+        isManual = false;
+        isPixhawlk = false;
+        isPID = true;
+        isShutdown = false;
+    }
+    else if(data[0] == 'F'){
+
+        isManual = false;
+        isPixhawlk = false;
+        isPID = false;
+        isShutdown = true;
+    }
+}
 
 // --------------------------------------------------
 
@@ -288,7 +324,7 @@ void servoWrite(void *pvParameters){
     // ---------X----------
 
         // When the joystick is in the middle
-        if(data[0] == 0 && data[1] == 0){
+        if(data[0] == 'C' && data[1] == 'C'){
 
             if((esp_timer_get_time() / 1000) - previousRlMillis >= servoPillTimeout){
 
@@ -306,7 +342,7 @@ void servoWrite(void *pvParameters){
         }
 
         // When the joystick is in the right
-        else if(data[0] == 1){
+        else if(data[0] == 'A'){
 
             previousRlMillis = esp_timer_get_time() / 1000;
 
@@ -318,7 +354,7 @@ void servoWrite(void *pvParameters){
         }
 
         // When the joystick is in the left
-        else if(data[1] == 1){
+        else if(data[0] == 'B'){
 
             previousRlMillis = esp_timer_get_time() / 1000;
 
@@ -334,7 +370,7 @@ void servoWrite(void *pvParameters){
         // ---------Y----------
 
         // When the joystick is in the middle
-        if(data[2] == 0 && data[3] == 0){
+        if(data[1] == 'C' && data[1] == 'C'){
 
             if((esp_timer_get_time() / 1000) - previousUdMillis >= servoPillTimeout){
 
@@ -352,7 +388,7 @@ void servoWrite(void *pvParameters){
         }
 
         // When the joystick is in the bottom
-        else if(data[2] == 1){
+        else if(data[1] == 'B'){
 
             previousUdMillis = esp_timer_get_time() / 1000;
 
@@ -364,7 +400,7 @@ void servoWrite(void *pvParameters){
         }
 
         // When the joystick is in the top
-        else if(data[3] == 1){
+        else if(data[1] == 'A'){
 
             previousUdMillis = esp_timer_get_time() / 1000;
 
@@ -522,6 +558,7 @@ void sendGps(){
 // ---------------------Main-------------------------
 
 #define pixhawlkPin 4
+#define shutdownPin 18
 
 void app_main(void){
 
@@ -543,18 +580,18 @@ void app_main(void){
     // --------GPIO--------
 
     gpio_set_direction(pixhawlkPin, GPIO_MODE_OUTPUT);
+    gpio_set_direction(shutdownPin, GPIO_MODE_OUTPUT);
 
     // --------------------
 
     while(true){
-
-        // printf("Memory: %ld\n", esp_get_free_heap_size());
 
         // -------Manual-------
 
         if(isManual){
 
             gpio_set_level(pixhawlkPin, 0);
+            gpio_set_level(shutdownPin, 0);
 
             if(isManualTaskOpen){
 
@@ -568,7 +605,7 @@ void app_main(void){
         else if(isPixhawlk){
 
             gpio_set_level(pixhawlkPin, 1);
-            isManualTaskOpen = true;
+            gpio_set_level(shutdownPin, 0);
         }
 
         // --------------------
@@ -577,8 +614,18 @@ void app_main(void){
 
         else if(isPID){
 
+            gpio_set_level(shutdownPin, 0);
             gpio_set_level(pixhawlkPin, 0);
-            isManualTaskOpen = true;
+        }
+
+        // --------------------
+
+        // ------Shutdown------
+
+        else if(isShutdown){
+
+            gpio_set_level(pixhawlkPin, 0);
+            gpio_set_level(shutdownPin, 1);
         }
 
         // --------------------
