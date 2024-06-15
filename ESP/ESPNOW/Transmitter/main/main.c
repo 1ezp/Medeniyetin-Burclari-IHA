@@ -117,7 +117,7 @@ void send_cb(const uint8_t *mac_addr, esp_now_send_status_t status){
     }
     else{
 
-        ESP_LOGI(TAG, "Send Failed");
+        // ESP_LOGI(TAG, "Send Failed");
     }
 }
 
@@ -126,12 +126,10 @@ void send_cb(const uint8_t *mac_addr, esp_now_send_status_t status){
 void fixLocation();
 
 float data[2] = {-1, -1};
-bool dataToSend[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+char dataToSend[2] = {'C', 'C'};
 
 int xRaw = 0;
 int yRaw = 0;
-
-bool isTarget = false;
 
 static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data, size_t len){
 
@@ -142,17 +140,6 @@ static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data
 void recv_cb(const esp_now_recv_info_t * esp_now_info, const uint8_t *bilgi, int data_len){
 
     memcpy(data, bilgi, sizeof(data));
-
-    // For handling target existence
-    if((data[0] < 0 && data[0] != -1) || data[0] == 1){
-
-        data[0] = data[0] * -1;
-        isTarget = true;
-    }
-    else{
-
-        isTarget = false;
-    }
 
     // When data is valid lat and lng
     if(data[0] != -1 && data[1] != -1){
@@ -171,34 +158,28 @@ void calculate(){
 
     if(xRaw >= 620 && xRaw <= 780){             // 1.
 
-        dataToSend[0] = 0;
-        dataToSend[1] = 0;
+        dataToSend[0] = 'C';
     }
     else if(xRaw > 780){                        // 2.
 
-        dataToSend[0] = 0;
-        dataToSend[1] = 1;
+        dataToSend[0] = 'B';
     }
     else if(xRaw < 620){                        // 3.
 
-        dataToSend[0] = 1;
-        dataToSend[1] = 0;
+        dataToSend[0] = 'A';
     }
 
     if(yRaw >= 620 && yRaw <= 780){             // 1.
 
-        dataToSend[2] = 0;
-        dataToSend[3] = 0;
+        dataToSend[1] = 'C';
     }
     else if(yRaw > 780){                        // 2.
 
-        dataToSend[2] = 0;
-        dataToSend[3] = 1;
+        dataToSend[1] = 'B';
     }
     else if(yRaw < 620){                        // 3.
 
-        dataToSend[2] = 1;
-        dataToSend[3] = 0;
+        dataToSend[1] = 'A';
     }
 }
 
@@ -227,37 +208,78 @@ void fixLocation(){
 
 // --------------------Buttons-----------------------
 
-#define takeControl_PIN 6
+#define EngageManual_PIN 6
+#define EngagePID_PIN 7
+#define EngageAuto_PIN 15
+#define EngageShutdown_PIN 16
 
-void takeControl_init(){
+void enageAuto_init(){
 
-    gpio_config_t io_conf = {};
-    io_conf.intr_type = GPIO_INTR_DISABLE;
-    io_conf.mode = GPIO_MODE_INPUT;
-    io_conf.pin_bit_mask = (1ULL << takeControl_PIN);
-    io_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;
-    io_conf.pull_up_en = GPIO_PULLUP_ENABLE;
-    gpio_config(&io_conf);
+    gpio_config_t io_conf_Auto;
+    io_conf_Auto.intr_type = GPIO_INTR_DISABLE;
+    io_conf_Auto.mode = GPIO_MODE_INPUT;
+    io_conf_Auto.pin_bit_mask = (1ULL << EngageAuto_PIN);
+    io_conf_Auto.pull_down_en = GPIO_PULLDOWN_DISABLE;
+    io_conf_Auto.pull_up_en = GPIO_PULLUP_ENABLE;
+    gpio_config(&io_conf_Auto);
+}
+
+void engageManual_init(){
+
+    gpio_config_t io_conf_Manual;
+    io_conf_Manual.intr_type = GPIO_INTR_DISABLE;
+    io_conf_Manual.mode = GPIO_MODE_INPUT;
+    io_conf_Manual.pin_bit_mask = (1ULL << EngageManual_PIN);
+    io_conf_Manual.pull_down_en = GPIO_PULLDOWN_DISABLE;
+    io_conf_Manual.pull_up_en = GPIO_PULLUP_ENABLE;
+    gpio_config(&io_conf_Manual);
+}
+
+void enagePID_init(){
+
+    gpio_config_t io_conf_PID;
+    io_conf_PID.intr_type = GPIO_INTR_DISABLE;
+    io_conf_PID.mode = GPIO_MODE_INPUT;
+    io_conf_PID.pin_bit_mask = (1ULL << EngagePID_PIN);
+    io_conf_PID.pull_down_en = GPIO_PULLDOWN_DISABLE;
+    io_conf_PID.pull_up_en = GPIO_PULLUP_ENABLE;
+    gpio_config(&io_conf_PID);
+}
+
+void engageShutdown_init(){
+
+    gpio_config_t io_conf_PID;
+    io_conf_PID.intr_type = GPIO_INTR_DISABLE;
+    io_conf_PID.mode = GPIO_MODE_INPUT;
+    io_conf_PID.pin_bit_mask = (1ULL << EngageShutdown_PIN);
+    io_conf_PID.pull_down_en = GPIO_PULLDOWN_DISABLE;
+    io_conf_PID.pull_up_en = GPIO_PULLUP_ENABLE;
+    gpio_config(&io_conf_PID);
 }
 
 int digitalRead(int pin){
-
     return gpio_get_level(pin);
 }
 
 // --------------------------------------------------
 
-// ---------------------Main-------------------------
+bool isManual = true;
+bool isAuto = false;
+bool isPID = false;
+bool isShutdown = false;
 
-#define isTargetPIN 15
+// ---------------------Main-------------------------
 
 void app_main(void){
 
     ESP_ERROR_CHECK(init_wifi());
     ESP_ERROR_CHECK(init_esp_now());
     ESP_ERROR_CHECK(register_peer(peer_mac));
+    enagePID_init();
+    enageAuto_init();
+    engageManual_init();
+    engageShutdown_init();
 
-    gpio_set_direction(isTargetPIN, GPIO_MODE_OUTPUT);
 
     // -----Joystick-------
 
@@ -287,41 +309,63 @@ void app_main(void){
 
     while(true){
 
-        // ------Joystick------
+        if(digitalRead(EngageManual_PIN) == 0){
 
-        adc_oneshot_read(adc1_handle, ADC_CHANNEL_3, &xRaw);
-        adc_oneshot_read(adc1_handle, ADC_CHANNEL_4, &yRaw);
-
-        xRaw = map(xRaw, 0, 4096, 0, 1024);
-        yRaw = map(yRaw, 0, 4096, 0, 1024);
-
-        calculate();
-
-        // --------------------
-
-        // ------PID Led-------
-
-        if(isTarget){
-
-            gpio_set_level(isTargetPIN, 1);
+            isManual = true;
+            isAuto = false;
+            isPID = false;
+            isShutdown = false;
         }
-        else{
+        else if(digitalRead(EngageAuto_PIN) == 0){
 
-            gpio_set_level(isTargetPIN, 0);
+            isManual = false;
+            isAuto = true;
+            isPID = false;
+            isShutdown = false;
+        }
+        else if(digitalRead(EngagePID_PIN) == 0 /*&& data[2] != -1*/){
+
+            isManual = false;
+            isAuto = false;
+            isPID = true;
+            isShutdown = false;
+        }
+        else if(digitalRead(EngageShutdown_PIN) == 0){
+
+            isManual = false;
+            isAuto = false;
+            isPID = false;
+            isShutdown = true;
         }
 
-        // --------------------
+        if(isManual){
 
-        // --------------------
+            // ------Joystick------
 
-        printf("Read: %d\n", digitalRead(takeControl_PIN));
-        if(digitalRead(takeControl_PIN) == 0){
+            adc_oneshot_read(adc1_handle, ADC_CHANNEL_3, &xRaw);
+            adc_oneshot_read(adc1_handle, ADC_CHANNEL_4, &yRaw);
 
-            dataToSend[4] = 1;
+            xRaw = map(xRaw, 0, 4096, 0, 1024);
+            yRaw = map(yRaw, 0, 4096, 0, 1024);
+
+            calculate();
+
+            // --------------------
         }
-        else{
+        else if(isAuto){
 
-            dataToSend[4] = 0;
+            dataToSend[0] = 'D';
+            dataToSend[1] = 'D';
+        }
+        else if(isPID){
+
+            dataToSend[0] = 'E';
+            dataToSend[1] = 'E';
+        }
+        else if(isShutdown){
+
+            dataToSend[0] = 'F';
+            dataToSend[1] = 'F';
         }
 
         // -------Send---------
