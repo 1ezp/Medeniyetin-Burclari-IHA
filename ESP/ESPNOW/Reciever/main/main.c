@@ -2,6 +2,7 @@
 
 // C
 #include <stdio.h>
+#include <stdlib.h>
 // freeRTOS
 #include <freertos/FreeRTOS.h>
 #include <freertos/timers.h>
@@ -28,6 +29,7 @@
 // Servo
 #include "driver/mcpwm_prelude.h"
 #include "driver/adc.h"
+#include "math.h"
 
 // --------------------------------------------------
 
@@ -124,7 +126,7 @@ void send_cb(const uint8_t *mac_addr, esp_now_send_status_t status){
 
 // ----------
 
-char data[2] = {'C', 'C'};
+char data[3] = {'C', 'C', 'A'};
 float dataToSend[2] = {-1, -1};
 
 bool isManual = true;
@@ -133,6 +135,8 @@ bool isPID = false;
 bool isShutdown = false;
 
 bool isTarget = true;               // When the AI camera has the target's location
+
+long long int timeoutMillis = 0;
 
 static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data, size_t len){
 
@@ -145,6 +149,7 @@ void recv_cb(const esp_now_recv_info_t * esp_now_info, const uint8_t *bilgi, int
 
     // ESP_LOGI(TAG, "Data Received: " MACSTR " %s", MAC2STR(esp_now_info->src_addr), bilgi);
     memcpy(data, bilgi, sizeof(data));
+    timeoutMillis =  esp_timer_get_time() / 1000;
     checkMode();
 }
 
@@ -158,7 +163,10 @@ void checkMode(){
 
     if(data[0] == 'C' || data[0] == 'A' || data[0] == 'B'){
 
-        // Nothing
+        isManual = true;
+        isPixhawlk = false;
+        isPID = false;
+        isShutdown = false;
     }
     else if(data[0] == 'D'){
 
@@ -208,11 +216,14 @@ static inline uint32_t example_angle_to_compare(int angle){
 
 // ------------------ServoTask-----------------------
 
+// Task locking
 bool isManualTaskOpen = true;
 
+// X, Y angles
 short int currentXAngle = 0;
 short int currentYAngle = 0;
 
+// Sensetivity
 long long int previousRlMillis = 0;
 long long int previousUdMillis = 0;
 
@@ -222,6 +233,32 @@ long long int sensetivityY = 0;
 #define sensitivityTimeout 75
 #define servoPillTimeout 10
 
+// PWM timers
+bool didntAssignTimer = true;
+
+// Speed Motor
+double speed = 0;
+
+#define motorTimerNum            LEDC_TIMER_2
+#define motorMode                LEDC_LOW_SPEED_MODE
+#define motorChannelNum          LEDC_CHANNEL_2
+#define motorDutyRes             LEDC_TIMER_8_BIT
+#define motorFreq                (4000)
+
+int motorDuty = (256);
+#define motorOutputPin       (5)
+
+// Pre-declaring
+mcpwm_timer_handle_t rlTimer = NULL;
+mcpwm_oper_handle_t rlOper = NULL;
+mcpwm_cmpr_handle_t rlComparator = NULL;
+mcpwm_gen_handle_t rlGenerator = NULL;
+
+mcpwm_timer_handle_t udTimer = NULL;
+mcpwm_oper_handle_t udOper = NULL;
+mcpwm_cmpr_handle_t udComparator = NULL;
+mcpwm_gen_handle_t udGenerator = NULL;
+
 void servoWrite(void *pvParameters){
 
     // -------Task---------
@@ -230,87 +267,84 @@ void servoWrite(void *pvParameters){
 
     // --------------------
 
-    // ------rlServo-------
+    if(didntAssignTimer){
 
-    mcpwm_timer_handle_t rlTimer = NULL;
-    mcpwm_timer_config_t rlTimer_config = {
-        .group_id = 0,
-        .clk_src = MCPWM_TIMER_CLK_SRC_DEFAULT,
-        .resolution_hz = SERVO_TIMEBASE_RESOLUTION_HZ,
-        .period_ticks = SERVO_TIMEBASE_PERIOD,
-        .count_mode = MCPWM_TIMER_COUNT_MODE_UP,
-    };
-    ESP_ERROR_CHECK(mcpwm_new_timer(&rlTimer_config, &rlTimer));
+        didntAssignTimer = false;
 
-    mcpwm_oper_handle_t rlOper = NULL;
-    mcpwm_operator_config_t rlOper_config = {
-        .group_id = 0, // operator must be in the same group to the timer
-    };
-    ESP_ERROR_CHECK(mcpwm_new_operator(&rlOper_config, &rlOper));
+        // ------rlServo-------
 
-    ESP_ERROR_CHECK(mcpwm_operator_connect_timer(rlOper, rlTimer));
+        mcpwm_timer_config_t rlTimer_config = {
+            .group_id = 0,
+            .clk_src = MCPWM_TIMER_CLK_SRC_DEFAULT,
+            .resolution_hz = SERVO_TIMEBASE_RESOLUTION_HZ,
+            .period_ticks = SERVO_TIMEBASE_PERIOD,
+            .count_mode = MCPWM_TIMER_COUNT_MODE_UP,
+        };
+        ESP_ERROR_CHECK(mcpwm_new_timer(&rlTimer_config, &rlTimer));
 
-    mcpwm_cmpr_handle_t rlComparator = NULL;
-    mcpwm_comparator_config_t rlComparator_config = {
-        .flags.update_cmp_on_tez = true,
-    };
-    ESP_ERROR_CHECK(mcpwm_new_comparator(rlOper, &rlComparator_config, &rlComparator));
+        mcpwm_operator_config_t rlOper_config = {
+            .group_id = 0, // operator must be in the same group to the timer
+        };
+        ESP_ERROR_CHECK(mcpwm_new_operator(&rlOper_config, &rlOper));
 
-    mcpwm_gen_handle_t rlGenerator = NULL;
-    mcpwm_generator_config_t rlGenerator_config = {
-        .gen_gpio_num = SERVO_PULSE_GPIO_RL,
-    };
-    ESP_ERROR_CHECK(mcpwm_new_generator(rlOper, &rlGenerator_config, &rlGenerator));
+        ESP_ERROR_CHECK(mcpwm_operator_connect_timer(rlOper, rlTimer));
 
-    ESP_ERROR_CHECK(mcpwm_generator_set_action_on_timer_event(rlGenerator,
-                                                              MCPWM_GEN_TIMER_EVENT_ACTION(MCPWM_TIMER_DIRECTION_UP, MCPWM_TIMER_EVENT_EMPTY, MCPWM_GEN_ACTION_HIGH)));
-    ESP_ERROR_CHECK(mcpwm_generator_set_action_on_compare_event(rlGenerator,
-                                                                MCPWM_GEN_COMPARE_EVENT_ACTION(MCPWM_TIMER_DIRECTION_UP, rlComparator, MCPWM_GEN_ACTION_LOW)));
+        mcpwm_comparator_config_t rlComparator_config = {
+            .flags.update_cmp_on_tez = true,
+        };
+        ESP_ERROR_CHECK(mcpwm_new_comparator(rlOper, &rlComparator_config, &rlComparator));
 
-    ESP_ERROR_CHECK(mcpwm_timer_enable(rlTimer));
-    ESP_ERROR_CHECK(mcpwm_timer_start_stop(rlTimer, MCPWM_TIMER_START_NO_STOP));
+        mcpwm_generator_config_t rlGenerator_config = {
+            .gen_gpio_num = SERVO_PULSE_GPIO_RL,
+        };
+        ESP_ERROR_CHECK(mcpwm_new_generator(rlOper, &rlGenerator_config, &rlGenerator));
 
-    // --------------------
+        ESP_ERROR_CHECK(mcpwm_generator_set_action_on_timer_event(rlGenerator,
+                                                                  MCPWM_GEN_TIMER_EVENT_ACTION(MCPWM_TIMER_DIRECTION_UP, MCPWM_TIMER_EVENT_EMPTY, MCPWM_GEN_ACTION_HIGH)));
+        ESP_ERROR_CHECK(mcpwm_generator_set_action_on_compare_event(rlGenerator,
+                                                                    MCPWM_GEN_COMPARE_EVENT_ACTION(MCPWM_TIMER_DIRECTION_UP, rlComparator, MCPWM_GEN_ACTION_LOW)));
 
-    // ------udServo-------
+        ESP_ERROR_CHECK(mcpwm_timer_enable(rlTimer));
+        ESP_ERROR_CHECK(mcpwm_timer_start_stop(rlTimer, MCPWM_TIMER_START_NO_STOP));
 
-    mcpwm_timer_handle_t udTimer = NULL;
-    mcpwm_timer_config_t udTimer_config = {
-        .group_id = 1,
-        .clk_src = MCPWM_TIMER_CLK_SRC_DEFAULT,
-        .resolution_hz = SERVO_TIMEBASE_RESOLUTION_HZ,
-        .period_ticks = SERVO_TIMEBASE_PERIOD,
-        .count_mode = MCPWM_TIMER_COUNT_MODE_UP,
-    };
-    ESP_ERROR_CHECK(mcpwm_new_timer(&udTimer_config, &udTimer));
+        // --------------------
 
-    mcpwm_oper_handle_t udOper = NULL;
-    mcpwm_operator_config_t udOper_config = {
-        .group_id = 1, // operator must be in the same group to the timer
-    };
-    ESP_ERROR_CHECK(mcpwm_new_operator(&udOper_config, &udOper));
+        // ------udServo-------
 
-    ESP_ERROR_CHECK(mcpwm_operator_connect_timer(udOper, udTimer));
+        mcpwm_timer_config_t udTimer_config = {
+            .group_id = 1,
+            .clk_src = MCPWM_TIMER_CLK_SRC_DEFAULT,
+            .resolution_hz = SERVO_TIMEBASE_RESOLUTION_HZ,
+            .period_ticks = SERVO_TIMEBASE_PERIOD,
+            .count_mode = MCPWM_TIMER_COUNT_MODE_UP,
+        };
+        ESP_ERROR_CHECK(mcpwm_new_timer(&udTimer_config, &udTimer));
 
-    mcpwm_cmpr_handle_t udComparator = NULL;
-    mcpwm_comparator_config_t udComparator_config = {
-        .flags.update_cmp_on_tez = true,
-    };
-    ESP_ERROR_CHECK(mcpwm_new_comparator(udOper, &udComparator_config, &udComparator));
+        mcpwm_operator_config_t udOper_config = {
+            .group_id = 1, // operator must be in the same group to the timer
+        };
+        ESP_ERROR_CHECK(mcpwm_new_operator(&udOper_config, &udOper));
 
-    mcpwm_gen_handle_t udGenerator = NULL;
-    mcpwm_generator_config_t udGenerator_config = {
-        .gen_gpio_num = SERVO_PULSE_GPIO_UD,
-    };
-    ESP_ERROR_CHECK(mcpwm_new_generator(udOper, &udGenerator_config, &udGenerator));
+        ESP_ERROR_CHECK(mcpwm_operator_connect_timer(udOper, udTimer));
 
-    ESP_ERROR_CHECK(mcpwm_generator_set_action_on_timer_event(udGenerator,
-                                                              MCPWM_GEN_TIMER_EVENT_ACTION(MCPWM_TIMER_DIRECTION_UP, MCPWM_TIMER_EVENT_EMPTY, MCPWM_GEN_ACTION_HIGH)));
-    ESP_ERROR_CHECK(mcpwm_generator_set_action_on_compare_event(udGenerator,
-                                                                MCPWM_GEN_COMPARE_EVENT_ACTION(MCPWM_TIMER_DIRECTION_UP, udComparator, MCPWM_GEN_ACTION_LOW)));
+        mcpwm_comparator_config_t udComparator_config = {
+            .flags.update_cmp_on_tez = true,
+        };
+        ESP_ERROR_CHECK(mcpwm_new_comparator(udOper, &udComparator_config, &udComparator));
 
-    ESP_ERROR_CHECK(mcpwm_timer_enable(udTimer));
-    ESP_ERROR_CHECK(mcpwm_timer_start_stop(udTimer, MCPWM_TIMER_START_NO_STOP));
+        mcpwm_generator_config_t udGenerator_config = {
+            .gen_gpio_num = SERVO_PULSE_GPIO_UD,
+        };
+        ESP_ERROR_CHECK(mcpwm_new_generator(udOper, &udGenerator_config, &udGenerator));
+
+        ESP_ERROR_CHECK(mcpwm_generator_set_action_on_timer_event(udGenerator,
+                                                                  MCPWM_GEN_TIMER_EVENT_ACTION(MCPWM_TIMER_DIRECTION_UP, MCPWM_TIMER_EVENT_EMPTY, MCPWM_GEN_ACTION_HIGH)));
+        ESP_ERROR_CHECK(mcpwm_generator_set_action_on_compare_event(udGenerator,
+                                                                    MCPWM_GEN_COMPARE_EVENT_ACTION(MCPWM_TIMER_DIRECTION_UP, udComparator, MCPWM_GEN_ACTION_LOW)));
+
+        ESP_ERROR_CHECK(mcpwm_timer_enable(udTimer));
+        ESP_ERROR_CHECK(mcpwm_timer_start_stop(udTimer, MCPWM_TIMER_START_NO_STOP));
+    }
 
     // --------------------
 
@@ -434,10 +468,28 @@ void servoWrite(void *pvParameters){
 
         // --------------------
 
+        // --------------------
+
+        if(data[2] != 'A'){
+
+            double rangePerChar = 1024.0 / 26.0;
+            int charIndex = data[2] - 'A' + 1;
+            speed = charIndex * rangePerChar;
+            speed = (int)round(speed);
+        }
+        else{
+
+            speed = 0.0;
+        }
+
+        // --------------------
+
         // -------Write--------
 
+        printf("%f\n", speed);
         ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(rlComparator, example_angle_to_compare(currentXAngle)));
         ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(udComparator, example_angle_to_compare(currentYAngle)));
+        analogWrite(motorMode, motorChannelNum, speed);
         delay(10);
 
         // --------------------
@@ -447,6 +499,7 @@ void servoWrite(void *pvParameters){
 
     // --------Task---------
 
+    analogWrite(motorMode, motorChannelNum, 0);
     isManualTaskOpen = true;
     vTaskDelete(NULL);
 
@@ -555,16 +608,60 @@ void sendGps(){
 // --------------------------------------------------
 
 
-// ---------------------Main-------------------------
+// --------------------PinSetup----------------------
 
 #define pixhawlkPin 4
-#define shutdownPin 18
+#define shutdownPin 6
+
+void initPins(){
+
+    gpio_config_t io_conf;
+    io_conf.intr_type = GPIO_INTR_DISABLE;
+    io_conf.mode = GPIO_MODE_OUTPUT;
+    io_conf.pin_bit_mask = (1ULL << pixhawlkPin) | (1ULL << shutdownPin);
+    io_conf.pull_down_en = 0;
+    io_conf.pull_up_en = 0;
+    gpio_config(&io_conf);
+}
+
+static void motorInit(void){
+
+    // motor timer configuration
+    ledc_timer_config_t motorTimer = {
+
+        .speed_mode       = motorMode,
+        .duty_resolution  = motorDutyRes,
+        .timer_num        = motorTimerNum,
+        .freq_hz          = motorFreq,
+        .clk_cfg          = LEDC_AUTO_CLK
+    };
+    ESP_ERROR_CHECK(ledc_timer_config(&motorTimer));
+
+    // motor channel configuration
+    ledc_channel_config_t motorChannel = {
+        .speed_mode     = motorMode,
+        .channel        = motorChannelNum,
+        .timer_sel      = motorTimerNum,
+        .intr_type      = LEDC_INTR_DISABLE,
+        .gpio_num       = motorOutputPin,
+        .duty           = 0,
+        .hpoint         = 0
+    };
+    ESP_ERROR_CHECK(ledc_channel_config(&motorChannel));
+}
+
+// --------------------------------------------------
+
+
+// ---------------------Main-------------------------
 
 void app_main(void){
 
     ESP_ERROR_CHECK(init_wifi());
     ESP_ERROR_CHECK(init_esp_now());
     ESP_ERROR_CHECK(register_peer(peer_mac));
+    initPins();
+    motorInit();
 
     // --------GPS---------
 
@@ -574,13 +671,6 @@ void app_main(void){
     // --------------------
 
     xTaskCreate(sendGps, "sendGps", 1024*2, NULL, 1, NULL);
-
-    // --------------------
-
-    // --------GPIO--------
-
-    gpio_set_direction(pixhawlkPin, GPIO_MODE_OUTPUT);
-    gpio_set_direction(shutdownPin, GPIO_MODE_OUTPUT);
 
     // --------------------
 
@@ -614,8 +704,8 @@ void app_main(void){
 
         else if(isPID){
 
-            gpio_set_level(shutdownPin, 0);
             gpio_set_level(pixhawlkPin, 0);
+            gpio_set_level(shutdownPin, 0);
         }
 
         // --------------------
@@ -626,6 +716,21 @@ void app_main(void){
 
             gpio_set_level(pixhawlkPin, 0);
             gpio_set_level(shutdownPin, 1);
+        }
+
+        // --------------------
+
+        // ------Timeout-------
+
+        if((esp_timer_get_time() / 1000) - timeoutMillis >= 100){
+
+            if(isManual){
+
+                isManual = false;
+                isPixhawlk = true;
+                isPID = false;
+                isShutdown = false;
+            }
         }
 
         // --------------------
