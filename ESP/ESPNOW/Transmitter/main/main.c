@@ -78,6 +78,21 @@ static esp_err_t init_wifi(void){
     esp_wifi_set_mode(WIFI_MODE_STA);
     esp_wifi_set_storage(WIFI_STORAGE_FLASH);
 
+    // Use 802.11b for better range
+    esp_wifi_set_protocol(WIFI_IF_STA, WIFI_PROTOCOL_11B);
+
+    // Set long range mode
+    esp_wifi_set_protocol(WIFI_IF_STA, WIFI_PROTOCOL_LR);
+
+    // Set Wi-Fi transmission power to maximum
+    esp_wifi_set_max_tx_power(84);
+
+    // Set the lowest phy rate for maximum range
+    esp_wifi_config_espnow_rate(WIFI_IF_STA, WIFI_PHY_RATE_LORA_250K);
+
+    // Set power saving to none
+    esp_wifi_set_ps(WIFI_PS_NONE);
+
     esp_wifi_start();
 
     ESP_LOGI(TAG, "Wifi Init Completed");
@@ -134,6 +149,9 @@ my_data_t data;
 
 char dataToSend[3] = {'C', 'C', 'A'};
 
+long long int timeoutMillis = 0;
+char timeoutChar = 'B';
+
 static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data, size_t len){
 
     esp_now_send(peer_addr, data, len);
@@ -143,6 +161,9 @@ static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data
 void recv_cb(const esp_now_recv_info_t * esp_now_info, const uint8_t *bilgi, int data_len){
 
     memcpy(&data, bilgi, sizeof(data));
+
+    timeoutMillis =  esp_timer_get_time() / 1000;
+    timeoutChar = 'A';
 
     // When data is valid lat and lng
     if(data.gpsLatLng[0] != -1 && data.gpsLatLng[1] != -1){
@@ -411,6 +432,21 @@ void app_main(void){
             dataToSend[0] = 'F';
             dataToSend[1] = 'F';
         }
+
+        // ------Timeout-------
+
+        if((esp_timer_get_time() / 1000) - timeoutMillis >= 100){
+
+            timeoutChar = 'B';
+        }
+
+        // --------------------
+
+        // --------------------
+
+        printf("%f:%f:%hd:%hd:%c\n", data.gpsLatLng[0], data.gpsLatLng[1], data.targetLocation[0], data.targetLocation[1], timeoutChar);
+
+        // --------------------
 
         // -------Send---------
 
