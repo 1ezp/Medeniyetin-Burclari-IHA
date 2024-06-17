@@ -3,16 +3,16 @@ import serial
 import serial.tools.list_ports
 import os,time
 
-port = "COM5"
-ser = serial.Serial(port, 115200, timeout=.1)
 
 def start():
+   port = "COM8"
+   ser = serial.Serial(port, 115200, timeout=.1)
 
    while True:
       try:
          recivedData = ser.readline().decode()
          if recivedData != '':
-            data = recivedData.split(",")
+            data = recivedData.split(":")
             if data[0] == 0 and data[1] == 0:
                IHA.update({"Lat": -1, "Long": -1})   
             else: 
