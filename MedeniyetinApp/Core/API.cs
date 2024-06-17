@@ -10,14 +10,7 @@ using System.Threading.Tasks;
 namespace MedeniyetinApp.Core
 {
 
-    public class GPSInfo
-    {
-        [JsonProperty("Lat")]
-        public double Latitude { get; set; }
-
-        [JsonProperty("Long")]
-        public double Longitude { get; set; }
-    }
+    
 
 
     public class API
@@ -44,6 +37,20 @@ namespace MedeniyetinApp.Core
         {
             GPSInfo gpsInfo = null;
             HttpResponseMessage response = client.GetAsync(Base + "IKA").Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string json = response.Content.ReadAsStringAsync().Result;
+                gpsInfo = JsonConvert.DeserializeObject<GPSInfo>(json);
+            }
+
+            return gpsInfo;
+        }
+
+        public GPSInfo YERGps()
+        {
+            GPSInfo gpsInfo = null;
+            HttpResponseMessage response = client.GetAsync(Base + "YER").Result;
 
             if (response.IsSuccessStatusCode)
             {
