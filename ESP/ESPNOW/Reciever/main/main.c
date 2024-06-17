@@ -126,8 +126,14 @@ void send_cb(const uint8_t *mac_addr, esp_now_send_status_t status){
 
 // ----------
 
+typedef struct {
+    float gpsLatLng[2];
+    short int targetLocation[2];
+} my_data_t;
+
+my_data_t dataToSend;
+
 char data[3] = {'C', 'C', 'A'};
-float dataToSend[2] = {-1, -1};
 
 bool isManual = true;
 bool isPixhawlk = false;
@@ -242,7 +248,7 @@ double speed = 0;
 #define motorTimerNum            LEDC_TIMER_2
 #define motorMode                LEDC_LOW_SPEED_MODE
 #define motorChannelNum          LEDC_CHANNEL_2
-#define motorDutyRes             LEDC_TIMER_8_BIT
+#define motorDutyRes             LEDC_TIMER_10_BIT
 #define motorFreq                (4000)
 
 int motorDuty = (256);
@@ -559,13 +565,13 @@ void gpsRead(){
                 // Extract latitude and longitude
                 if(sscanf(gngll, "$GNGLL,%f,N,%f,E", &latitude, &longitude) == 2){
 
-                    dataToSend[0] = latitude;
-                    dataToSend[1] = longitude;
+                    dataToSend.gpsLatLng[0] = latitude;
+                    dataToSend.gpsLatLng[1] = longitude;
                 }
                 else{
 
-                    latitude = -1;
-                    longitude = -1;
+                    dataToSend.gpsLatLng[0] = -1;
+                    dataToSend.gpsLatLng[1] = -1;
                 }
 
                 isWritingGpsBusy = false;
@@ -588,16 +594,7 @@ void sendGps(){
 
         while(!isWritingGpsBusy){
 
-            if(isTarget && dataToSend[0] > 0){
-
-                dataToSend[0] = dataToSend[0] * -1;
-            }
-            else if(!isTarget && dataToSend[0] < 0){
-
-                dataToSend[0] = dataToSend[0] * -1;
-            }
-
-            esp_now_send_data(peer_mac, (const uint8_t *)dataToSend, sizeof(dataToSend));
+            esp_now_send_data(peer_mac, (const uint8_t *)&dataToSend, sizeof(dataToSend));
             delay(10);
         }
 
@@ -662,6 +659,12 @@ void app_main(void){
     ESP_ERROR_CHECK(register_peer(peer_mac));
     initPins();
     motorInit();
+
+    dataToSend.gpsLatLng[0] = -1;
+    dataToSend.gpsLatLng[1] = -1;
+    dataToSend.targetLocation[0] = -1;
+    dataToSend.targetLocation[1] = -1;
+
 
     // --------GPS---------
 
