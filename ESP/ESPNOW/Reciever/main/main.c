@@ -81,6 +81,21 @@ static esp_err_t init_wifi(void){
     esp_wifi_set_mode(WIFI_MODE_STA);
     esp_wifi_set_storage(WIFI_STORAGE_FLASH);
 
+    // Use 802.11b for better range
+    esp_wifi_set_protocol(WIFI_IF_STA, WIFI_PROTOCOL_11B);
+
+    // Set long range mode
+    esp_wifi_set_protocol(WIFI_IF_STA, WIFI_PROTOCOL_LR);
+
+    // Set Wi-Fi transmission power to maximum
+    esp_wifi_set_max_tx_power(84);
+
+    // Set the lowest phy rate for maximum range
+    esp_wifi_config_espnow_rate(WIFI_IF_STA, WIFI_PHY_RATE_LORA_250K);
+
+    // Set power saving to none
+    esp_wifi_set_ps(WIFI_PS_NONE);
+
     esp_wifi_start();
 
     ESP_LOGI(TAG, "Wifi Init Completed");
