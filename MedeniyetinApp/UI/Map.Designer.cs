@@ -42,7 +42,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1388, 20);
+            this.panel1.Size = new System.Drawing.Size(1388, 16);
             this.panel1.TabIndex = 0;
             this.panel1.DoubleClick += new System.EventHandler(this.panel1_DoubleClick);
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
@@ -70,9 +70,9 @@
             // 
             this.pnlMap.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pnlMap.Location = new System.Drawing.Point(0, 20);
+            this.pnlMap.Location = new System.Drawing.Point(0, 16);
             this.pnlMap.Name = "pnlMap";
-            this.pnlMap.Size = new System.Drawing.Size(1388, 683);
+            this.pnlMap.Size = new System.Drawing.Size(1388, 687);
             this.pnlMap.TabIndex = 1;
             // 
             // Map

@@ -41,9 +41,10 @@ namespace MedeniyetinApp.UI
             
             Invoke((MethodInvoker)delegate
             {
-                Bitmap bmp = (Bitmap)e.Frame.Clone();
+            
                 pnlX.Text = panel2.Height.ToString();
                 pnlY.Text = panel2.Width.ToString();
+                Bitmap bmp = (Bitmap)e.Frame.Clone();
 
 
 
@@ -55,6 +56,8 @@ namespace MedeniyetinApp.UI
 
                 DrawRedDot(bmp, Convert.ToInt32(y), Convert.ToInt32(x), 50);
                 cameraBox.Image = bmp;
+            
+            
             });
             
         }

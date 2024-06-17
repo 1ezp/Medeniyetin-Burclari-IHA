@@ -18,6 +18,7 @@ using System.Threading;
 using System.Linq.Expressions;
 using System.Security.Cryptography;
 
+
 namespace MedeniyetinApp.UI
 {
     public partial class Map : Form
@@ -33,11 +34,9 @@ namespace MedeniyetinApp.UI
         GMapControl map = new GMapControl();
 
         // points
-        GMarkerGoogle IhaMarker = new GMarkerGoogle(new PointLatLng(0, 0), GMarkerGoogleType.red);
-
-
-        GMarkerGoogle IkaMarker = new GMarkerGoogle(new PointLatLng(0, 0), GMarkerGoogleType.blue);
-
+        GMarkerGoogle IhaMarker = new GMarkerGoogle(new PointLatLng(-1, -1), GMarkerGoogleType.red);
+        GMarkerGoogle IkaMarker = new GMarkerGoogle(new PointLatLng(-1, -1), GMarkerGoogleType.blue);
+        GMarkerGoogle YerMarker = new GMarkerGoogle(new PointLatLng(-1, -1), GMarkerGoogleType.orange);
 
         public Map(String port)
         {
@@ -45,17 +44,10 @@ namespace MedeniyetinApp.UI
             LoadMap();
 
 
-            // IHA
             BackgroundWorker updateWorker = new BackgroundWorker();
             updateWorker.WorkerSupportsCancellation = true;
             updateWorker.DoWork += UpdateWorker_DoWork;
             updateWorker.RunWorkerAsync();
-
-            // IKA
-            BackgroundWorker IkaWorker = new BackgroundWorker();
-            IkaWorker.WorkerSupportsCancellation = true;
-            IkaWorker.DoWork += IkaWorker_DoWork;
-            //IkaWorker.RunWorkerAsync();
 
 
         }
@@ -65,12 +57,15 @@ namespace MedeniyetinApp.UI
         private void UpdateWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
-
+            Server server = new Server();
             while (true)
             {
 
-                GPSInfo IhaGpsInfo = api.IHAGps();
-                GPSInfo IkaGpsInfo = api.IKAGps();
+                //GPSInfo IhaGpsInfo = api.IHAGps();
+                GPSInfo IhaGpsInfo = server.IHAGps();
+
+                GPSInfo IkaGpsInfo = server.IKAGps();
+                GPSInfo YerGpsInfo = server.YERGps();
 
 
                 double IhaLat = Convert.ToDouble(IhaGpsInfo.Latitude );
@@ -78,6 +73,10 @@ namespace MedeniyetinApp.UI
 
                 double IkaLat = Convert.ToDouble(IkaGpsInfo.Latitude);
                 double IkaLng = Convert.ToDouble(IkaGpsInfo.Longitude);
+
+                double YerLat = Convert.ToDouble(YerGpsInfo.Latitude);
+                    double YerLng = Convert.ToDouble(YerGpsInfo.Longitude);
+
                 Invoke((MethodInvoker)delegate
                 {
 
@@ -90,11 +89,8 @@ namespace MedeniyetinApp.UI
                     }
                     else
                     {
-                        //removeMarker(IhaMarker)
-                        //removeIHA();
                         removeMarker(IhaMarker);
-                        addMarker(IhaMarker, IhaLat, IhaLng, GMarkerGoogleType.red, "IHA");
-                        //addIHA(lat, lng, GMarkerGoogleType.red, "IHA");
+                        addMarker(IhaMarker, IhaLat, IhaLng, "IHA");
                     
                     }
                     if (IkaLat ==  -1.0 && IkaLng == -1.0)
@@ -103,51 +99,33 @@ namespace MedeniyetinApp.UI
                     }else
                     {
                         removeMarker(IkaMarker);
-                        addMarker(IkaMarker, IkaLat, IkaLng, GMarkerGoogleType.red, "IKA");
+                        addMarker(IkaMarker, IkaLat, IkaLng, "IKA");
 
                     }
-                });
 
-            }
-        }
-
-        private void IkaWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker worker = sender as BackgroundWorker;
-
-            while (true)
-            {
-
-                GPSInfo gpsInfo = api.IKAGps();
-
-
-                double lat = Convert.ToDouble(gpsInfo.Latitude);
-                double lng = Convert.ToDouble(gpsInfo.Longitude);
-                Invoke((MethodInvoker)delegate
-                {
-
-                    labelLat.Text = Convert.ToString(lat);
-                    labelLng.Text = Convert.ToString(lng);
-                    if (lat == -1.0 || lng == -1.0)
+                    if (YerLat == -1.0 && YerLng == -1.0)
                     {
-
-                        removeMarker(IkaMarker);
+                        removeMarker(YerMarker);
                     }
                     else
                     {
-                        removeMarker(IkaMarker);
-                        addMarker(IkaMarker, lat, lng, GMarkerGoogleType.blue, "IKA");
+                        removeMarker(YerMarker);
+                        addMarker(YerMarker, YerLat, YerLng, "YER");
+
                     }
                 });
 
             }
         }
+
+       
 
 
         private void LoadMap()
         {
             GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
             map.SetPositionByKeywords("kayseri, Turkey");
+            map.Position = new PointLatLng(38.7225, 35.4875);
             map.ShowCenter = false;
 
 
@@ -189,7 +167,7 @@ namespace MedeniyetinApp.UI
 
 
         }
-        private void addMarker(GMarkerGoogle marker, double x, double y, GMarkerGoogleType color, String title)
+        private void addMarker(GMarkerGoogle marker, double x, double y, String title)
         {
 
             
