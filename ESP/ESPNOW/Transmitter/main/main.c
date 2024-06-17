@@ -125,7 +125,13 @@ void send_cb(const uint8_t *mac_addr, esp_now_send_status_t status){
 
 void fixLocation();
 
-float data[2] = {-1, -1};
+typedef struct {
+    float gpsLatLng[2];
+    short int targetLocation[2];
+} my_data_t;
+
+my_data_t data;
+
 char dataToSend[3] = {'C', 'C', 'A'};
 
 static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data, size_t len){
@@ -136,13 +142,15 @@ static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data
 
 void recv_cb(const esp_now_recv_info_t * esp_now_info, const uint8_t *bilgi, int data_len){
 
-    memcpy(data, bilgi, sizeof(data));
+    memcpy(&data, bilgi, sizeof(data));
 
     // When data is valid lat and lng
-    if(data[0] != -1 && data[1] != -1){
+    if(data.gpsLatLng[0] != -1 && data.gpsLatLng[1] != -1){
 
         fixLocation();
     }
+
+    printf("X:%hd   ,   Y:%hd\n", data.targetLocation[0], data.targetLocation[1]);
 }
 
 // ----------
@@ -200,12 +208,12 @@ float real_lng = -1;
 
 void fixLocation(){
 
-    int degrees = (int)data[0] / 100;
-    float minutes = data[0] - ((float) degrees * 100.0);
+    int degrees = (int)data.gpsLatLng[0] / 100;
+    float minutes = data.gpsLatLng[0] - ((float) degrees * 100.0);
     real_lat = degrees + (minutes / 60.0);
 
-    degrees = (int)data[1] / 100;
-    minutes = data[1] - ((float) degrees * 100.0);
+    degrees = (int)data.gpsLatLng[1] / 100;
+    minutes = data.gpsLatLng[1] - ((float) degrees * 100.0);
     real_lng = degrees + (minutes / 60.0);
 
     printf("lat: %f\t\tlng: %f\n", real_lat, real_lng);
@@ -286,6 +294,12 @@ void app_main(void){
     enageAuto_init();
     engageManual_init();
     engageShutdown_init();
+
+    data.gpsLatLng[0] = -1;
+    data.gpsLatLng[1] = -1;
+    data.targetLocation[0] = -1;
+    data.targetLocation[0] = -1;
+
 
 
     // -----Joystick-------
@@ -400,7 +414,6 @@ void app_main(void){
 
         // -------Send---------
 
-        printf("%c  ,  %c\n", dataToSend[0], dataToSend[2]);
         esp_now_send_data(peer_mac, (const uint8_t *)dataToSend, sizeof(dataToSend));
         delay(10);
 
