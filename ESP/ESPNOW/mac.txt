@@ -1,0 +1,2 @@
+Transmitter Mac:     48:27:e2:fc:30:7c
+Receiver Mac:        48:27:e2:fc:2f:18  Wire
