@@ -12,6 +12,7 @@ using MedeniyetinApp.UI;
 using AForge.Video;
 using AForge.Video.DirectShow;
 using System.Net.Http;
+using MedeniyetinApp.Core;
 
 
 namespace MedeniyetinApp.UI
@@ -22,14 +23,14 @@ namespace MedeniyetinApp.UI
         
         String host;
         MJPEGStream stream;
-
+        private Server server;
         private Point mouseLocation;
         bool isMax = false;
-
         public Camera(string host)
         {
             InitializeComponent();
             this.host = host;
+            server = new Server();
             changeRes();
             String url = $"http://{host}:81/stream";
             stream = new MJPEGStream(url);
@@ -41,21 +42,22 @@ namespace MedeniyetinApp.UI
             
             Invoke((MethodInvoker)delegate
             {
-            
+
+                TargetInfo targetInfo = server.TargetData();
                 pnlX.Text = panel2.Height.ToString();
                 pnlY.Text = panel2.Width.ToString();
                 Bitmap bmp = (Bitmap)e.Frame.Clone();
+                Bitmap resizedBmp = new Bitmap(bmp, panel2.Width, panel2.Height);
 
 
-
-                double x =  (Convert.ToDouble(panel2.Height) / 360.0 * 180.0) - 25;
-                double y = (Convert.ToDouble(panel2.Width) / 240.0 * 120.0) - 25;
+                double x =  (Convert.ToDouble(panel2.Height) / 360.0 * Convert.ToDouble(targetInfo.x)) - 25;
+                double y = (Convert.ToDouble(panel2.Width) / 240.0 * Convert.ToDouble(targetInfo.y)) - 25;
 
                 bmpX.Text = Convert.ToString(x);
                 bmpY.Text = Convert.ToString(y);
 
-                DrawRedDot(bmp, Convert.ToInt32(y), Convert.ToInt32(x), 50);
-                cameraBox.Image = bmp;
+                DrawRedDot(resizedBmp, Convert.ToInt32(y), Convert.ToInt32(x), 50);
+                cameraBox.Image = resizedBmp;
             
             
             });
