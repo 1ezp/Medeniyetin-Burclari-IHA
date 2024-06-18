@@ -11,8 +11,6 @@ namespace MedeniyetinApp.Core
 {
 
     
-
-
     public class API
     {
 
