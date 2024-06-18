@@ -3,6 +3,7 @@ import serial
 import serial.tools.list_ports
 import os,time
 
+"ihaLat:ihaLong:x:y:mode"
 
 def start():
    port = "COM8"
@@ -16,24 +17,11 @@ def start():
             if data[0] == 0 and data[1] == 0:
                IHA.update({"Lat": -1, "Long": -1})   
             else: 
-               IHA.update({"Lat": float(data[0]), "Long": float(data[1])})                  
+               IHA.update({"Lat": float(data[0]), "Long": float(data[1])})
+               Target.update({"x":data[2],"y":data[3]})
       except:
          pass
 
-"""       
-      #if recivedData != '':
-      try:
-         recivedData = ser.readline().decode()
-         data = recivedData.split(",")
-         if data[0] == '0.000000' and data[1] == '0.000000':
-            IHA.update({"Lat": -1, "Long": -1})   
-         else: 
-            IHA.update({"Lat": float(data[0]), "Long": float(data[1])})   
-            
-         print(data)
-      except:
-         pass
-       """
       
 
 

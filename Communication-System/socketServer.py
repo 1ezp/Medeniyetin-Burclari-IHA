@@ -6,7 +6,7 @@ import usb
 from data import *
 
 
-Thread(target=usb.start).start()
+#Thread(target=usb.start).start()
 
 class RequestHandler(socketserver.BaseRequestHandler):
     def handle(self):
@@ -24,6 +24,8 @@ class RequestHandler(socketserver.BaseRequestHandler):
                     response = json.dumps(IKA)
                 elif request == 'YER':
                     response = json.dumps(YER)
+                elif request == 'Target':
+                    response = json.dumps(Target)
                 else:
                     response = json.dumps({
                         "error": "Invalid request"
