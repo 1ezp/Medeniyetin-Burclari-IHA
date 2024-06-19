@@ -19,8 +19,8 @@ namespace MedeniyetinApp.UI
 {
     public partial class Camera : Form
     {
-
-        
+        // 315, 207
+        private const float AspectRatio = 315f / 207f;
         String host;
         MJPEGStream stream;
         private Server server;
@@ -29,6 +29,7 @@ namespace MedeniyetinApp.UI
         public Camera(string host)
         {
             InitializeComponent();
+            this.Resize +=  AdjustCameraBoxSize;
             this.host = host;
             server = new Server();
             changeRes();
@@ -39,29 +40,25 @@ namespace MedeniyetinApp.UI
 
         void GetNewFrame(object sender, NewFrameEventArgs e)
         {
-            
             Invoke((MethodInvoker)delegate
             {
-
                 TargetInfo targetInfo = server.TargetData();
-                pnlX.Text = panel2.Height.ToString();
-                pnlY.Text = panel2.Width.ToString();
+
                 Bitmap bmp = (Bitmap)e.Frame.Clone();
                 Bitmap resizedBmp = new Bitmap(bmp, panel2.Width, panel2.Height);
 
+                double xScale = (double)panel2.Width / 315.0;
+                double yScale = (double)panel2.Height / 207.0;
 
-                double x =  (Convert.ToDouble(panel2.Height) / 360.0 * Convert.ToDouble(targetInfo.x)) - 25;
-                double y = (Convert.ToDouble(panel2.Width) / 240.0 * Convert.ToDouble(targetInfo.y)) - 25;
+                double x = xScale * targetInfo.x - 25;
+                double y = yScale * targetInfo.y - 25;
 
                 bmpX.Text = Convert.ToString(x);
                 bmpY.Text = Convert.ToString(y);
 
-                DrawRedDot(resizedBmp, Convert.ToInt32(y), Convert.ToInt32(x), 50);
+                DrawRedDot(resizedBmp, Convert.ToInt32(x), Convert.ToInt32(y), 50);
                 cameraBox.Image = resizedBmp;
-            
-            
             });
-            
         }
         void DrawRedDot(Bitmap bmp, int x, int y, int size)
         {
@@ -75,6 +72,23 @@ namespace MedeniyetinApp.UI
             }
         }
 
+        private void AdjustCameraBoxSize(object sender, EventArgs e)
+        {
+            int newWidth, newHeight;
+            if (this.ClientSize.Width / (float)this.ClientSize.Height > AspectRatio)
+            {
+                    
+                newHeight = this.ClientSize.Height;
+                newWidth = (int)(newHeight * AspectRatio);
+            }
+            else
+            {
+                newWidth = this.ClientSize.Width;
+                newHeight = (int)(newWidth / AspectRatio);
+            }
+            cameraBox.Size = new Size(newWidth, newHeight);
+            cameraBox.Location = new Point((this.ClientSize.Width - newWidth) / 2, (this.ClientSize.Height - newHeight) / 2);
+        }
 
         void changeRes()
         {

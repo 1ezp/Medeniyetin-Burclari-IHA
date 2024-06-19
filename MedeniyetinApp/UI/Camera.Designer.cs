@@ -46,7 +46,9 @@
             // 
             // cameraBox
             // 
-            this.cameraBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cameraBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cameraBox.Location = new System.Drawing.Point(0, 0);
             this.cameraBox.Name = "cameraBox";
             this.cameraBox.Size = new System.Drawing.Size(1252, 705);
