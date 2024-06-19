@@ -1,5 +1,17 @@
+<<<<<<< Updated upstream
 MedeniyetinApp/bin
 MedeniyetinApp/obj
+<<<<<<< HEAD
 MedeniyetinApp/.vss
 
 /Communication-System/__pycache__
+=======
+MedeniyetinApp/.vs
+=======
+ESP/ESPNOW/Receiver/build/
+ESP/ESPNOW/Transmitter/build/
+MedeniyetinApp/bin
+MedeniyetinApp/obj
+MedeniyetinApp/.vs
+>>>>>>> Stashed changes
+>>>>>>> 42c9f1b6128a14565b58d1cd96f014c8e1d5bc7f

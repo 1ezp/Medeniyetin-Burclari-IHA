@@ -24,6 +24,9 @@
 #include "driver/gpio.h"
 #include "driver/ledc.h"
 #include "driver/uart.h"
+#include "driver/spi_master.h"
+// #include "driver/i2c_master.h"
+// #include "i2c_eeprom.h"
 // #include "esp_adc/adc_oneshot.h"
 // #include "esp_adc/adc_continuous.h"
 // Servo
@@ -155,8 +158,6 @@ bool isPixhawlk = false;
 bool isPID = false;
 bool isShutdown = false;
 
-bool isTarget = true;               // When the AI camera has the target's location
-
 long long int timeoutMillis = 0;
 
 static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data, size_t len){
@@ -222,7 +223,7 @@ void checkMode(){
 #define SERVO_MIN_DEGREE            -90   // Minimum angle
 #define SERVO_MAX_DEGREE            90    // Maximum angle
 
-#define SERVO_PULSE_GPIO_RL             15        // GPIO connects to the PWM signal line
+#define SERVO_PULSE_GPIO_RL             21        // GPIO connects to the PWM signal line
 #define SERVO_PULSE_GPIO_UD             16        // GPIO connects to the PWM signal line
 #define SERVO_TIMEBASE_RESOLUTION_HZ 1000000  // 1MHz, 1us per tick
 #define SERVO_TIMEBASE_PERIOD        20000    // 20000 ticks, 20ms
@@ -507,7 +508,6 @@ void servoWrite(void *pvParameters){
 
         // -------Write--------
 
-        printf("%f\n", speed);
         ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(rlComparator, example_angle_to_compare(currentXAngle)));
         ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(udComparator, example_angle_to_compare(currentYAngle)));
         analogWrite(motorMode, motorChannelNum, speed);
@@ -540,6 +540,9 @@ static const int RX_BUF_SIZE = 2048;
 float latitude, longitude;
 
 bool isWritingGpsBusy = false;
+
+// For Camera
+bool isWritingCameraBusy = false;
 
 void gpsInit(){
 
@@ -607,7 +610,7 @@ void sendGps(){
 
     while(true){
 
-        while(!isWritingGpsBusy){
+        while(!isWritingGpsBusy && !isWritingCameraBusy){
 
             esp_now_send_data(peer_mac, (const uint8_t *)&dataToSend, sizeof(dataToSend));
             delay(10);
@@ -665,6 +668,141 @@ static void motorInit(void){
 // --------------------------------------------------
 
 
+// --------------------Camera------------------------
+
+#define PIN_NUM_MISO 12
+#define PIN_NUM_MOSI 13
+#define PIN_NUM_CLK  14
+#define PIN_NUM_CS   11
+
+void parseTarget(uint8_t *recvbuf);
+void cameraRead() {
+
+    spi_device_handle_t handle_tx;
+    spi_device_handle_t handle_rx;
+    spi_bus_config_t buscfg = {
+        .mosi_io_num = PIN_NUM_MOSI,
+        .miso_io_num = PIN_NUM_MISO,
+        .sclk_io_num = PIN_NUM_CLK,
+        .quadwp_io_num = -1,
+        .quadhd_io_num = -1
+    };
+
+    spi_device_interface_config_t devcfg_tx = {
+        .command_bits = 0,
+        .address_bits = 0,
+        .dummy_bits = 0,
+        .clock_speed_hz = 2000000,
+        .duty_cycle_pos = 128, // 50% duty cycle
+        .mode = 0,
+        .spics_io_num = PIN_NUM_CS,
+        .cs_ena_posttrans = 3, // Keep the CS low 3 cycles after transaction
+        .queue_size = 3
+    };
+
+    spi_device_interface_config_t devcfg_rx = {
+        .command_bits = 0,
+        .address_bits = 0,
+        .dummy_bits = 0,
+        .clock_speed_hz = 2000000,
+        .duty_cycle_pos = 128, // 50% duty cycle
+        .mode = 0,
+        .spics_io_num = PIN_NUM_CS,
+        .cs_ena_posttrans = 3, // Keep the CS low 3 cycles after transaction
+        .queue_size = 3
+    };
+
+    uint8_t versionRequest[] = {0xae, 0xc1, 0x20, 0x02, 0xff, 0xff};
+    uint8_t recvbuf[128];
+
+    spi_transaction_t t_tx;
+    spi_transaction_t t_rx;
+    memset(&t_tx, 0, sizeof(t_tx));
+    memset(&t_rx, 0, sizeof(t_rx));
+
+    esp_err_t ret;
+
+    // Initialize SPI bus
+    ret = spi_bus_initialize(SPI3_HOST, &buscfg, SPI_DMA_CH_AUTO);
+    assert(ret == ESP_OK);
+
+    // Add transmit device
+    ret = spi_bus_add_device(SPI3_HOST, &devcfg_tx, &handle_tx);
+    assert(ret == ESP_OK);
+
+    // Add receive device
+    ret = spi_bus_add_device(SPI3_HOST, &devcfg_rx, &handle_rx);
+    assert(ret == ESP_OK);
+
+    while (true) {
+
+        memset(recvbuf, 0, sizeof(recvbuf));
+
+        // Prepare transmit transaction
+        t_tx.length = sizeof(versionRequest) * 8; // Total bits to be sent
+        t_tx.tx_buffer = versionRequest;
+
+        // Prepare receive transaction
+        t_rx.length = sizeof(recvbuf) * 8; // Total bits expected to be received
+        t_rx.rxlength = t_rx.length; // Ensure rxlength matches length
+        t_rx.rx_buffer = recvbuf;
+
+        // Transmit and receive
+        ret = spi_device_transmit(handle_tx, &t_tx);
+        assert(ret == ESP_OK);
+        ret = spi_device_transmit(handle_rx, &t_rx);
+        assert(ret == ESP_OK);
+
+        parseTarget(recvbuf);
+
+        delay(50);
+    }
+}
+
+void parseTarget(uint8_t *recvbuf){
+
+    bool pattern_found = false;
+
+    for (int i = 0; i < 128; i++){
+
+        if (recvbuf[i] == 0xaf && recvbuf[i + 1] == 0xc1) {
+
+            if(recvbuf[i+2] == 0x21 && recvbuf[i+3] != 0x00){
+
+                isWritingCameraBusy = true;
+
+                if(recvbuf[i+9] == 0x01){
+
+                    dataToSend.targetLocation[0] = (int)recvbuf[i + 8] + 255;
+                }
+                else{
+
+                    dataToSend.targetLocation[0] = (int)recvbuf[i + 8];
+                }
+
+                dataToSend.targetLocation[1] = (int)recvbuf[i + 10];
+
+                pattern_found = true;
+                isWritingCameraBusy = false;
+                break;
+            }
+            else{
+
+                break;
+            }
+        }
+    }
+
+    if (!pattern_found) {
+
+        dataToSend.targetLocation[0] = -1;
+        dataToSend.targetLocation[1] = -1;
+    }
+}
+
+// --------------------------------------------------
+
+
 // ---------------------Main-------------------------
 
 void app_main(void){
@@ -680,7 +818,6 @@ void app_main(void){
     dataToSend.targetLocation[0] = -1;
     dataToSend.targetLocation[1] = -1;
 
-
     // --------GPS---------
 
     gpsInit();
@@ -691,6 +828,13 @@ void app_main(void){
     xTaskCreate(sendGps, "sendGps", 1024*2, NULL, 1, NULL);
 
     // --------------------
+
+    // -------Camera-------
+
+    xTaskCreate(cameraRead, "cameraRead", 1024*3, NULL, 1, NULL);
+
+    // --------------------
+
 
     while(true){
 
