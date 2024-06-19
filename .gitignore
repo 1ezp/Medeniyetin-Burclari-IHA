@@ -1,3 +1,11 @@
+<<<<<<< Updated upstream
 MedeniyetinApp/bin
 MedeniyetinApp/obj
 MedeniyetinApp/.vs
+=======
+ESP/ESPNOW/Receiver/build/
+ESP/ESPNOW/Transmitter/build/
+MedeniyetinApp/bin
+MedeniyetinApp/obj
+MedeniyetinApp/.vs
+>>>>>>> Stashed changes
