@@ -19,20 +19,35 @@ namespace MedeniyetinApp.UI
 {
     public partial class Camera : Form
     {
-        // 315, 207
+        
         private const float AspectRatio = 315f / 207f;
+
+        int cam1Width = 1280;
+        int cam1Height = 720;
+        int cam2Width = 315;
+        int cam2Height = 207;
+
+        // Scaling factors
+        private double scaleX;
+        private double scaleY;
+
         String host;
         MJPEGStream stream;
         private Server server;
         private Point mouseLocation;
         bool isMax = false;
+        
         public Camera(string host)
         {
             InitializeComponent();
-            this.Resize +=  AdjustCameraBoxSize;
+            
+            scaleX = (double)cam1Width / cam2Width;
+            scaleY = (double)cam1Height / cam2Height;
+
+            changeRes(host);
+            //this.Resize +=  AdjustCameraBoxSize;
             this.host = host;
             server = new Server();
-            changeRes();
             String url = $"http://{host}:81/stream";
             stream = new MJPEGStream(url);
             stream.NewFrame += GetNewFrame;
@@ -42,21 +57,28 @@ namespace MedeniyetinApp.UI
         {
             Invoke((MethodInvoker)delegate
             {
+                // Get the target data
                 TargetInfo targetInfo = server.TargetData();
 
-                Bitmap bmp = (Bitmap)e.Frame.Clone();
-                Bitmap resizedBmp = new Bitmap(bmp, panel2.Width, panel2.Height);
+                // video data
+                // HD
+                Bitmap resizedBmp = new Bitmap((Bitmap)e.Frame.Clone(), panel2.Width, panel2.Height);
 
-                double xScale = (double)panel2.Width / 315.0;
-                double yScale = (double)panel2.Height / 207.0;
+                double xScale = (double)resizedBmp.Width / cam2Width;
+                double yScale = (double)resizedBmp.Height / cam2Height;
 
-                double x = xScale * targetInfo.x - 25;
-                double y = yScale * targetInfo.y - 25;
+                double x = (xScale * targetInfo.x);
+                double y = (yScale * targetInfo.y);
 
+                // Target
                 bmpX.Text = Convert.ToString(x);
                 bmpY.Text = Convert.ToString(y);
+                // bmp reslution
+                pnlX.Text = Convert.ToString(resizedBmp.Width);
+                pnlY.Text = Convert.ToString(resizedBmp.Height);
 
-                DrawRedDot(resizedBmp, Convert.ToInt32(x), Convert.ToInt32(y), 50);
+
+                DrawRedDot(resizedBmp, Convert.ToInt32(x), Convert.ToInt32(y), 80);
                 cameraBox.Image = resizedBmp;
             });
         }
@@ -66,8 +88,10 @@ namespace MedeniyetinApp.UI
             {
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
-                    Pen borderPen = new Pen(Color.Red, 2);
-                    g.DrawRectangle(borderPen, x, y, size, size);
+                    Pen borderPen = new Pen(Color.Blue, 2);
+                    int topLeftX = x - (size / 2);
+                    int topLeftY = y - (size / 2);
+                    g.DrawRectangle(borderPen, topLeftX, topLeftY, size, size);
                 }
             }
         }
@@ -90,27 +114,23 @@ namespace MedeniyetinApp.UI
             cameraBox.Location = new Point((this.ClientSize.Width - newWidth) / 2, (this.ClientSize.Height - newHeight) / 2);
         }
 
-        void changeRes()
+        async void changeRes(string host)
         {
+
+            string url = $"http://{host}/control?var=framesize&val=11";
 
             using (HttpClient client = new HttpClient())
             {
                 try
                 {
-                    client.DefaultRequestHeaders.Add("Accept", "*/*");
-                    client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.9,ar-AE;q=0.8,ar;q=0.7");
-                    client.DefaultRequestHeaders.Add("Connection", "keep-alive");
-                    client.DefaultRequestHeaders.Add("DNT", "1");
-                    client.DefaultRequestHeaders.Add("Referer", $"http://{host}/");
-                    client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
-                    string url = $"http://{host}/control?var=framesize&val=13";
-                    HttpResponseMessage response = client.GetAsync(url).Result;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error: " + ex.Message);
-                }
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    response.EnsureSuccessStatusCode();
 
+                }
+                catch (HttpRequestException e)
+                {   
+                    Console.WriteLine("Request error: " + e.Message);
+                }
             }
         }
 

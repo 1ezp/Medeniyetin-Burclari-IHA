@@ -46,9 +46,7 @@
             // 
             // cameraBox
             // 
-            this.cameraBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cameraBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cameraBox.Location = new System.Drawing.Point(0, 0);
             this.cameraBox.Name = "cameraBox";
             this.cameraBox.Size = new System.Drawing.Size(1252, 705);
@@ -77,7 +75,7 @@
             // pnlY
             // 
             this.pnlY.AutoSize = true;
-            this.pnlY.Location = new System.Drawing.Point(692, 7);
+            this.pnlY.Location = new System.Drawing.Point(726, 7);
             this.pnlY.Name = "pnlY";
             this.pnlY.Size = new System.Drawing.Size(14, 16);
             this.pnlY.TabIndex = 7;
@@ -86,7 +84,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(640, 7);
+            this.label4.Location = new System.Drawing.Point(674, 7);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 16);
             this.label4.TabIndex = 6;
@@ -113,7 +111,7 @@
             // bmpY
             // 
             this.bmpY.AutoSize = true;
-            this.bmpY.Location = new System.Drawing.Point(158, 9);
+            this.bmpY.Location = new System.Drawing.Point(248, 9);
             this.bmpY.Name = "bmpY";
             this.bmpY.Size = new System.Drawing.Size(14, 16);
             this.bmpY.TabIndex = 3;
@@ -122,16 +120,16 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(106, 9);
+            this.label3.Location = new System.Drawing.Point(182, 9);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 16);
+            this.label3.Size = new System.Drawing.Size(60, 16);
             this.label3.TabIndex = 2;
-            this.label3.Text = "bmp y:";
+            this.label3.Text = "Target y:";
             // 
             // bmpX
             // 
             this.bmpX.AutoSize = true;
-            this.bmpX.Location = new System.Drawing.Point(64, 9);
+            this.bmpX.Location = new System.Drawing.Point(79, 9);
             this.bmpX.Name = "bmpX";
             this.bmpX.Size = new System.Drawing.Size(14, 16);
             this.bmpX.TabIndex = 1;
@@ -142,9 +140,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 16);
+            this.label1.Size = new System.Drawing.Size(59, 16);
             this.label1.TabIndex = 0;
-            this.label1.Text = "bmp x:";
+            this.label1.Text = "Target x:";
             // 
             // panel2
             // 
