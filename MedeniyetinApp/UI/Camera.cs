@@ -45,7 +45,6 @@ namespace MedeniyetinApp.UI
             scaleY = (double)cam1Height / cam2Height;
 
             changeRes(host);
-            //this.Resize +=  AdjustCameraBoxSize;
             this.host = host;
             server = new Server();
             String url = $"http://{host}:81/stream";
@@ -96,23 +95,7 @@ namespace MedeniyetinApp.UI
             }
         }
 
-        private void AdjustCameraBoxSize(object sender, EventArgs e)
-        {
-            int newWidth, newHeight;
-            if (this.ClientSize.Width / (float)this.ClientSize.Height > AspectRatio)
-            {
-                    
-                newHeight = this.ClientSize.Height;
-                newWidth = (int)(newHeight * AspectRatio);
-            }
-            else
-            {
-                newWidth = this.ClientSize.Width;
-                newHeight = (int)(newWidth / AspectRatio);
-            }
-            cameraBox.Size = new Size(newWidth, newHeight);
-            cameraBox.Location = new Point((this.ClientSize.Width - newWidth) / 2, (this.ClientSize.Height - newHeight) / 2);
-        }
+
 
         async void changeRes(string host)
         {
