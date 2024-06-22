@@ -99,8 +99,9 @@ namespace MedeniyetinApp.UI
 
         async void changeRes(string host)
         {
+            // 11 HD
 
-            string url = $"http://{host}/control?var=framesize&val=11";
+            string url = $"http://{host}/control?var=framesize&val=7";
 
             using (HttpClient client = new HttpClient())
             {
