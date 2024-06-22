@@ -19,6 +19,7 @@ def start():
             else: 
                IHA.update({"Lat": float(data[0]), "Long": float(data[1])})
                Target.update({"x":data[2],"y":data[3]})
+               print("x:",data[2],"y:",data[3])
       except:
          pass
 
