@@ -170,8 +170,6 @@ void recv_cb(const esp_now_recv_info_t * esp_now_info, const uint8_t *bilgi, int
 
         fixLocation();
     }
-
-    printf("X:%hd   ,   Y:%hd\n", data.targetLocation[0], data.targetLocation[1]);
 }
 
 // ----------
@@ -303,6 +301,7 @@ bool isManual = true;
 bool isAuto = false;
 bool isPID = false;
 bool isShutdown = false;
+bool isOverride = false;
 
 // ---------------------Main-------------------------
 
@@ -378,6 +377,7 @@ void app_main(void){
             isAuto = false;
             isPID = false;
             isShutdown = false;
+            isOverride = false;
         }
         else if(digitalRead(EngageAuto_PIN) == 0){
 
@@ -385,13 +385,27 @@ void app_main(void){
             isAuto = true;
             isPID = false;
             isShutdown = false;
+            isOverride = false;
         }
-        else if(digitalRead(EngagePID_PIN) == 0 /*&& data[2] != -1*/){
+        else if(digitalRead(EngagePID_PIN) == 0 && data.targetLocation[0] != -1){
 
-            isManual = false;
-            isAuto = false;
-            isPID = true;
-            isShutdown = false;
+            if(dataToSend[0] == 'E'){
+
+                isManual = false;
+                isAuto = false;
+                isPID = false;
+                isShutdown = false;
+                isOverride = true;
+            }
+            else{
+
+                isManual = false;
+                isAuto = false;
+                isPID = true;
+                isShutdown = false;
+                isOverride = false;
+            }
+
         }
         else if(digitalRead(EngageShutdown_PIN) == 0){
 
@@ -399,6 +413,7 @@ void app_main(void){
             isAuto = false;
             isPID = false;
             isShutdown = true;
+            isOverride = false;
         }
 
         if(isManual){
@@ -427,6 +442,11 @@ void app_main(void){
             dataToSend[0] = 'E';
             dataToSend[1] = 'E';
         }
+        else if(isOverride){
+
+            dataToSend[0] = 'G';
+            dataToSend[1] = 'G';
+        }
         else if(isShutdown){
 
             dataToSend[0] = 'F';
@@ -452,6 +472,19 @@ void app_main(void){
 
         esp_now_send_data(peer_mac, (const uint8_t *)dataToSend, sizeof(dataToSend));
         delay(10);
+
+        // --------------------
+
+        // ------Override------
+
+        if(dataToSend[0] == 'G'){
+
+            isManual = false;
+            isAuto = false;
+            isPID = true;
+            isShutdown = false;
+            isOverride = false;
+        }
 
         // --------------------
     }
