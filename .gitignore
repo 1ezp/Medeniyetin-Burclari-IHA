@@ -10,9 +10,12 @@ MedeniyetinApp/.vs
 =======
 ESP/ESPNOW/Receiver/build/
 ESP/ESPNOW/Transmitter/build/
-ESP/Socket/build/
-ESP/Socket/dependencies.lock
-ESP/Socket/sdkconfig
+ESP/Socket/Receiver/build/
+ESP/Socket/Receiver/dependencies.lock
+ESP/Socket/Receiver/sdkconfig
+ESP/Socket/Transmitter/build/
+ESP/Socket/Transmitter/dependencies.lock
+ESP/Socket/Transmitter/sdkconfig
 MedeniyetinApp/bin
 MedeniyetinApp/obj
 MedeniyetinApp/.vs
