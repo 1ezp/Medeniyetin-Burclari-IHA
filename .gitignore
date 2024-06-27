@@ -11,6 +11,8 @@ MedeniyetinApp/.vs
 ESP/ESPNOW/Receiver/build/
 ESP/ESPNOW/Transmitter/build/
 ESP/Socket/build/
+ESP/Socket/dependencies.lock
+ESP/Socket/sdkconfig
 MedeniyetinApp/bin
 MedeniyetinApp/obj
 MedeniyetinApp/.vs
