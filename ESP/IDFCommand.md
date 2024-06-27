@@ -60,6 +60,8 @@ printenv ENV_Variable
 
 // C
 #include <stdio.h>
+#include <stdlib.h>
+#include "math.h"
 // freeRTOS
 #include <freertos/FreeRTOS.h>
 #include <freertos/timers.h>
@@ -77,15 +79,17 @@ printenv ENV_Variable
 #include "esp_mac.h"
 #include "esp_event.h"
 #include "nvs_flash.h"
-#include "driver/uart.h"
 // Electric
 #include "driver/gpio.h"
 #include "driver/ledc.h"
-// #include "esp_adc/adc_oneshot.h"
-// #include "esp_adc/adc_continuous.h"
+#include "driver/uart.h"
+#include "driver/spi_master.h"
+#include "driver/i2c_master.h"
+#include "esp_adc/adc_oneshot.h"
+#include "esp_adc/adc_continuous.h"
 // Servo
 #include "driver/mcpwm_prelude.h"
-#include "driver/adc.h"
+// #include "driver/adc.h"
 
 ## Timing
 
