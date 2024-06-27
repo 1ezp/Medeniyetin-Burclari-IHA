@@ -10,6 +10,7 @@ MedeniyetinApp/.vs
 =======
 ESP/ESPNOW/Receiver/build/
 ESP/ESPNOW/Transmitter/build/
+ESP/Socket/build/
 MedeniyetinApp/bin
 MedeniyetinApp/obj
 MedeniyetinApp/.vs
