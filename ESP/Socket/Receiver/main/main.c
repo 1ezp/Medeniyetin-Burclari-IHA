@@ -8,11 +8,13 @@
 // Communication
 #include <esp_wifi.h>
 #include <nvs_flash.h>
+#include <lwip/sockets.h>
 // Electric
 #include <driver/gpio.h>
 // Project Files
 #include "Project/initPins.c"
 #include "Project/initWifi.c"
+#include "Project/initSocket.c"
 
 void app_main() {
 
