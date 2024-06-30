@@ -13,9 +13,11 @@ ESP/ESPNOW/Transmitter/build/
 ESP/Socket/Receiver/build/
 ESP/Socket/Receiver/dependencies.lock
 ESP/Socket/Receiver/sdkconfig
+ESP/Socket/Receiver/sdkconfig.old
 ESP/Socket/Transmitter/build/
 ESP/Socket/Transmitter/dependencies.lock
 ESP/Socket/Transmitter/sdkconfig
+ESP/Socket/Transmitter/sdkconfig.old
 MedeniyetinApp/bin
 MedeniyetinApp/obj
 MedeniyetinApp/.vs
