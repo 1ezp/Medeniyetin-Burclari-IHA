@@ -1,6 +1,6 @@
-#include "flyingMode.ino"
-#include "reader.ino"
-#include "printer.ino"
+#include "Project/flyingMode.ino"
+#include "Project/reader.ino"
+#include "Project/printer.ino"
 
 void setup(){
 
