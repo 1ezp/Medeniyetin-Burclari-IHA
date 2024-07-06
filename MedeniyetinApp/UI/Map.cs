@@ -32,6 +32,7 @@ namespace MedeniyetinApp.UI
 
         GMapOverlay markerOverlay;
         GMapControl map = new GMapControl();
+        
 
         // points
         GMarkerGoogle IhaMarker = new GMarkerGoogle(new PointLatLng(-1, -1), GMarkerGoogleType.red);
@@ -123,11 +124,11 @@ namespace MedeniyetinApp.UI
 
         private void LoadMap()
         {
-            GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
+            GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerAndCache;
             map.SetPositionByKeywords("kayseri, Turkey");
             map.Position = new PointLatLng(38.7225, 35.4875);
             map.ShowCenter = false;
-
+            map.CacheLocation = @"C:\Users\hekmt\Desktop\Medeniyetin-Burclari-IHA\MedeniyetinApp\cache";
 
 
             map.MouseWheelZoomEnabled = true;
