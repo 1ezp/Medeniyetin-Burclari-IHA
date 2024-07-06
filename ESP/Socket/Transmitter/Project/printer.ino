@@ -8,11 +8,11 @@ void printer(){
 
     if(isOverride){
 
-        Serial.println("-4");
+        Serial.println("-4:-4:-4");
     }
     else if(isManual){
 
-        read();
+        readAndFix();
         Serial.print(xRaw);
         Serial.print(":");
         Serial.print(yRaw);
@@ -21,15 +21,15 @@ void printer(){
     }
     else if(isPixhawlk){
 
-        Serial.println("-1");
+        Serial.println("-1:-1:-1");
     }
     else if(isPID){
 
-        Serial.println("-2");
+        Serial.println("-2:-2:-2");
     }
     else if(isShutdown){
 
-        Serial.println("-3");
+        Serial.println("-3:-3:-3");
     }
 }
 
