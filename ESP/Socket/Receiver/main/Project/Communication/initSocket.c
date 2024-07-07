@@ -3,14 +3,11 @@
 #define initSocket
 // --------------------------------------------------
 
-// Libraries
-#include "initWifi.c"
-#include "initGps.c"
 
 // Variables
-#define HOST_IP "192.168.137.1"
+#define HOST_IP "192.168.1.21"
 #define HOST_PORT 12345
-#define CONNECT_TIMEOUT_MS 100
+#define CONNECT_TIMEOUT_MS 25
 
 bool isSocketTaskRunning = false;
 bool isSocketConnected = false;
@@ -49,7 +46,7 @@ void socketTask(){
 
         // Create Socket
         int sock = socket(addr_family, SOCK_STREAM, ip_protocol);
-        ESP_LOGI(SocketTAG, "Socket created, connecting...");   // ADD TIMEOUT
+        // ESP_LOGI(SocketTAG, "Socket created, connecting...");
 
         // Set the socket to non-blocking mode
         int flags = fcntl(sock, F_GETFL, 0);
@@ -59,9 +56,9 @@ void socketTask(){
         int err = connect(sock, (struct sockaddr *)&dest_addr, sizeof(dest_addr));
         if(err < 0 && errno != EINPROGRESS){
 
-            ESP_LOGE(SocketTAG, "Socket unable to connect: errno %d", errno);
+            // ESP_LOGE(SocketTAG, "Socket unable to connect: errno %d", errno);
             close(sock);
-            vTaskDelay(1000 / portTICK_PERIOD_MS);  // Wait before retrying
+            delay(15);  // Wait before retrying
             continue;
         }
 
@@ -77,16 +74,16 @@ void socketTask(){
         err = select(sock + 1, NULL, &write_fds, NULL, &tv);
         if(err <= 0){
 
-            ESP_LOGE(SocketTAG, "Socket connection timed out or error: errno %d", errno);
+            // ESP_LOGE(SocketTAG, "Socket connection timed out or error: errno %d", errno);
             close(sock);
-            vTaskDelay(1000 / portTICK_PERIOD_MS);  // Wait before retrying
+            delay(15);  // Wait before retrying
             continue;
         }
 
         // Set the socket back to blocking mode
         flags = fcntl(sock, F_GETFL, 0);
         fcntl(sock, F_SETFL, flags & ~O_NONBLOCK);
-        ESP_LOGI(SocketTAG, "Successfully connected");
+        // ESP_LOGI(SocketTAG, "Successfully connected");
 
         while(true){
 
@@ -99,24 +96,25 @@ void socketTask(){
             int err = send(sock, dataToSend, strlen(dataToSend), 0);
             if(err < 0){
 
-                ESP_LOGE(SocketTAG, "Error occurred during sending: errno %d", errno);
+                // ESP_LOGE(SocketTAG, "Error occurred during sending: errno %d", errno);
                 break;
             }
-            ESP_LOGI(SocketTAG, "Message sent");
+            // ESP_LOGI(SocketTAG, "Message sent");
 
             // Receive
             int len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
             if(len < 0){
 
-                ESP_LOGE(SocketTAG, "recv failed: errno %d", errno);
+                // ESP_LOGE(SocketTAG, "recv failed: errno %d", errno);
                 break;
             }
             else{
 
                 rx_buffer[len] = 0; // Null-terminate the received data
-                ESP_LOGI(SocketTAG, "Received %d bytes: %s", len, rx_buffer);
+                // ESP_LOGI(SocketTAG, "Received %d bytes: %s", len, rx_buffer);
+                extractNumbers(rx_buffer, &data[0], &data[1], &data[2], &data[3], &data[4], &data[5]);
             }
-            vTaskDelay(25 / portTICK_PERIOD_MS);
+            delay(25);
         }
 
         // Shutdown the socket if correctly configured, and recreate it
