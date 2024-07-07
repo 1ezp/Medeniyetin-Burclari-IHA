@@ -99,6 +99,5 @@
         private System.Windows.Forms.Panel pnlMap;
         private System.Windows.Forms.Label labelLng;
         private System.Windows.Forms.Label labelLat;
-        private LiveCharts.Wpf.AngularGauge angularGauge1;
     }
 }
