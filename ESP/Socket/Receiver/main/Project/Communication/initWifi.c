@@ -3,18 +3,18 @@
 #define initWifi
 // --------------------------------------------------
 
-// Libraries
-#include "initPins.c"
-#include "initSocket.c"
+
+void socketTask();
 
 // Variables
-#define STA_SSID "minhojiddin"
-#define STA_PASSWORD "minhojiddin"
-#define STATIC_IP "192.168.137.50"
-#define GATEWAY_IP "192.168.137.1"
+#define STA_SSID "UBNT-IHA"
+#define STA_PASSWORD "ihatakim"
+#define STATIC_IP "192.168.10.50"
+#define GATEWAY_IP "192.168.10.1"
 #define NETMASK "255.255.255.0"
 
 bool isWifiConnected = false;
+extern bool isSocketTaskRunning;
 
 // WifiTAG
 static const char *WifiTAG = "WIFI";
@@ -23,13 +23,13 @@ static const char *WifiTAG = "WIFI";
 void wifi_event_handler(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data){
 
 	if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED){
-		ESP_LOGI(WifiTAG, "Disconnected from WiFi, attempting to reconnect...");
+		// ESP_LOGI(WifiTAG, "Disconnected from WiFi, attempting to reconnect...");
 		esp_wifi_connect();
 	}
 }
 
 // Main
-void init_wifi(){
+void wifiTask(){
 
 	// Initialize NVS
 	ESP_ERROR_CHECK(nvs_flash_init());
@@ -76,21 +76,19 @@ void init_wifi(){
 		wifi_ap_record_t ap_info;
 		if(esp_wifi_sta_get_ap_info(&ap_info) == ESP_OK){
 
-            // Connected to WiFi, set GPIO21 high, and start socket
-			digitalWrite(DID_WE_CONNECT_PIN_NUM, 1);
+            // Connected to WiFi, start socket
 			isWifiConnected = true;
 			if(!isSocketTaskRunning){
 				xTaskCreate(socketTask, "socketTask", 1024*4, NULL, 1, NULL);
 			}
 		} else {
 
-			// Not connected to WiFi, set GPIO21 low and attempt to reconnect
-			digitalWrite(DID_WE_CONNECT_PIN_NUM, 0);
-			ESP_LOGI(WifiTAG, "Attempting to reconnect to WiFi...");
+			// Not connected to WiFi, attempt to reconnect
+			// ESP_LOGI(WifiTAG, "Attempting to reconnect to WiFi...");
 			isWifiConnected = false;
 			esp_wifi_connect();
 		}
-		vTaskDelay(pdMS_TO_TICKS(25));
+		delay(25);
 	}
 }
 
