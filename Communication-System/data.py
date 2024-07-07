@@ -21,6 +21,19 @@ YER = {
 }
 
 Target = {
-    "x":157.5,
-    "y":103.5
+    "x":-1,
+    "y":-1
+}
+
+Controller  = {
+    "x":0,
+    "y":0
+}
+
+motorSpeed = {
+    "value":0
+}
+
+MODE = {
+    "value":0
 }
