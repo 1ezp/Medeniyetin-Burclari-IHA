@@ -3,33 +3,39 @@
 #define initPrinter
 // --------------------------------------------------
 
+void printValues(int mode){
+
+    readAndFix();
+    Serial.print(mode);
+    Serial.print(":");
+    Serial.print(xRaw);
+    Serial.print(":");
+    Serial.print(yRaw);
+    Serial.print(":");
+    Serial.println(speed);
+}
 
 void printer(){
 
     if(isOverride){
 
-        Serial.println("-4:-4:-4");
+        printValues(4);
     }
     else if(isManual){
 
-        readAndFix();
-        Serial.print(xRaw);
-        Serial.print(":");
-        Serial.print(yRaw);
-        Serial.print(":");
-        Serial.println(speed);
+        printValues(0);
     }
     else if(isPixhawlk){
 
-        Serial.println("-1:-1:-1");
+        printValues(1);
     }
     else if(isPID){
 
-        Serial.println("-2:-2:-2");
+        printValues(2);
     }
     else if(isShutdown){
 
-        Serial.println("-3:-3:-3");
+        printValues(3);
     }
 }
 
