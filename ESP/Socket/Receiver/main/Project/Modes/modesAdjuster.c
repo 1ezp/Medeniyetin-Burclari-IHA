@@ -11,9 +11,18 @@ extern bool isPIDTaskOpen;
 
 extern bool shouldCalculate;
 
+extern bool isWifiConnected;
+extern bool isSocketConnected;
+
 void adjustMode(const int* data){
 
-    if(data[0] == 0){
+    if(!isWifiConnected || !isSocketConnected){
+
+        digitalWrite(pixhawlkPin, 1);
+        digitalWrite(shutdownPin, 0);
+        resetControllersPins();
+    }
+    else if(data[0] == 0){
 
         isPID = false;
         targetLostOverride = false;
@@ -33,6 +42,7 @@ void adjustMode(const int* data){
 
         digitalWrite(pixhawlkPin, 1);
         digitalWrite(shutdownPin, 0);
+        resetControllersPins();
     }
     else if((data[0] == 2 && !targetLostOverride) || data[0] == 4){
 
@@ -62,6 +72,7 @@ void adjustMode(const int* data){
 
         digitalWrite(pixhawlkPin, 1);
         digitalWrite(shutdownPin, 0);
+        resetControllersPins();
     }
 }
 

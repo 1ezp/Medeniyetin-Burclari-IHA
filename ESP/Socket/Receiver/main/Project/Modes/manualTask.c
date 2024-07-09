@@ -26,9 +26,7 @@ void manualTask(){
     currentXAngle = 90;
     currentYAngle = 90;
 
-    ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(rlComparator, example_angle_to_compare(90)));
-    ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(udComparator, example_angle_to_compare(90)));
-    analogWrite(motorMode, motorChannelNum, 0);
+    resetControllersPins();
 
     isManualTaskOpen = true;
     vTaskDelete(NULL);

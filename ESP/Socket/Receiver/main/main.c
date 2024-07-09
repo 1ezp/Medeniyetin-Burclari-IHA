@@ -19,10 +19,10 @@
 #include <driver/mcpwm_prelude.h>
 #include <driver/adc.h>
 // Project Files
-#include "Project/Functions.c"
 #include "Project/Pins/initServo.c"
 #include "Project/Pins/initMotor.c"
 #include "Project/Pins/initPins.c"
+#include "Project/Functions.c"
 #include "Project/Modes/manualTask.c"
 #include "Project/Modes/pidTask.c"
 #include "Project/Modes/modesAdjuster.c"
