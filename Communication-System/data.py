@@ -1,19 +1,16 @@
 
 
-# IHA Data
-""" IHA = {
-    "IHALat": 0,
-    "IHALong": 0
-} """
 IHA = {
-    
     "Lat": 38.7311257,
-    "Long": 35.4854071
+    "Long": 35.4854071,
+    "motorSpeed":100,
+    "groundSpeed":60,
 }
 
 IKA = {
     "Lat": 38.727883,
-    "Long": 35.483639
+    "Long": 35.483639,
+    "groundSpeed":0,
 }
 YER = {
     "Lat": 38.727073,
@@ -28,10 +25,6 @@ Target = {
 Controller  = {
     "x":0,
     "y":0
-}
-
-motorSpeed = {
-    "value":0
 }
 
 MODE = {

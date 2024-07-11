@@ -2,8 +2,7 @@ from data import *
 import socketserver
 from threading import Thread
 
-HOST = '0.0.0.0'
-PORT = 12345
+
 
 
 class RequestHandler(socketserver.BaseRequestHandler):
@@ -11,16 +10,21 @@ class RequestHandler(socketserver.BaseRequestHandler):
         print(f'Connected by {self.client_address}')
         while True:
             try:
-                data = self.request.recv(1024).decode('utf-8')
-                print(f"Received data: {data}")
-                response = f"{MODE['value']}:{Controller['x']}:{Controller['y']}:{motorSpeed['value']}:{Target['x']}:{Target['y']}"
+                data = self.request.recv(1024).decode('utf-8').split(":")
+                response = f"{MODE['value']}:{Controller['x']}:{Controller['y']}:{IHA['motorSpeed']}:{Target['x']}:{Target['y']}"
+                print(response)
                 self.request.sendall(response.encode('utf-8'))
-            except:
+                IHA.update({"Lat": float(data[0]), "Long": float(data[1])})
+            except Exception as e:
+                print(f"An error occurred: {e}")
                 break
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
 
-server = ThreadedTCPServer((HOST, PORT), RequestHandler)
-with server:
-    server.serve_forever()
+def start():
+    HOST = '0.0.0.0'
+    PORT = 12345
+    server = ThreadedTCPServer((HOST, PORT), RequestHandler)
+    with server:
+        server.serve_forever()

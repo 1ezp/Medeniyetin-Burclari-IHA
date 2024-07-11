@@ -1,13 +1,7 @@
 import socketserver
-from threading import Thread
 import json
-import time
-import usb 
+
 from data import *
-
-
-
-#Thread(target=usb.start).start()
 
 class RequestHandler(socketserver.BaseRequestHandler):
     def handle(self):
@@ -32,15 +26,8 @@ class RequestHandler(socketserver.BaseRequestHandler):
                         "error": "Invalid request"
                     })
                 
-                # Send the response
                 self.request.sendall(response.encode('utf-8'))
 
-            except ConnectionResetError:
-                print("Connection reset by peer")
-                break
-            except ConnectionAbortedError:
-                print("Connection aborted by peer")
-                break
             except Exception as e:
                 print(f"An error occurred: {e}")
                 break
@@ -48,10 +35,11 @@ class RequestHandler(socketserver.BaseRequestHandler):
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
 
-if __name__ == "__main__":
-    HOST, PORT = '0.0.0.0', 12345
+def start():
+    HOST, PORT = '127.0.0.1', 12345
 
     server = ThreadedTCPServer((HOST, PORT), RequestHandler)
     print('Server started, waiting for connections...')
+
     with server:
         server.serve_forever()
