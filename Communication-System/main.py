@@ -1,14 +1,17 @@
 from data import *
-
 import serial
 from threading import Thread
-import usb 
+import socketServer
+import usbReciver
+import IHAConnection 
+import pixHawk
 
-from ..trackSystem import main as trackSystem
+from trackSystem import main as trackSystem
 
 
-Thread(target=usb.main).start()
-Thread(target=serial.main).start()
+Thread(target=usbReciver.main).start()
+Thread(target=IHAConnection.start).start()
+Thread(target=socketServer.start).start()
+#Thread(target=pixHawk.start).start()
 
-while True:
-    print("mode:",MODE["value"])
+#Thread(target=trackSystem.main).start()
