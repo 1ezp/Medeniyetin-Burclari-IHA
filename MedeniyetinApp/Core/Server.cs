@@ -7,13 +7,19 @@ using Newtonsoft.Json;
 namespace MedeniyetinApp.Core
 {
 
-    public class GPSInfo
+    public class VehicleInfo
     {
         [JsonProperty("Lat")]
         public double Latitude { get; set; }
 
         [JsonProperty("Long")]
         public double Longitude { get; set; }
+
+        [JsonProperty("motorSpeed")]
+        public double motorSpeed { get; set; }
+
+        [JsonProperty("groundSpeed")]
+        public double groundSpeed { get; set; }
     }
 
     public class TargetInfo
@@ -23,6 +29,13 @@ namespace MedeniyetinApp.Core
 
         [JsonProperty("y")]
         public double y { get; set; }
+    }
+
+    public class Motor
+    {
+        [JsonProperty("value")]
+        public double value { get; set; }
+
     }
 
     public class Server 
@@ -38,7 +51,7 @@ namespace MedeniyetinApp.Core
             stream = client.GetStream();
         }
 
-        public GPSInfo IHAGps()
+        public VehicleInfo IHA()
         {
             try
             {
@@ -49,8 +62,8 @@ namespace MedeniyetinApp.Core
                 byte[] buffer = new byte[1024];
                 int bytesRead = stream.Read(buffer, 0, buffer.Length);
                 string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                GPSInfo gpsInfo = JsonConvert.DeserializeObject<GPSInfo>(message);
-                return gpsInfo;
+                VehicleInfo VehicleInfo = JsonConvert.DeserializeObject<VehicleInfo>(message);
+                return VehicleInfo;
             }
             catch (SocketException se)
             {
@@ -63,7 +76,7 @@ namespace MedeniyetinApp.Core
                 return null;
             }
         }
-        public GPSInfo IKAGps()
+        public VehicleInfo IKAGps()
         {
             try
             {
@@ -74,8 +87,8 @@ namespace MedeniyetinApp.Core
                 byte[] buffer = new byte[1024];
                 int bytesRead = stream.Read(buffer, 0, buffer.Length);
                 string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                GPSInfo gpsInfo = JsonConvert.DeserializeObject<GPSInfo>(message);
-                return gpsInfo;
+                VehicleInfo VehicleInfo = JsonConvert.DeserializeObject<VehicleInfo>(message);
+                return VehicleInfo;
             }
             catch (SocketException se)
             {
@@ -88,7 +101,7 @@ namespace MedeniyetinApp.Core
                 return null;
             }
         }
-        public GPSInfo YERGps()
+        public VehicleInfo YERGps()
         {
             try
             {
@@ -99,8 +112,8 @@ namespace MedeniyetinApp.Core
                 byte[] buffer = new byte[1024];
                 int bytesRead = stream.Read(buffer, 0, buffer.Length);
                 string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                GPSInfo gpsInfo = JsonConvert.DeserializeObject<GPSInfo>(message);
-                return gpsInfo;
+                VehicleInfo VehicleInfo = JsonConvert.DeserializeObject<VehicleInfo>(message);
+                return VehicleInfo;
             }
             catch (SocketException se)
             {
@@ -126,6 +139,33 @@ namespace MedeniyetinApp.Core
                 string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 TargetInfo Info = JsonConvert.DeserializeObject<TargetInfo>(message);
                 return Info;
+            }
+            catch (SocketException se)
+            {
+                Console.WriteLine($"SocketException: {se.Message}");
+                return null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"An error occurred: {e.Message}");
+                return null;
+            }
+        }
+
+
+        public Motor motorSpeed()
+        {
+            try
+            {
+                string request = "motorSpeed";
+                byte[] requestData = Encoding.UTF8.GetBytes(request);
+                stream.Write(requestData, 0, requestData.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = stream.Read(buffer, 0, buffer.Length);
+                string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                Motor motorInfo = JsonConvert.DeserializeObject<Motor>(message);
+                return motorInfo;
             }
             catch (SocketException se)
             {

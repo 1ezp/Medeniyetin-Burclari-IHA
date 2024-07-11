@@ -17,46 +17,46 @@ namespace MedeniyetinApp.Core
         String Base = "http://127.0.0.1/";
         private static readonly HttpClient client = new HttpClient();
 
-        public GPSInfo IHAGps()
+        public VehicleInfo IHAGps()
         {
-            GPSInfo gpsInfo = null;
+            VehicleInfo VehicleInfo = null;
             HttpResponseMessage response = client.GetAsync(Base+"IHA").Result;
 
             if (response.IsSuccessStatusCode)
             {
                 string json = response.Content.ReadAsStringAsync().Result;
-                gpsInfo = JsonConvert.DeserializeObject<GPSInfo>(json);
+                VehicleInfo = JsonConvert.DeserializeObject<VehicleInfo>(json);
             }
 
-            return gpsInfo;
+            return VehicleInfo;
         }
 
-        public GPSInfo IKAGps()
+        public VehicleInfo IKAGps()
         {
-            GPSInfo gpsInfo = null;
+            VehicleInfo VehicleInfo = null;
             HttpResponseMessage response = client.GetAsync(Base + "IKA").Result;
 
             if (response.IsSuccessStatusCode)
             {
                 string json = response.Content.ReadAsStringAsync().Result;
-                gpsInfo = JsonConvert.DeserializeObject<GPSInfo>(json);
+                VehicleInfo = JsonConvert.DeserializeObject<VehicleInfo>(json);
             }
 
-            return gpsInfo;
+            return VehicleInfo;
         }
 
-        public GPSInfo YERGps()
+        public VehicleInfo YERGps()
         {
-            GPSInfo gpsInfo = null;
+            VehicleInfo VehicleInfo = null;
             HttpResponseMessage response = client.GetAsync(Base + "YER").Result;
 
             if (response.IsSuccessStatusCode)
             {
                 string json = response.Content.ReadAsStringAsync().Result;
-                gpsInfo = JsonConvert.DeserializeObject<GPSInfo>(json);
+                VehicleInfo = JsonConvert.DeserializeObject<VehicleInfo>(json);
             }
 
-            return gpsInfo;
+            return VehicleInfo;
         }
     }
 }

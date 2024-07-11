@@ -62,21 +62,21 @@ namespace MedeniyetinApp.UI
             while (true)
             {
 
-                //GPSInfo IhaGpsInfo = api.IHAGps();
-                GPSInfo IhaGpsInfo = server.IHAGps();
+                //VehicleInfo IhaVehicleInfo = api.IHAGps();
+                VehicleInfo IhaVehicleInfo = server.IHA();
 
-                GPSInfo IkaGpsInfo = server.IKAGps();
-                GPSInfo YerGpsInfo = server.YERGps();
+                VehicleInfo IkaVehicleInfo = server.IKAGps();
+                VehicleInfo YerVehicleInfo = server.YERGps();
 
 
-                double IhaLat = Convert.ToDouble(IhaGpsInfo.Latitude );
-                double IhaLng = Convert.ToDouble(IhaGpsInfo.Longitude);
+                double IhaLat = Convert.ToDouble(IhaVehicleInfo.Latitude );
+                double IhaLng = Convert.ToDouble(IhaVehicleInfo.Longitude);
 
-                double IkaLat = Convert.ToDouble(IkaGpsInfo.Latitude);
-                double IkaLng = Convert.ToDouble(IkaGpsInfo.Longitude);
+                double IkaLat = Convert.ToDouble(IkaVehicleInfo.Latitude);
+                double IkaLng = Convert.ToDouble(IkaVehicleInfo.Longitude);
 
-                double YerLat = Convert.ToDouble(YerGpsInfo.Latitude);
-                    double YerLng = Convert.ToDouble(YerGpsInfo.Longitude);
+                double YerLat = Convert.ToDouble(YerVehicleInfo.Latitude);
+                    double YerLng = Convert.ToDouble(YerVehicleInfo.Longitude);
 
                 Invoke((MethodInvoker)delegate
                 {
