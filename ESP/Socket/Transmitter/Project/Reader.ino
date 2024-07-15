@@ -19,14 +19,8 @@ void readAndFix(){
     yRaw = analogRead(yPin);
     speed = analogRead(speedPin);
 
-    if(xRaw < 425){ xRaw = 425; }
-    else if(xRaw > 605){ xRaw = 605; }
-
-    if(yRaw < 425){ yRaw = 425; }
-    else if(yRaw > 605){ yRaw = 605; }
-
-    xRaw = map(xRaw, 425, 605, 0, 180);
-    yRaw = map(yRaw, 425, 605, 0, 180);
+    xRaw = map(0, 1024, 605, 0, 180);
+    yRaw = map(0, 1024, 605, 0, 180);
 }
 
 

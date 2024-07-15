@@ -18,5 +18,5 @@ void loop(){
 
     adjustMode();
     printer();
-    delay(25);
+    delay(5);
 }
