@@ -83,7 +83,7 @@ namespace MedeniyetinApp.UI
 
                     labelLat.Text = Convert.ToString(IhaLat);
                     labelLng.Text = Convert.ToString(IhaLng);
-                    if (IhaLat == -1.0 && IhaLng == -1.0)
+                    if (IhaLat == 0 && IhaLng == 0)
                     {
                         
                         removeMarker(IhaMarker);
