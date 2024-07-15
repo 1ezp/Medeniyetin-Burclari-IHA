@@ -110,10 +110,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AttitudeIndicatorInstrumentControl.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controllers\InstrumentControl.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Core\API.cs" />
     <Compile Include="Core\IHAGps.cs" />
@@ -181,13 +181,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Horizon_Background.bmp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Horizon_GroundSky.bmp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Maquette_Avion.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Indicator_Background.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Horizon_Background.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

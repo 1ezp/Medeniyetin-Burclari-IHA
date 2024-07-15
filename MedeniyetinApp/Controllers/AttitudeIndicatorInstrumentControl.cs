@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace MedeniyetinApp.Controllers
 {
-    class AttitudeIndicatorInstrumentControl : InstrumentControl
+    public class AttitudeIndicatorInstrumentControl : InstrumentControl
     {
         #region Fields
 
@@ -16,10 +16,12 @@ namespace MedeniyetinApp.Controllers
         double PitchAngle = 0; // Phi
         double RollAngle = 0; // Theta
 
+
+
         // Images
-        Bitmap bmpCadran = new Bitmap(Properties.Resources.Horizon_Background);
-        Bitmap bmpBoule = new Bitmap(Properties.Resources.Horizon_GroundSky);
-        Bitmap bmpAvion = new Bitmap(Properties.Resources.Maquette_Avion);
+        Bitmap bmpCadran = new Bitmap(MedeniyetinApp.Properties.Resources.Horizon_Background);
+        Bitmap bmpBoule = new Bitmap(MedeniyetinApp.Properties.Resources.Horizon_GroundSky);
+        Bitmap bmpAvion = new Bitmap(MedeniyetinApp.Properties.Resources.Maquette_Avion);
 
         #endregion
 
@@ -32,6 +34,7 @@ namespace MedeniyetinApp.Controllers
 
         public AttitudeIndicatorInstrumentControl()
         {
+            this.Size = new Size(370, 360);
             // Double bufferisation
             SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint, true);
@@ -56,6 +59,27 @@ namespace MedeniyetinApp.Controllers
         {
             // Calling the base class OnPaint
             base.OnPaint(pe);
+
+            // Get the background color of the form
+            Color backgroundColor = this.BackColor;
+
+
+            for (int x = 0; x < bmpCadran.Width; x++)
+            {
+                for (int y = 0; y < bmpCadran.Height; y++)
+                {
+                    // Get the color of the current pixel
+                    Color pixelColor = bmpCadran.GetPixel(x, y);
+
+                    // Check if the pixel color matches the target color (#FF002AFF)
+                    if (pixelColor.ToArgb() == Color.FromArgb(255, 0, 42, 255).ToArgb()) // #FF002AFF
+                    {
+                        // Replace the pixel with the form's background color
+                        bmpCadran.SetPixel(x, y, backgroundColor);
+                    }
+                }
+            }
+
 
             // Pre Display computings
 
@@ -84,6 +108,23 @@ namespace MedeniyetinApp.Controllers
 
 
         }
+
+        #endregion
+
+        #region Rezize
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+
+            // Ensure equal width and height
+            int newSize = Math.Min(this.Width, this.Height);
+            this.Size = new Size(newSize, newSize);
+
+            // Redraw the control when resized
+            this.Invalidate();
+        }
+
 
         #endregion
 

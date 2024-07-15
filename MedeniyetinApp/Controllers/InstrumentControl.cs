@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace MedeniyetinApp.Controllers
 {
-    class InstrumentControl : System.Windows.Forms.Control
+    public class InstrumentControl : UserControl
     {
         #region Generic methodes
 
@@ -184,7 +184,7 @@ namespace MedeniyetinApp.Controllers
             }
         }
 
-        protected void DisplayRoundMark(PaintEventArgs pe, Image imgMark, InstrumentControlMarksDefinition insControlMarksDefinition, Point ptImg, int radiusPx, Boolean displayText, float scaleFactor)
+        void DisplayRoundMark(PaintEventArgs pe, Image imgMark, InstrumentControlMarksDefinition insControlMarksDefinition, Point ptImg, int radiusPx, Boolean displayText, float scaleFactor)
         {
             Double alphaRot;
             int textBoxLength;
