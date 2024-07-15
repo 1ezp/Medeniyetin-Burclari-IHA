@@ -6,7 +6,7 @@
 
 // Variables
 #define HOST_IP "192.168.1.21"
-#define HOST_PORT 12345
+#define HOST_PORT 50
 #define CONNECT_TIMEOUT_MS 25
 
 bool isSocketTaskRunning = false;
