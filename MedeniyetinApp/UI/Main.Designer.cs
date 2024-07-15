@@ -28,20 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.AGaugeRange aGaugeRange1 = new System.Windows.Forms.AGaugeRange();
+            System.Windows.Forms.AGaugeRange aGaugeRange2 = new System.Windows.Forms.AGaugeRange();
+            System.Windows.Forms.AGaugeRange aGaugeRange3 = new System.Windows.Forms.AGaugeRange();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.aGauge3 = new System.Windows.Forms.AGauge();
-            this.aGauge2 = new System.Windows.Forms.AGauge();
-            this.aGauge1 = new System.Windows.Forms.AGauge();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.gaugePanel = new System.Windows.Forms.Panel();
+            this.LmotorSpeed = new System.Windows.Forms.Label();
+            this.LgroundSpeed = new System.Windows.Forms.Label();
+            this.LrelativeAlt = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.GrelativeAlt = new System.Windows.Forms.AGauge();
+            this.label2 = new System.Windows.Forms.Label();
+            this.GgroundSpeed = new System.Windows.Forms.AGauge();
+            this.label1 = new System.Windows.Forms.Label();
+            this.GmotorSpeed = new System.Windows.Forms.AGauge();
+            this.attitudeIndicatorInstrumentControl1 = new MedeniyetinApp.Controllers.AttitudeIndicatorInstrumentControl();
             this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.gaugePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1252, 16);
+            this.panel1.Size = new System.Drawing.Size(903, 16);
             this.panel1.TabIndex = 2;
             this.panel1.DoubleClick += new System.EventHandler(this.panel1_DoubleClick);
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
@@ -49,160 +64,297 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.aGauge3);
-            this.panel2.Controls.Add(this.aGauge2);
-            this.panel2.Controls.Add(this.aGauge1);
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panel2.Controls.Add(this.panel3);
+            this.panel2.Controls.Add(this.gaugePanel);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 16);
+            this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1252, 865);
+            this.panel2.Size = new System.Drawing.Size(903, 868);
             this.panel2.TabIndex = 3;
             // 
-            // aGauge3
+            // panel3
             // 
-            this.aGauge3.BaseArcColor = System.Drawing.Color.Gray;
-            this.aGauge3.BaseArcRadius = 80;
-            this.aGauge3.BaseArcStart = 135;
-            this.aGauge3.BaseArcSweep = 270;
-            this.aGauge3.BaseArcWidth = 2;
-            this.aGauge3.Center = new System.Drawing.Point(110, 110);
-            this.aGauge3.Location = new System.Drawing.Point(33, 591);
-            this.aGauge3.MaximumSize = new System.Drawing.Size(289, 228);
-            this.aGauge3.MaxValue = 400F;
-            this.aGauge3.MinimumSize = new System.Drawing.Size(289, 228);
-            this.aGauge3.MinValue = 0F;
-            this.aGauge3.Name = "aGauge3";
-            this.aGauge3.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Gray;
-            this.aGauge3.NeedleColor2 = System.Drawing.Color.DimGray;
-            this.aGauge3.NeedleRadius = 80;
-            this.aGauge3.NeedleType = System.Windows.Forms.NeedleType.Advance;
-            this.aGauge3.NeedleWidth = 1;
-            this.aGauge3.ScaleLinesInterColor = System.Drawing.Color.Lime;
-            this.aGauge3.ScaleLinesInterInnerRadius = 73;
-            this.aGauge3.ScaleLinesInterOuterRadius = 80;
-            this.aGauge3.ScaleLinesInterWidth = 1;
-            this.aGauge3.ScaleLinesMajorColor = System.Drawing.Color.Lime;
-            this.aGauge3.ScaleLinesMajorInnerRadius = 70;
-            this.aGauge3.ScaleLinesMajorOuterRadius = 80;
-            this.aGauge3.ScaleLinesMajorStepValue = 50F;
-            this.aGauge3.ScaleLinesMajorWidth = 2;
-            this.aGauge3.ScaleLinesMinorColor = System.Drawing.Color.Gray;
-            this.aGauge3.ScaleLinesMinorInnerRadius = 75;
-            this.aGauge3.ScaleLinesMinorOuterRadius = 80;
-            this.aGauge3.ScaleLinesMinorTicks = 9;
-            this.aGauge3.ScaleLinesMinorWidth = 1;
-            this.aGauge3.ScaleNumbersColor = System.Drawing.Color.Lime;
-            this.aGauge3.ScaleNumbersFormat = null;
-            this.aGauge3.ScaleNumbersRadius = 95;
-            this.aGauge3.ScaleNumbersRotation = 0;
-            this.aGauge3.ScaleNumbersStartScaleLine = 0;
-            this.aGauge3.ScaleNumbersStepScaleLines = 1;
-            this.aGauge3.Size = new System.Drawing.Size(289, 228);
-            this.aGauge3.TabIndex = 2;
-            this.aGauge3.Text = "aGauge3";
-            this.aGauge3.Value = 0F;
+            this.panel3.Controls.Add(this.attitudeIndicatorInstrumentControl1);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(396, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(507, 868);
+            this.panel3.TabIndex = 2;
             // 
-            // aGauge2
+            // gaugePanel
             // 
-            this.aGauge2.BaseArcColor = System.Drawing.Color.Gray;
-            this.aGauge2.BaseArcRadius = 80;
-            this.aGauge2.BaseArcStart = 135;
-            this.aGauge2.BaseArcSweep = 270;
-            this.aGauge2.BaseArcWidth = 2;
-            this.aGauge2.Center = new System.Drawing.Point(110, 110);
-            this.aGauge2.Location = new System.Drawing.Point(33, 315);
-            this.aGauge2.MaximumSize = new System.Drawing.Size(289, 228);
-            this.aGauge2.MaxValue = 400F;
-            this.aGauge2.MinimumSize = new System.Drawing.Size(289, 228);
-            this.aGauge2.MinValue = 0F;
-            this.aGauge2.Name = "aGauge2";
-            this.aGauge2.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Gray;
-            this.aGauge2.NeedleColor2 = System.Drawing.Color.DimGray;
-            this.aGauge2.NeedleRadius = 80;
-            this.aGauge2.NeedleType = System.Windows.Forms.NeedleType.Advance;
-            this.aGauge2.NeedleWidth = 1;
-            this.aGauge2.ScaleLinesInterColor = System.Drawing.Color.Lime;
-            this.aGauge2.ScaleLinesInterInnerRadius = 73;
-            this.aGauge2.ScaleLinesInterOuterRadius = 80;
-            this.aGauge2.ScaleLinesInterWidth = 1;
-            this.aGauge2.ScaleLinesMajorColor = System.Drawing.Color.Lime;
-            this.aGauge2.ScaleLinesMajorInnerRadius = 70;
-            this.aGauge2.ScaleLinesMajorOuterRadius = 80;
-            this.aGauge2.ScaleLinesMajorStepValue = 50F;
-            this.aGauge2.ScaleLinesMajorWidth = 2;
-            this.aGauge2.ScaleLinesMinorColor = System.Drawing.Color.Gray;
-            this.aGauge2.ScaleLinesMinorInnerRadius = 75;
-            this.aGauge2.ScaleLinesMinorOuterRadius = 80;
-            this.aGauge2.ScaleLinesMinorTicks = 9;
-            this.aGauge2.ScaleLinesMinorWidth = 1;
-            this.aGauge2.ScaleNumbersColor = System.Drawing.Color.Lime;
-            this.aGauge2.ScaleNumbersFormat = null;
-            this.aGauge2.ScaleNumbersRadius = 95;
-            this.aGauge2.ScaleNumbersRotation = 0;
-            this.aGauge2.ScaleNumbersStartScaleLine = 0;
-            this.aGauge2.ScaleNumbersStepScaleLines = 1;
-            this.aGauge2.Size = new System.Drawing.Size(289, 228);
-            this.aGauge2.TabIndex = 1;
-            this.aGauge2.Text = "aGauge2";
-            this.aGauge2.Value = 0F;
+            this.gaugePanel.Controls.Add(this.LmotorSpeed);
+            this.gaugePanel.Controls.Add(this.LgroundSpeed);
+            this.gaugePanel.Controls.Add(this.LrelativeAlt);
+            this.gaugePanel.Controls.Add(this.label3);
+            this.gaugePanel.Controls.Add(this.GrelativeAlt);
+            this.gaugePanel.Controls.Add(this.label2);
+            this.gaugePanel.Controls.Add(this.GgroundSpeed);
+            this.gaugePanel.Controls.Add(this.label1);
+            this.gaugePanel.Controls.Add(this.GmotorSpeed);
+            this.gaugePanel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.gaugePanel.Location = new System.Drawing.Point(0, 0);
+            this.gaugePanel.Name = "gaugePanel";
+            this.gaugePanel.Size = new System.Drawing.Size(396, 868);
+            this.gaugePanel.TabIndex = 1;
+            this.gaugePanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gaugePanel_MouseDown);
+            this.gaugePanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.gaugePanel_MouseMove);
+            this.gaugePanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gaugePanel_MouseUp);
             // 
-            // aGauge1
+            // LmotorSpeed
             // 
-            this.aGauge1.BaseArcColor = System.Drawing.Color.Gray;
-            this.aGauge1.BaseArcRadius = 80;
-            this.aGauge1.BaseArcStart = 135;
-            this.aGauge1.BaseArcSweep = 270;
-            this.aGauge1.BaseArcWidth = 2;
-            this.aGauge1.Center = new System.Drawing.Point(110, 110);
-            this.aGauge1.Location = new System.Drawing.Point(33, 39);
-            this.aGauge1.MaximumSize = new System.Drawing.Size(289, 228);
-            this.aGauge1.MaxValue = 400F;
-            this.aGauge1.MinimumSize = new System.Drawing.Size(289, 228);
-            this.aGauge1.MinValue = 0F;
-            this.aGauge1.Name = "aGauge1";
-            this.aGauge1.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Gray;
-            this.aGauge1.NeedleColor2 = System.Drawing.Color.DimGray;
-            this.aGauge1.NeedleRadius = 80;
-            this.aGauge1.NeedleType = System.Windows.Forms.NeedleType.Advance;
-            this.aGauge1.NeedleWidth = 1;
-            this.aGauge1.ScaleLinesInterColor = System.Drawing.Color.Lime;
-            this.aGauge1.ScaleLinesInterInnerRadius = 73;
-            this.aGauge1.ScaleLinesInterOuterRadius = 80;
-            this.aGauge1.ScaleLinesInterWidth = 1;
-            this.aGauge1.ScaleLinesMajorColor = System.Drawing.Color.Lime;
-            this.aGauge1.ScaleLinesMajorInnerRadius = 70;
-            this.aGauge1.ScaleLinesMajorOuterRadius = 80;
-            this.aGauge1.ScaleLinesMajorStepValue = 50F;
-            this.aGauge1.ScaleLinesMajorWidth = 2;
-            this.aGauge1.ScaleLinesMinorColor = System.Drawing.Color.Gray;
-            this.aGauge1.ScaleLinesMinorInnerRadius = 75;
-            this.aGauge1.ScaleLinesMinorOuterRadius = 80;
-            this.aGauge1.ScaleLinesMinorTicks = 9;
-            this.aGauge1.ScaleLinesMinorWidth = 1;
-            this.aGauge1.ScaleNumbersColor = System.Drawing.Color.Lime;
-            this.aGauge1.ScaleNumbersFormat = null;
-            this.aGauge1.ScaleNumbersRadius = 95;
-            this.aGauge1.ScaleNumbersRotation = 0;
-            this.aGauge1.ScaleNumbersStartScaleLine = 0;
-            this.aGauge1.ScaleNumbersStepScaleLines = 1;
-            this.aGauge1.Size = new System.Drawing.Size(289, 228);
-            this.aGauge1.TabIndex = 0;
-            this.aGauge1.Text = "aGauge1";
-            this.aGauge1.Value = 0F;
+            this.LmotorSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LmotorSpeed.ForeColor = System.Drawing.Color.Lime;
+            this.LmotorSpeed.Location = new System.Drawing.Point(167, 234);
+            this.LmotorSpeed.Name = "LmotorSpeed";
+            this.LmotorSpeed.Size = new System.Drawing.Size(67, 21);
+            this.LmotorSpeed.TabIndex = 22;
+            this.LmotorSpeed.Text = "0";
+            this.LmotorSpeed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LgroundSpeed
+            // 
+            this.LgroundSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LgroundSpeed.ForeColor = System.Drawing.Color.Lime;
+            this.LgroundSpeed.Location = new System.Drawing.Point(168, 529);
+            this.LgroundSpeed.Name = "LgroundSpeed";
+            this.LgroundSpeed.Size = new System.Drawing.Size(67, 21);
+            this.LgroundSpeed.TabIndex = 21;
+            this.LgroundSpeed.Text = "0";
+            this.LgroundSpeed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // LrelativeAlt
+            // 
+            this.LrelativeAlt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LrelativeAlt.ForeColor = System.Drawing.Color.Lime;
+            this.LrelativeAlt.Location = new System.Drawing.Point(164, 791);
+            this.LrelativeAlt.Name = "LrelativeAlt";
+            this.LrelativeAlt.Size = new System.Drawing.Size(67, 21);
+            this.LrelativeAlt.TabIndex = 20;
+            this.LrelativeAlt.Text = "0";
+            this.LrelativeAlt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.Lime;
+            this.label3.Location = new System.Drawing.Point(136, 827);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(106, 20);
+            this.label3.TabIndex = 19;
+            this.label3.Text = "Relative Alt";
+            // 
+            // GrelativeAlt
+            // 
+            this.GrelativeAlt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.GrelativeAlt.BaseArcColor = System.Drawing.Color.Gray;
+            this.GrelativeAlt.BaseArcRadius = 80;
+            this.GrelativeAlt.BaseArcStart = 135;
+            this.GrelativeAlt.BaseArcSweep = 270;
+            this.GrelativeAlt.BaseArcWidth = 2;
+            this.GrelativeAlt.Center = new System.Drawing.Point(110, 110);
+            aGaugeRange1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            aGaugeRange1.EndValue = 5F;
+            aGaugeRange1.InnerRadius = 1;
+            aGaugeRange1.InRange = false;
+            aGaugeRange1.Name = "GaugeRange1";
+            aGaugeRange1.OuterRadius = 2;
+            aGaugeRange1.StartValue = 0F;
+            this.GrelativeAlt.GaugeRanges.Add(aGaugeRange1);
+            this.GrelativeAlt.Location = new System.Drawing.Point(58, 601);
+            this.GrelativeAlt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.GrelativeAlt.MaximumSize = new System.Drawing.Size(289, 228);
+            this.GrelativeAlt.MaxValue = 400F;
+            this.GrelativeAlt.MinimumSize = new System.Drawing.Size(289, 228);
+            this.GrelativeAlt.MinValue = 0F;
+            this.GrelativeAlt.Name = "GrelativeAlt";
+            this.GrelativeAlt.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Gray;
+            this.GrelativeAlt.NeedleColor2 = System.Drawing.Color.DimGray;
+            this.GrelativeAlt.NeedleRadius = 65;
+            this.GrelativeAlt.NeedleType = System.Windows.Forms.NeedleType.Simple;
+            this.GrelativeAlt.NeedleWidth = 2;
+            this.GrelativeAlt.ScaleLinesInterColor = System.Drawing.Color.Lime;
+            this.GrelativeAlt.ScaleLinesInterInnerRadius = 73;
+            this.GrelativeAlt.ScaleLinesInterOuterRadius = 80;
+            this.GrelativeAlt.ScaleLinesInterWidth = 1;
+            this.GrelativeAlt.ScaleLinesMajorColor = System.Drawing.Color.Lime;
+            this.GrelativeAlt.ScaleLinesMajorInnerRadius = 70;
+            this.GrelativeAlt.ScaleLinesMajorOuterRadius = 80;
+            this.GrelativeAlt.ScaleLinesMajorStepValue = 50F;
+            this.GrelativeAlt.ScaleLinesMajorWidth = 2;
+            this.GrelativeAlt.ScaleLinesMinorColor = System.Drawing.Color.Gray;
+            this.GrelativeAlt.ScaleLinesMinorInnerRadius = 75;
+            this.GrelativeAlt.ScaleLinesMinorOuterRadius = 80;
+            this.GrelativeAlt.ScaleLinesMinorTicks = 9;
+            this.GrelativeAlt.ScaleLinesMinorWidth = 1;
+            this.GrelativeAlt.ScaleNumbersColor = System.Drawing.Color.Lime;
+            this.GrelativeAlt.ScaleNumbersFormat = "";
+            this.GrelativeAlt.ScaleNumbersRadius = 95;
+            this.GrelativeAlt.ScaleNumbersRotation = 0;
+            this.GrelativeAlt.ScaleNumbersStartScaleLine = 1;
+            this.GrelativeAlt.ScaleNumbersStepScaleLines = 1;
+            this.GrelativeAlt.Size = new System.Drawing.Size(289, 228);
+            this.GrelativeAlt.TabIndex = 18;
+            this.GrelativeAlt.Text = "aGauge1";
+            this.GrelativeAlt.Value = 0F;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.Lime;
+            this.label2.Location = new System.Drawing.Point(105, 556);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(179, 20);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "Ground Speed (m/s)";
+            // 
+            // GgroundSpeed
+            // 
+            this.GgroundSpeed.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.GgroundSpeed.BaseArcColor = System.Drawing.Color.Gray;
+            this.GgroundSpeed.BaseArcRadius = 80;
+            this.GgroundSpeed.BaseArcStart = 135;
+            this.GgroundSpeed.BaseArcSweep = 270;
+            this.GgroundSpeed.BaseArcWidth = 2;
+            this.GgroundSpeed.Center = new System.Drawing.Point(110, 110);
+            aGaugeRange2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            aGaugeRange2.EndValue = 5F;
+            aGaugeRange2.InnerRadius = 1;
+            aGaugeRange2.InRange = false;
+            aGaugeRange2.Name = "GaugeRange1";
+            aGaugeRange2.OuterRadius = 2;
+            aGaugeRange2.StartValue = 0F;
+            this.GgroundSpeed.GaugeRanges.Add(aGaugeRange2);
+            this.GgroundSpeed.Location = new System.Drawing.Point(58, 322);
+            this.GgroundSpeed.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.GgroundSpeed.MaximumSize = new System.Drawing.Size(289, 228);
+            this.GgroundSpeed.MaxValue = 300F;
+            this.GgroundSpeed.MinimumSize = new System.Drawing.Size(289, 228);
+            this.GgroundSpeed.MinValue = 0F;
+            this.GgroundSpeed.Name = "GgroundSpeed";
+            this.GgroundSpeed.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Gray;
+            this.GgroundSpeed.NeedleColor2 = System.Drawing.Color.DimGray;
+            this.GgroundSpeed.NeedleRadius = 65;
+            this.GgroundSpeed.NeedleType = System.Windows.Forms.NeedleType.Simple;
+            this.GgroundSpeed.NeedleWidth = 2;
+            this.GgroundSpeed.ScaleLinesInterColor = System.Drawing.Color.Lime;
+            this.GgroundSpeed.ScaleLinesInterInnerRadius = 73;
+            this.GgroundSpeed.ScaleLinesInterOuterRadius = 80;
+            this.GgroundSpeed.ScaleLinesInterWidth = 1;
+            this.GgroundSpeed.ScaleLinesMajorColor = System.Drawing.Color.Lime;
+            this.GgroundSpeed.ScaleLinesMajorInnerRadius = 70;
+            this.GgroundSpeed.ScaleLinesMajorOuterRadius = 80;
+            this.GgroundSpeed.ScaleLinesMajorStepValue = 30F;
+            this.GgroundSpeed.ScaleLinesMajorWidth = 2;
+            this.GgroundSpeed.ScaleLinesMinorColor = System.Drawing.Color.Gray;
+            this.GgroundSpeed.ScaleLinesMinorInnerRadius = 75;
+            this.GgroundSpeed.ScaleLinesMinorOuterRadius = 80;
+            this.GgroundSpeed.ScaleLinesMinorTicks = 9;
+            this.GgroundSpeed.ScaleLinesMinorWidth = 1;
+            this.GgroundSpeed.ScaleNumbersColor = System.Drawing.Color.Lime;
+            this.GgroundSpeed.ScaleNumbersFormat = "";
+            this.GgroundSpeed.ScaleNumbersRadius = 95;
+            this.GgroundSpeed.ScaleNumbersRotation = 0;
+            this.GgroundSpeed.ScaleNumbersStartScaleLine = 1;
+            this.GgroundSpeed.ScaleNumbersStepScaleLines = 1;
+            this.GgroundSpeed.Size = new System.Drawing.Size(289, 228);
+            this.GgroundSpeed.TabIndex = 15;
+            this.GgroundSpeed.Text = "aGauge1";
+            this.GgroundSpeed.Value = 0F;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Lime;
+            this.label1.Location = new System.Drawing.Point(136, 265);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(121, 20);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "Motor Speed ";
+            // 
+            // GmotorSpeed
+            // 
+            this.GmotorSpeed.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.GmotorSpeed.BaseArcColor = System.Drawing.Color.Gray;
+            this.GmotorSpeed.BaseArcRadius = 80;
+            this.GmotorSpeed.BaseArcStart = 135;
+            this.GmotorSpeed.BaseArcSweep = 270;
+            this.GmotorSpeed.BaseArcWidth = 2;
+            this.GmotorSpeed.Center = new System.Drawing.Point(110, 110);
+            aGaugeRange3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            aGaugeRange3.EndValue = 5F;
+            aGaugeRange3.InnerRadius = 1;
+            aGaugeRange3.InRange = false;
+            aGaugeRange3.Name = "GaugeRange1";
+            aGaugeRange3.OuterRadius = 2;
+            aGaugeRange3.StartValue = 0F;
+            this.GmotorSpeed.GaugeRanges.Add(aGaugeRange3);
+            this.GmotorSpeed.Location = new System.Drawing.Point(58, 39);
+            this.GmotorSpeed.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.GmotorSpeed.MaximumSize = new System.Drawing.Size(289, 228);
+            this.GmotorSpeed.MaxValue = 1000F;
+            this.GmotorSpeed.MinimumSize = new System.Drawing.Size(289, 228);
+            this.GmotorSpeed.MinValue = 0F;
+            this.GmotorSpeed.Name = "GmotorSpeed";
+            this.GmotorSpeed.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Gray;
+            this.GmotorSpeed.NeedleColor2 = System.Drawing.Color.DimGray;
+            this.GmotorSpeed.NeedleRadius = 65;
+            this.GmotorSpeed.NeedleType = System.Windows.Forms.NeedleType.Simple;
+            this.GmotorSpeed.NeedleWidth = 2;
+            this.GmotorSpeed.ScaleLinesInterColor = System.Drawing.Color.Lime;
+            this.GmotorSpeed.ScaleLinesInterInnerRadius = 73;
+            this.GmotorSpeed.ScaleLinesInterOuterRadius = 80;
+            this.GmotorSpeed.ScaleLinesInterWidth = 1;
+            this.GmotorSpeed.ScaleLinesMajorColor = System.Drawing.Color.Lime;
+            this.GmotorSpeed.ScaleLinesMajorInnerRadius = 70;
+            this.GmotorSpeed.ScaleLinesMajorOuterRadius = 80;
+            this.GmotorSpeed.ScaleLinesMajorStepValue = 100F;
+            this.GmotorSpeed.ScaleLinesMajorWidth = 2;
+            this.GmotorSpeed.ScaleLinesMinorColor = System.Drawing.Color.Gray;
+            this.GmotorSpeed.ScaleLinesMinorInnerRadius = 75;
+            this.GmotorSpeed.ScaleLinesMinorOuterRadius = 80;
+            this.GmotorSpeed.ScaleLinesMinorTicks = 9;
+            this.GmotorSpeed.ScaleLinesMinorWidth = 1;
+            this.GmotorSpeed.ScaleNumbersColor = System.Drawing.Color.Lime;
+            this.GmotorSpeed.ScaleNumbersFormat = "";
+            this.GmotorSpeed.ScaleNumbersRadius = 95;
+            this.GmotorSpeed.ScaleNumbersRotation = 0;
+            this.GmotorSpeed.ScaleNumbersStartScaleLine = 1;
+            this.GmotorSpeed.ScaleNumbersStepScaleLines = 1;
+            this.GmotorSpeed.Size = new System.Drawing.Size(289, 228);
+            this.GmotorSpeed.TabIndex = 13;
+            this.GmotorSpeed.Text = "aGauge1";
+            this.GmotorSpeed.Value = 0F;
+            // 
+            // attitudeIndicatorInstrumentControl1
+            // 
+            this.attitudeIndicatorInstrumentControl1.Location = new System.Drawing.Point(-7, 5);
+            this.attitudeIndicatorInstrumentControl1.Name = "attitudeIndicatorInstrumentControl1";
+            this.attitudeIndicatorInstrumentControl1.Size = new System.Drawing.Size(511, 511);
+            this.attitudeIndicatorInstrumentControl1.TabIndex = 18;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(1252, 881);
+            this.ClientSize = new System.Drawing.Size(903, 884);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Main";
-            this.Text = "Main";
+            this.Text = "s";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panel2.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.gaugePanel.ResumeLayout(false);
+            this.gaugePanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -210,8 +362,17 @@
         #endregion
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.AGauge aGauge1;
-        private System.Windows.Forms.AGauge aGauge2;
-        private System.Windows.Forms.AGauge aGauge3;
+        private System.Windows.Forms.Panel gaugePanel;
+        private System.Windows.Forms.Label LmotorSpeed;
+        private System.Windows.Forms.Label LgroundSpeed;
+        private System.Windows.Forms.Label LrelativeAlt;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.AGauge GrelativeAlt;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.AGauge GgroundSpeed;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.AGauge GmotorSpeed;
+        private System.Windows.Forms.Panel panel3;
+        private Controllers.AttitudeIndicatorInstrumentControl attitudeIndicatorInstrumentControl1;
     }
 }
