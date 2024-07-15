@@ -41,12 +41,12 @@ def main():
    while True:
       try:
          recivedData = ser.readline().decode()
-         #print(recivedData)
+         print(recivedData)
          if recivedData != '':
             data = recivedData.split(":")
             MODE.update({"value": data[0]})
             Controller.update({"x": data[1], "y": data[2]})
-            motorSpeed.update({"value": data[3]})
+            IHA.update({"motorSpeed": int(data[3])})
       except serial.SerialException:
          MODE.update({"value": 1})
          if ser and ser.isOpen():

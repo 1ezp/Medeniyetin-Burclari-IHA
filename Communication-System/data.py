@@ -1,10 +1,11 @@
-
-
 IHA = {
     "Lat": 38.7311257,
     "Long": 35.4854071,
-    "motorSpeed":100,
-    "groundSpeed":60,
+    "motorSpeed":0,
+    "groundSpeed":0,
+    "roll":0,
+    "pitch":0,
+    "relative_alt":0,
 }
 
 IKA = {
@@ -12,6 +13,7 @@ IKA = {
     "Long": 35.483639,
     "groundSpeed":0,
 }
+
 YER = {
     "Lat": 38.727073,
     "Long": 35.485954
