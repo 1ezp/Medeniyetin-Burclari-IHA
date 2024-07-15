@@ -40,7 +40,7 @@ namespace MedeniyetinApp.UI
         public Camera(string host)
         {
             InitializeComponent();
-            
+            //splitContainer1.SplitterDistance = splitContainer1.Width / 2;
             scaleX = (double)cam1Width / cam2Width;
             scaleY = (double)cam1Height / cam2Height;
 
