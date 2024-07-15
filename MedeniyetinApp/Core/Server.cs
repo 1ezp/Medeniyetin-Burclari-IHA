@@ -20,6 +20,15 @@ namespace MedeniyetinApp.Core
 
         [JsonProperty("groundSpeed")]
         public double groundSpeed { get; set; }
+
+        [JsonProperty("roll")]
+        public double roll { get; set; }
+
+        [JsonProperty("pitch")]
+        public double pitch { get; set; }
+
+        [JsonProperty("relative_alt")]
+        public double relative_alt { get; set; }
     }
 
     public class TargetInfo
