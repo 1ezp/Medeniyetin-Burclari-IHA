@@ -1,6 +1,6 @@
 IHA = {
-    "Lat": 38.7311257,
-    "Long": 35.4854071,
+    "Lat": 0,
+    "Long": 0,
     "motorSpeed":0,
     "groundSpeed":0,
     "roll":0,
@@ -9,8 +9,10 @@ IHA = {
 }
 
 IKA = {
-    "Lat": 38.727883,
-    "Long": 35.483639,
+    "Lat": 0,
+    "Long": 0,
+    "Movment":0,
+    "Turret":0,
     "groundSpeed":0,
 }
 

@@ -3,7 +3,8 @@ import serial
 from threading import Thread
 import socketServer
 import usbReciver
-import IHAConnection 
+import IHAConnection
+import IKAConnection
 import pixHawk
 
 from trackSystem import main as trackSystem
@@ -11,6 +12,7 @@ from trackSystem import main as trackSystem
 
 Thread(target=usbReciver.main).start()
 Thread(target=IHAConnection.start).start()
+Thread(target=IKAConnection.start).start()
 Thread(target=socketServer.start).start()
 Thread(target=pixHawk.start).start()
 
