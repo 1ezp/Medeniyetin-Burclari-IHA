@@ -4,57 +4,39 @@
 // --------------------------------------------------
 
 
-#define manualPin 5
+
+#define manualPin 2
 #define PixhawlkPin 3
-#define PIDPin 6
-#define shutdownPin 4
+#define PIDPin 4
+#define shutdownPin 5
 
-bool isManual = true;
-bool isPixhawlk = false;
-bool isPID = false;
-bool isShutdown = false;
-bool isOverride = false;
+short int flyingMode = 0;
 
-void adjustMode(){
+void adjustFlyingMode(){
 
     if(!digitalRead(manualPin)){
 
-        isManual = true;
-        isPixhawlk = false;
-        isPID = false;
-        isShutdown = false;
+        flyingMode = 0;
     }
     else if(!digitalRead(PixhawlkPin)){
 
-        isManual = false;
-        isPixhawlk = true;
-        isPID = false;
-        isShutdown = false;
+        flyingMode = 1;
     }
-    else if(!digitalRead(PIDPin)){
+    else if(!digitalRead(PIDPin) || flyingMode == 4){
 
-        isManual = false;
-        isPixhawlk = false;
-        isPID = true;
-        isShutdown = false;
+        flyingMode = 2;
     }
     else if(!digitalRead(shutdownPin)){
 
-        isManual = false;
-        isPixhawlk = false;
-        isPID = false;
-        isShutdown = true;
+        flyingMode = 3;
     }
 
-    if(isPID && !digitalRead(PIDPin)){
+    if(flyingMode == 2 && !digitalRead(PIDPin)){
 
-        isOverride = true;
-    }
-    else{
-
-        isOverride = false;
+        flyingMode = 4;
     }
 }
+
 
 
 // ---------------------GUARD------------------------
