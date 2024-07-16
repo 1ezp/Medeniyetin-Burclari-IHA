@@ -6,7 +6,7 @@
 
 // Variables
 #define HOST_IP "192.168.1.21"
-#define HOST_PORT 50
+#define HOST_PORT 100
 #define CONNECT_TIMEOUT_MS 25
 
 bool isSocketTaskRunning = false;
@@ -112,7 +112,7 @@ void socketTask(){
 
                 rx_buffer[len] = 0; // Null-terminate the received data
                 // ESP_LOGI(SocketTAG, "Received %d bytes: %s", len, rx_buffer);
-                extractNumbers(rx_buffer, &data[0], &data[1], &data[2], &data[3], &data[4], &data[5]);
+                extractNumbers(rx_buffer, &data[0], &data[1]);
             }
             delay(25);
         }

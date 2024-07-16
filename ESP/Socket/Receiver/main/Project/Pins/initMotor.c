@@ -9,7 +9,6 @@
 #define motorChannelNum          LEDC_CHANNEL_2
 #define motorDutyRes             LEDC_TIMER_10_BIT
 #define motorFreq                (4000)
-int motorDuty = (256);
 
 static inline uint32_t example_angle_to_compare(int angle){
 

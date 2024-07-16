@@ -18,6 +18,10 @@ ESP/Socket/Transmitter/build/
 ESP/Socket/Transmitter/dependencies.lock
 ESP/Socket/Transmitter/sdkconfig
 ESP/Socket/Transmitter/sdkconfig.old
+ESP/Socket/IKA/build/
+ESP/Socket/IKA/dependencies.lock
+ESP/Socket/IKA/sdkconfig
+ESP/Socket/IKA/sdkconfig.old
 MedeniyetinApp/bin
 MedeniyetinApp/obj
 MedeniyetinApp/.vs
