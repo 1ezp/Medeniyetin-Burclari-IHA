@@ -7,6 +7,9 @@
 float gpsLat = -1;
 float gpsLng = -1;
 
+float gpsLatTemp = -1;
+float gpsLngTemp = -1;
+
 static const int RX_BUF_SIZE = 2048;
 
 #define TXD_PIN 17
@@ -50,8 +53,9 @@ void gpsTask(){
                 // Extract latitude and longitude
                 if(sscanf(gngll, "$GNGLL,%f,N,%f,E", &latitude, &longitude) == 2){
 
-                    gpsLat = latitude;
-                    gpsLng = longitude;
+                    gpsLatTemp = latitude;
+                    gpsLngTemp = longitude;
+                    fixGps(gpsLatTemp, gpsLngTemp, &gpsLat, &gpsLng);
                 }
                 else{
 
