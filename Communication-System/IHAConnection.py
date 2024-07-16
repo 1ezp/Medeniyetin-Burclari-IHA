@@ -24,7 +24,7 @@ class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
 
 def start():
     HOST = '0.0.0.0'
-    PORT = 12345
+    PORT = 50
     server = ThreadedTCPServer((HOST, PORT), RequestHandler)
     with server:
         server.serve_forever()
