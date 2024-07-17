@@ -16,6 +16,7 @@ def start():
     while True:
         msg = pix.recv_match(blocking=True)
         if not msg:
+            print(msg)
             continue
         
         if msg.get_type() == 'ATTITUDE':
