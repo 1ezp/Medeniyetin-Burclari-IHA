@@ -47,8 +47,9 @@
             this.panel1.Controls.Add(this.btnExit);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(464, 52);
+            this.panel1.Size = new System.Drawing.Size(348, 42);
             this.panel1.TabIndex = 2;
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
@@ -59,9 +60,10 @@
             this.btnExit.FlatAppearance.BorderSize = 0;
             this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExit.Location = new System.Drawing.Point(402, 0);
+            this.btnExit.Location = new System.Drawing.Point(302, 0);
+            this.btnExit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(62, 52);
+            this.btnExit.Size = new System.Drawing.Size(46, 42);
             this.btnExit.TabIndex = 0;
             this.btnExit.Text = "X";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -78,18 +80,20 @@
             this.panel2.Controls.Add(this.label1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel2.Location = new System.Drawing.Point(0, 52);
+            this.panel2.Location = new System.Drawing.Point(0, 42);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(464, 490);
+            this.panel2.Size = new System.Drawing.Size(348, 398);
             this.panel2.TabIndex = 3;
             // 
             // btnRefresh
             // 
             this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRefresh.ForeColor = System.Drawing.Color.White;
-            this.btnRefresh.Location = new System.Drawing.Point(355, 263);
+            this.btnRefresh.Location = new System.Drawing.Point(266, 214);
+            this.btnRefresh.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(40, 33);
+            this.btnRefresh.Size = new System.Drawing.Size(30, 27);
             this.btnRefresh.TabIndex = 9;
             this.btnRefresh.Text = "R";
             this.btnRefresh.UseVisualStyleBackColor = true;
@@ -101,18 +105,20 @@
             this.cmbPorts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbPorts.ForeColor = System.Drawing.Color.White;
             this.cmbPorts.FormattingEnabled = true;
-            this.cmbPorts.Location = new System.Drawing.Point(41, 263);
+            this.cmbPorts.Location = new System.Drawing.Point(31, 214);
+            this.cmbPorts.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cmbPorts.Name = "cmbPorts";
-            this.cmbPorts.Size = new System.Drawing.Size(308, 33);
+            this.cmbPorts.Size = new System.Drawing.Size(232, 28);
             this.cmbPorts.TabIndex = 8;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(36, 206);
+            this.label3.Location = new System.Drawing.Point(27, 167);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(126, 29);
+            this.label3.Size = new System.Drawing.Size(99, 25);
             this.label3.TabIndex = 6;
             this.label3.Text = "Data Port:";
             // 
@@ -120,9 +126,10 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(106, 25);
+            this.label2.Location = new System.Drawing.Point(80, 20);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(243, 29);
+            this.label2.Size = new System.Drawing.Size(188, 25);
             this.label2.TabIndex = 5;
             this.label2.Text = "Medeniyetin Burclari";
             // 
@@ -130,9 +137,10 @@
             // 
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStart.ForeColor = System.Drawing.Color.White;
-            this.btnStart.Location = new System.Drawing.Point(100, 337);
+            this.btnStart.Location = new System.Drawing.Point(75, 274);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(225, 55);
+            this.btnStart.Size = new System.Drawing.Size(169, 45);
             this.btnStart.TabIndex = 4;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -144,31 +152,34 @@
             this.cameraIP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.cameraIP.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cameraIP.ForeColor = System.Drawing.Color.White;
-            this.cameraIP.Location = new System.Drawing.Point(41, 135);
+            this.cameraIP.Location = new System.Drawing.Point(31, 110);
+            this.cameraIP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cameraIP.Name = "cameraIP";
-            this.cameraIP.Size = new System.Drawing.Size(354, 36);
+            this.cameraIP.Size = new System.Drawing.Size(266, 30);
             this.cameraIP.TabIndex = 3;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(36, 91);
+            this.label1.Location = new System.Drawing.Point(27, 74);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(140, 29);
+            this.label1.Size = new System.Drawing.Size(111, 25);
             this.label1.TabIndex = 2;
             this.label1.Text = "Camera IP:";
             // 
             // Login
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(464, 542);
+            this.ClientSize = new System.Drawing.Size(348, 440);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Login";
             this.Text = "login";
             this.panel1.ResumeLayout(false);

@@ -68,23 +68,31 @@ namespace MedeniyetinApp.UI
         {
 
             //Camera cameraFrm = new Camera(cameraIP.Text);
-            //cameraFrm.Show();
-            //Main mainFrm = new Main();
-            //mainFrm.Show();
+            Camera cameraFrm = new Camera("172.0.0.1");
+            Main mainFrm = new Main();
             Map mapFrm = new Map(cmbPorts.Text);
-            mapFrm.Show();  
 
-            if (Screen.AllScreens.Length >= 1)
+            Screen[] screens = Screen.AllScreens;
+            if (screens.Length > 2)
             {
-
-                mapFrm.Location = Screen.AllScreens[1].Bounds.Location;
+                mapFrm.StartPosition = FormStartPosition.Manual;
+                mapFrm.Location = screens[1].WorkingArea.Location;
                 mapFrm.WindowState = FormWindowState.Maximized;
+                mapFrm.Show();
 
-                /*cameraFrm.Location = Screen.AllScreens[1].Bounds.Location;
+
+                mainFrm.StartPosition = FormStartPosition.Manual;
+                mainFrm.Location = Screen.AllScreens[0].Bounds.Location;
+                mainFrm.WindowState = FormWindowState.Maximized;
+                mainFrm.Show();
+
+                cameraFrm.StartPosition = FormStartPosition.Manual;
+                cameraFrm.Location = Screen.AllScreens[2].Bounds.Location;
                 cameraFrm.WindowState = FormWindowState.Maximized;
-                cameraFrm.TopMost = true;
-                cameraFrm.TopMost = true;
-                */
+                cameraFrm.Show();
+
+
+
             }
 
             

@@ -39,20 +39,23 @@ namespace MedeniyetinApp.UI
             while (true)
             {
                 VehicleInfo IHAInfo = server.IHA();
-
-                Invoke((MethodInvoker)delegate
+                try
                 {
-                    GmotorSpeed.Value = (float)IHAInfo.motorSpeed;
-                    LmotorSpeed.Text = Convert.ToString(IHAInfo.motorSpeed);
+                    Invoke((MethodInvoker)delegate
+                    {
+                        GmotorSpeed.Value = (float)IHAInfo.motorSpeed;
+                        LmotorSpeed.Text = Convert.ToString(IHAInfo.motorSpeed);
 
-                    GgroundSpeed.Value = (float)IHAInfo.groundSpeed;
-                    LgroundSpeed.Text = Convert.ToString(IHAInfo.groundSpeed);
+                        GgroundSpeed.Value = (float)IHAInfo.groundSpeed;
+                        LgroundSpeed.Text = Convert.ToString(IHAInfo.groundSpeed);
 
-                    GrelativeAlt.Value = (float)IHAInfo.relative_alt;
-                    LrelativeAlt.Text = Convert.ToString(IHAInfo.relative_alt);
-                    attitudeIndicatorInstrumentControl1.SetAttitudeIndicatorParameters(IHAInfo.pitch, IHAInfo.roll);
-                
-                });
+                        GrelativeAlt.Value = (float)IHAInfo.relative_alt;
+                        LrelativeAlt.Text = Convert.ToString(IHAInfo.relative_alt);
+                        attitudeIndicatorInstrumentControl1.SetAttitudeIndicatorParameters(IHAInfo.pitch, IHAInfo.roll);
+
+                    });
+                }
+                catch (Exception ex) { }
             }   
         }
 
