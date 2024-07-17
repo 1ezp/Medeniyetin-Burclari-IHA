@@ -3,7 +3,12 @@
 #define initPrinter
 // --------------------------------------------------
 
-void printValues(int mode){
+
+extern short int flyingMode;
+extern short int ikaMode;
+extern short int turretMode;
+
+void printFlyingMode(int mode){
 
     readAndFix();
     Serial.print(mode);
@@ -12,30 +17,81 @@ void printValues(int mode){
     Serial.print(":");
     Serial.print(yRaw);
     Serial.print(":");
-    Serial.println(speed);
+    Serial.print(speed);
+    Serial.print(":");
+}
+
+void printIkaMode(int mode){
+
+    Serial.print(mode);
+    Serial.print(":");
+}
+
+void printTurretMode(int mode){
+
+    Serial.println(mode);
 }
 
 void printer(){
 
-    if(isOverride){
+    switch(flyingMode){
 
-        printValues(4);
+        case 0:
+            printFlyingMode(0);
+            break;
+        case 1:
+            printFlyingMode(1);
+            break;
+        case 2:
+            printFlyingMode(2);
+            break;
+        case 3:
+            printFlyingMode(3);
+            break;
+        case 4:
+            printFlyingMode(4);
+            break;
     }
-    else if(isManual){
 
-        printValues(0);
+    switch(ikaMode){
+
+        case 0:
+            printIkaMode(0);
+            break;
+        case 1:
+            printIkaMode(1);
+            break;
+        case 2:
+            printIkaMode(2);
+            break;
+        case 3:
+            printIkaMode(3);
+            break;
+        case 4:
+            printIkaMode(4);
+            break;
     }
-    else if(isPixhawlk){
 
-        printValues(1);
-    }
-    else if(isPID){
+    switch(turretMode){
 
-        printValues(2);
-    }
-    else if(isShutdown){
-
-        printValues(3);
+        case 0:
+            printTurretMode(0);
+            break;
+        case 1:
+            printTurretMode(1);
+            break;
+        case 2:
+            printTurretMode(2);
+            break;
+        case 3:
+            printTurretMode(3);
+            break;
+        case 4:
+            printTurretMode(4);
+            break;
+        case 5:
+            printTurretMode(5);
+            break;
     }
 }
 
