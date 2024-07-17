@@ -42,7 +42,7 @@ def select_target(event, x, y, flags, param):
 
 def main():
     global target_selected, target_bbox, tracker_initialized,mouse_x, mouse_y, square_size
-    cap = cv2.VideoCapture('http://192.168.10.60:81/stream')
+    cap = cv2.VideoCapture('http://192.168.10.110:80/stream')
     #cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
@@ -93,3 +93,5 @@ def main():
 
     cap.release()
     cv2.destroyAllWindows()
+if __name__ == "__main__":
+    main()
