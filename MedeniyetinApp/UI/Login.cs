@@ -66,26 +66,28 @@ namespace MedeniyetinApp.UI
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            
-            Camera cameraFrm = new Camera(cameraIP.Text);
-            cameraFrm.Show();
+
+            //Camera cameraFrm = new Camera(cameraIP.Text);
+            //cameraFrm.Show();
+            //Main mainFrm = new Main();
+            //mainFrm.Show();
             Map mapFrm = new Map(cmbPorts.Text);
             mapFrm.Show();  
 
-            if (Screen.AllScreens.Length > 0)
+            if (Screen.AllScreens.Length >= 1)
             {
 
-                mapFrm.Location = Screen.AllScreens[0].Bounds.Location;
+                mapFrm.Location = Screen.AllScreens[1].Bounds.Location;
                 mapFrm.WindowState = FormWindowState.Maximized;
 
-                cameraFrm.Location = Screen.AllScreens[1].Bounds.Location;
+                /*cameraFrm.Location = Screen.AllScreens[1].Bounds.Location;
                 cameraFrm.WindowState = FormWindowState.Maximized;
                 cameraFrm.TopMost = true;
                 cameraFrm.TopMost = true;
-
+                */
             }
 
-
+            
             this.Hide();
         }
         private void panel1_MouseDown(object sender, MouseEventArgs e)
