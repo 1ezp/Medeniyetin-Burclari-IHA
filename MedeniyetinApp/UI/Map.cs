@@ -94,7 +94,7 @@ namespace MedeniyetinApp.UI
                         addMarker(IhaMarker, IhaLat, IhaLng, "IHA");
                     
                     }
-                    if (IkaLat ==  -1.0 && IkaLng == -1.0)
+                    if (IkaLat == 0 && IkaLng == 0)
                     {
                         removeMarker(IkaMarker);
                     }else
@@ -104,7 +104,7 @@ namespace MedeniyetinApp.UI
 
                     }
 
-                    if (YerLat == -1.0 && YerLng == -1.0)
+                    if (YerLat == 0 && YerLng == 0)
                     {
                         removeMarker(YerMarker);
                     }
