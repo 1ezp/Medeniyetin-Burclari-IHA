@@ -16,4 +16,4 @@ Thread(target=IKAConnection.start).start()
 Thread(target=socketServer.start).start()
 Thread(target=pixHawk.start).start()
 
-# Thread(target=trackSystem.main).start()
+Thread(target=trackSystem.main).start()
