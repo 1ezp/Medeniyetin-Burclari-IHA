@@ -76,13 +76,13 @@ namespace MedeniyetinApp.UI
             if (screens.Length > 2)
             {
                 mapFrm.StartPosition = FormStartPosition.Manual;
-                mapFrm.Location = screens[1].WorkingArea.Location;
+                mapFrm.Location = screens[0].WorkingArea.Location;
                 mapFrm.WindowState = FormWindowState.Maximized;
                 mapFrm.Show();
 
 
                 mainFrm.StartPosition = FormStartPosition.Manual;
-                mainFrm.Location = Screen.AllScreens[0].Bounds.Location;
+                mainFrm.Location = Screen.AllScreens[1].Bounds.Location;
                 mainFrm.WindowState = FormWindowState.Maximized;
                 mainFrm.Show();
 
