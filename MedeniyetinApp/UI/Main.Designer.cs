@@ -50,12 +50,12 @@
             this.ModePixhawk = new System.Windows.Forms.Label();
             this.ModePID = new System.Windows.Forms.Label();
             this.ModeOFF = new System.Windows.Forms.Label();
-            this.attitudeIndicatorInstrumentControl1 = new MedeniyetinApp.Controllers.AttitudeIndicatorInstrumentControl();
             this.label4 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.LIhaLat = new System.Windows.Forms.Label();
             this.LIhaLong = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.attitudeIndicatorInstrumentControl1 = new MedeniyetinApp.Controllers.AttitudeIndicatorInstrumentControl();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -417,14 +417,6 @@
             this.ModeOFF.TabIndex = 3;
             this.ModeOFF.Text = "OFF";
             // 
-            // attitudeIndicatorInstrumentControl1
-            // 
-            this.attitudeIndicatorInstrumentControl1.Location = new System.Drawing.Point(31, 19);
-            this.attitudeIndicatorInstrumentControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.attitudeIndicatorInstrumentControl1.Name = "attitudeIndicatorInstrumentControl1";
-            this.attitudeIndicatorInstrumentControl1.Size = new System.Drawing.Size(471, 471);
-            this.attitudeIndicatorInstrumentControl1.TabIndex = 18;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -441,7 +433,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Silver;
-            this.label6.Location = new System.Drawing.Point(51, 260);
+            this.label6.Location = new System.Drawing.Point(66, 252);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(45, 25);
             this.label6.TabIndex = 5;
@@ -452,7 +444,7 @@
             this.LIhaLat.AutoSize = true;
             this.LIhaLat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LIhaLat.ForeColor = System.Drawing.Color.Silver;
-            this.LIhaLat.Location = new System.Drawing.Point(102, 260);
+            this.LIhaLat.Location = new System.Drawing.Point(117, 252);
             this.LIhaLat.Name = "LIhaLat";
             this.LIhaLat.Size = new System.Drawing.Size(23, 25);
             this.LIhaLat.TabIndex = 7;
@@ -463,7 +455,7 @@
             this.LIhaLong.AutoSize = true;
             this.LIhaLong.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LIhaLong.ForeColor = System.Drawing.Color.Silver;
-            this.LIhaLong.Location = new System.Drawing.Point(389, 260);
+            this.LIhaLong.Location = new System.Drawing.Point(404, 252);
             this.LIhaLong.Name = "LIhaLong";
             this.LIhaLong.Size = new System.Drawing.Size(23, 25);
             this.LIhaLong.TabIndex = 9;
@@ -474,11 +466,19 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.Silver;
-            this.label9.Location = new System.Drawing.Point(327, 260);
+            this.label9.Location = new System.Drawing.Point(342, 252);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(62, 25);
             this.label9.TabIndex = 8;
             this.label9.Text = "Long:";
+            // 
+            // attitudeIndicatorInstrumentControl1
+            // 
+            this.attitudeIndicatorInstrumentControl1.Location = new System.Drawing.Point(31, 19);
+            this.attitudeIndicatorInstrumentControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.attitudeIndicatorInstrumentControl1.Name = "attitudeIndicatorInstrumentControl1";
+            this.attitudeIndicatorInstrumentControl1.Size = new System.Drawing.Size(471, 471);
+            this.attitudeIndicatorInstrumentControl1.TabIndex = 18;
             // 
             // Main
             // 
