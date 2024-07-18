@@ -7,11 +7,11 @@ from threading import Thread
 
 class RequestHandler(socketserver.BaseRequestHandler):
     def handle(self):
-        print(f'Connected by {self.client_address}')
+        print(f'Connected IKA by {self.client_address}')
         while True:
             try:
                 data = self.request.recv(1024).decode('utf-8').split(":")
-                response = f"{IKA['Movment']}:{IHA['Turret']}"
+                response = f"{IKA['Movment']}:{IKA['Turret']}"
                 self.request.sendall(response.encode('utf-8')) 
                 IKA.update({"Lat": float(data[0]), "Long": float(data[1])})
             except Exception as e:
