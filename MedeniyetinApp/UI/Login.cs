@@ -25,7 +25,6 @@ namespace MedeniyetinApp.UI
 
         }
 
-
         private void PopulateSerialPortComboBox()
         {
             cmbPorts.Items.Clear();
@@ -94,10 +93,16 @@ namespace MedeniyetinApp.UI
 
 
             }
-
-            
+            else
+            {
+                mapFrm.Show();
+                mainFrm.Show();
+                cameraFrm.Show();
+            }
+    
             this.Hide();
         }
+
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)

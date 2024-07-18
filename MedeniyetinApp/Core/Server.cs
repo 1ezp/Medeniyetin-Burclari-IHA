@@ -9,6 +9,9 @@ namespace MedeniyetinApp.Core
 
     public class VehicleInfo
     {
+        [JsonProperty("MODE")]
+        public double MODE { get; set; }
+
         [JsonProperty("Lat")]
         public double Latitude { get; set; }
 

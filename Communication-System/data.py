@@ -1,4 +1,5 @@
 IHA = {
+    "MODE":1,
     "Lat": 0,
     "Long": 0,
     "motorSpeed":0,
@@ -29,8 +30,4 @@ Target = {
 Controller  = {
     "x":0,
     "y":0
-}
-
-MODE = {
-    "value":0
 }

@@ -52,13 +52,45 @@ namespace MedeniyetinApp.UI
                         GrelativeAlt.Value = (float)IHAInfo.relative_alt;
                         LrelativeAlt.Text = Convert.ToString(IHAInfo.relative_alt);
                         attitudeIndicatorInstrumentControl1.SetAttitudeIndicatorParameters(IHAInfo.pitch, IHAInfo.roll);
-
+                        
+                        UpdateIHAMode((int)IHAInfo.MODE);
+                        UpdateIHAGPS(IHAInfo.Latitude, IHAInfo.Longitude);
                     });
                 }
-                catch (Exception ex) { }
+                catch { }
             }   
         }
 
+        private void UpdateIHAMode(int Mode)
+        {
+            switch (Mode)
+            {
+                case 1:
+                    ModePixhawk.ForeColor = System.Drawing.Color.Lime;
+                    ModePixhawk.Font = new Font(ModePixhawk.Font, FontStyle.Bold);
+                    ModePID.ForeColor = System.Drawing.Color.Silver;
+                    ModeOFF.ForeColor = System.Drawing.Color.Silver;
+                    break;
+                case 2:
+                    ModePID.ForeColor = System.Drawing.Color.Lime;
+                    ModePID.Font = new Font(ModePID.Font, FontStyle.Bold);
+                    ModePixhawk.ForeColor= System.Drawing.Color.Silver;
+                    ModeOFF.ForeColor= System.Drawing.Color.Silver;
+                    break;
+                case 3:
+                    ModeOFF.ForeColor = System.Drawing.Color.Red;
+                    ModeOFF.Font = new Font(ModeOFF.Font, FontStyle.Bold);
+                    ModePixhawk.ForeColor = System.Drawing.Color.Silver;
+                    ModePID.ForeColor = System.Drawing.Color.Silver;
+                    break;
+            }
+        }
+
+        private void UpdateIHAGPS(double Lat,Double Long)
+        {
+            LIhaLat.Text = Lat.ToString();
+            LIhaLong.Text = Long.ToString();
+        }
 
 
         private void panel1_DoubleClick(object sender, EventArgs e)

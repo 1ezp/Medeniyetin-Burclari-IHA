@@ -124,7 +124,7 @@ namespace MedeniyetinApp.UI
 
         private void LoadMap()
         {
-            GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerAndCache;
+            GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
             map.SetPositionByKeywords("kayseri, Turkey");
             map.Position = new PointLatLng(38.7225, 35.4875);
             map.ShowCenter = false;

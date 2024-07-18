@@ -25,20 +25,19 @@ def main():
          #print(recivedData)
          if recivedData != '':
             data = recivedData.split(":")
-            MODE.update({"value": data[0]})
             Controller.update({"x": data[1], "y": data[2]})
-            IHA.update({"motorSpeed": int(data[3])})
+            IHA.update({"motorSpeed": int(data[3]),"MODE":int(data[0])})
             IKA.update({"Movment":int(data[4]),"Turret":int(data[5])})
 
             
       except serial.SerialException:
-         MODE.update({"value": 1})
+         IHA.update({"MODE": 1})
          if ser and ser.isOpen():
             ser.close()
          ser = connect_serial(port)
 
       except Exception as e:
-         MODE.update({"value": 1})
+         IHA.update({"MODE": 1})
          print(e)
 
 if __name__ == "__main__":
