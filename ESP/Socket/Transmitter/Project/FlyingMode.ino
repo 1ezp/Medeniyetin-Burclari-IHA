@@ -5,20 +5,15 @@
 
 
 
-#define manualPin 2
-#define PixhawlkPin 3
-#define PIDPin 4
-#define shutdownPin 5
+#define PixhawlkPin 5
+#define PIDPin 6
+#define shutdownPin 7
 
-short int flyingMode = 0;
+short int flyingMode = 1;
 
 void adjustFlyingMode(){
 
-    if(!digitalRead(manualPin)){
-
-        flyingMode = 0;
-    }
-    else if(!digitalRead(PixhawlkPin)){
+    if(!digitalRead(PixhawlkPin)){
 
         flyingMode = 1;
     }

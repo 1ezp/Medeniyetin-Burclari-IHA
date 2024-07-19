@@ -6,34 +6,32 @@
 
 
 // IKA Pins
-#define ikaForwardPin 6
-#define ikaBackwardPin 7
-#define ikaRightPin 8
-#define ikaLeftPin 9
-#define turretUpPin 10
-#define turretDownPin 11
-#define turretRightPin 12
-#define turretLeftPin A3
-#define shootPin A4
+#define ikaJoystickXPin A3
+#define ikaJoystickYPin A4
+#define turretUpPin 8
+#define turretDownPin 9
+#define turretRightPin 10
+#define turretLeftPin 11
+#define shootPin 12
 
 short int ikaMode = 0;
 short int turretMode = 0;
 
 void adjustIkaMode(){
 
-    if(!digitalRead(ikaForwardPin)){
+    if(analogRead(ikaJoystickXPin) > 600){
 
         ikaMode = 1;
     }
-    else if(!digitalRead(ikaBackwardPin)){
+    else if(analogRead(ikaJoystickXPin) < 424){
 
         ikaMode = 2;
     }
-    else if(!digitalRead(ikaRightPin)){
+    else if(analogRead(ikaJoystickYPin) > 600){
 
         ikaMode = 3;
     }
-    else if(!digitalRead(ikaLeftPin)){
+    else if(analogRead(ikaJoystickYPin) < 424){
 
         ikaMode = 4;
     }
