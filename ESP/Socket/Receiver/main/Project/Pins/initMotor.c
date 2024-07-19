@@ -10,11 +10,6 @@
 #define motorDutyRes             LEDC_TIMER_10_BIT
 #define motorFreq                (4000)
 
-static inline uint32_t example_angle_to_compare(int angle){
-
-    return (angle - SERVO_MIN_DEGREE) * (SERVO_MAX_PULSEWIDTH_US - SERVO_MIN_PULSEWIDTH_US) / (SERVO_MAX_DEGREE - SERVO_MIN_DEGREE) + SERVO_MIN_PULSEWIDTH_US;
-}
-
 static void init_motor(void){
 
     // motor timer configuration

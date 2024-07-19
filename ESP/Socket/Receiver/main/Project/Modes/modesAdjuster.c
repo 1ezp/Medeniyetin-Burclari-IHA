@@ -22,57 +22,63 @@ void adjustMode(const int* data){
         digitalWrite(shutdownPin, 0);
         resetControllersPins();
     }
-    else if(data[0] == 0){
+    else{
 
-        isPID = false;
-        targetLostOverride = false;
+        switch(data[0]){
 
-        digitalWrite(pixhawlkPin, 0);
-        digitalWrite(shutdownPin, 0);
+            case 0:
 
-        if(isManualTaskOpen){
+                isPID = false;
+                targetLostOverride = false;
 
-            xTaskCreate(manualTask, "manualTask", 1024*3, NULL, 1, NULL);
+                digitalWrite(pixhawlkPin, 0);
+                digitalWrite(shutdownPin, 0);
+
+                if(isManualTaskOpen){
+
+                    xTaskCreate(manualTask, "manualTask", 1024*3, NULL, 1, NULL);
+                }
+                break;
+            case 1:
+
+                isPID = false;
+                targetLostOverride = false;
+
+                digitalWrite(pixhawlkPin, 1);
+                digitalWrite(shutdownPin, 0);
+                resetControllersPins();
+                break;
+            case 3:
+                isPID = false;
+                targetLostOverride = false;
+
+                digitalWrite(pixhawlkPin, 0);
+                digitalWrite(shutdownPin, 1);
+                break;
+            default:
+            if((data[0] == 2 && !targetLostOverride) || data[0] == 4){
+                isPID = true;
+                targetLostOverride = false;
+
+                shouldCalculate = true;
+
+                digitalWrite(pixhawlkPin, 0);
+                digitalWrite(shutdownPin, 0);
+
+                if(isPIDTaskOpen){
+
+                    xTaskCreate(PIDTask, "PIDTask", 1024*3, NULL, 1, NULL);
+                }
+            }
+            break;
         }
-    }
-    else if(data[0] == 1){
 
-        isPID = false;
-        targetLostOverride = false;
+        if(targetLostOverride){
 
-        digitalWrite(pixhawlkPin, 1);
-        digitalWrite(shutdownPin, 0);
-        resetControllersPins();
-    }
-    else if((data[0] == 2 && !targetLostOverride) || data[0] == 4){
-
-        isPID = true;
-        targetLostOverride = false;
-
-        shouldCalculate = true;
-
-        digitalWrite(pixhawlkPin, 0);
-        digitalWrite(shutdownPin, 0);
-
-        if(isPIDTaskOpen){
-
-            xTaskCreate(PIDTask, "PIDTask", 1024*3, NULL, 1, NULL);
+            digitalWrite(pixhawlkPin, 1);
+            digitalWrite(shutdownPin, 0);
+            resetControllersPins();
         }
-    }
-    else if(data[0] == 3){
-
-        isPID = false;
-        targetLostOverride = false;
-
-        digitalWrite(pixhawlkPin, 0);
-        digitalWrite(shutdownPin, 1);
-    }
-
-    if(targetLostOverride){
-
-        digitalWrite(pixhawlkPin, 1);
-        digitalWrite(shutdownPin, 0);
-        resetControllersPins();
     }
 }
 
