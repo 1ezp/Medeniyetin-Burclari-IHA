@@ -15,7 +15,6 @@
 #define udTurret2   21
 #define rlTurret1   27
 #define rlTurret2   13
-#define shootPin    19
 
 // Main
 void init_pins(){
@@ -32,7 +31,9 @@ void init_pins(){
     gpio_set_direction(udTurret2, GPIO_MODE_OUTPUT);
     gpio_set_direction(rlTurret1, GPIO_MODE_OUTPUT);
     gpio_set_direction(rlTurret2, GPIO_MODE_OUTPUT);
-    gpio_set_direction(shootPin, GPIO_MODE_OUTPUT);
+
+    assignServoTimers();
+    ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(Comparator, example_angle_to_compare(90)));
 }
 
 

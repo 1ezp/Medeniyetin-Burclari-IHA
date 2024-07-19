@@ -20,6 +20,7 @@
 #include <driver/adc.h>
 // Project Files
 #include "Project/Functions.c"
+#include "Project/Pins/initServo.c"
 #include "Project/Pins/initPins.c"
 #include "Project/Modes/movement.c"
 #include "Project/Modes/modesAdjuster.c"
@@ -39,7 +40,7 @@ void app_main() {
     while(true){
 
         adjustMode(&data[0]);
-        // printf("%d,%d\n", data[0], data[1]);
+        printf("%d,%d\n", data[0], data[1]);
         delay(25);
     }
 }

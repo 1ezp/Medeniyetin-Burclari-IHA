@@ -19,7 +19,6 @@ void shutdownAllPins(){
     digitalWrite(udTurret2, 0);
     digitalWrite(rlTurret1, 0);
     digitalWrite(rlTurret2, 0);
-    digitalWrite(shootPin, 0);
 }
 
 void shutDownMovementPins(){
@@ -116,7 +115,7 @@ void turretLeft(){
 
 void shoot(){
 
-    digitalWrite(shootPin, 1);
+    ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(Comparator, example_angle_to_compare(0)));
 }
 
 // ---------------------GUARD------------------------

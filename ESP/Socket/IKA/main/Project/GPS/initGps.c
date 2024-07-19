@@ -4,11 +4,11 @@
 // --------------------------------------------------
 
 // Variables
-float gpsLat = -1;
-float gpsLng = -1;
+float gpsLat = 0;
+float gpsLng = 0;
 
-float gpsLatTemp = -1;
-float gpsLngTemp = -1;
+float gpsLatTemp = 0;
+float gpsLngTemp = 0;
 
 static const int RX_BUF_SIZE = 2048;
 
@@ -59,21 +59,21 @@ void gpsTask(){
                 }
                 else{
 
-                    gpsLat = -1;
-                    gpsLng = -1;
+                    gpsLat = 0;
+                    gpsLng = 0;
                 }
             }
             else{
 
-                gpsLat = -1;
-                gpsLng = -1;
+                gpsLat = 0;
+                gpsLng = 0;
             }
 
         }
         else{
 
-            gpsLat = -1;
-            gpsLng = -1;
+            gpsLat = 0;
+            gpsLng = 0;
         }
 
         delay(15);
