@@ -37,6 +37,7 @@ void adjustMode(const int* data){
 
             case 0:
                 shutDownTurretPins();
+                returnServo();
                 break;
             case 1:
                 turretUp();

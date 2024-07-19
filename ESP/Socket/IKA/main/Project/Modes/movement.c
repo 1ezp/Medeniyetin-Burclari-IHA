@@ -5,6 +5,11 @@
 
 bool relayType = 0;         // 0 for active LOW, 1 for active HIGH
 
+void returnServo(){
+
+    ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(Comparator, example_angle_to_compare(90)));
+}
+
 void shutdownAllPins(){
 
     digitalWrite(arkaSol1, 0);
