@@ -21,11 +21,11 @@ void adjustIkaMode(){
 
     if(analogRead(ikaJoystickXPin) > 600){
 
-        ikaMode = 1;
+        ikaMode = 2;
     }
     else if(analogRead(ikaJoystickXPin) < 424){
 
-        ikaMode = 2;
+        ikaMode = 1;
     }
     else if(analogRead(ikaJoystickYPin) > 600){
 

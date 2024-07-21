@@ -19,7 +19,7 @@ void readAndFix(){
     speed = analogRead(speedPin);
 
     xRaw = map(xRaw, 0, 1024, 0, 180);
-    yRaw = map(yRaw, 0, 1024, 0, 180);
+    yRaw = map(yRaw, 0, 1024, 180, 0);
 }
 
 
