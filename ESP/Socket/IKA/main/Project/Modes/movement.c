@@ -48,11 +48,11 @@ void shutDownTurretPins(){
 
 void moveForward(){
 
-    digitalWrite(arkaSol1, relayType);
-    digitalWrite(arkaSol2, !relayType);
-    digitalWrite(arkaSag1, relayType);
-    digitalWrite(arkaSag2, !relayType);
-    digitalWrite(onSol1, relayType);
+    digitalWrite(arkaSol1, !relayType);     // CW
+    digitalWrite(arkaSol2, relayType);
+    digitalWrite(arkaSag1, !relayType);
+    digitalWrite(arkaSag2, relayType);
+    digitalWrite(onSol1, relayType);        // CW
     digitalWrite(onSol2, !relayType);
     digitalWrite(onSag1, relayType);
     digitalWrite(onSag2, !relayType);
@@ -60,11 +60,11 @@ void moveForward(){
 
 void moveBackward(){
 
-    digitalWrite(arkaSol1, !relayType);
-    digitalWrite(arkaSol2, relayType);
-    digitalWrite(arkaSag1, !relayType);
-    digitalWrite(arkaSag2, relayType);
-    digitalWrite(onSol1, !relayType);
+    digitalWrite(arkaSol1, relayType);      // CCW
+    digitalWrite(arkaSol2, !relayType);
+    digitalWrite(arkaSag1, relayType);
+    digitalWrite(arkaSag2, !relayType);
+    digitalWrite(onSol1, !relayType);       // CCW
     digitalWrite(onSol2, relayType);
     digitalWrite(onSag1, !relayType);
     digitalWrite(onSag2, relayType);
@@ -72,22 +72,22 @@ void moveBackward(){
 
 void moveRight(){
 
-    digitalWrite(arkaSol1, relayType);
-    digitalWrite(arkaSol2, !relayType);
-    digitalWrite(arkaSag1, !relayType);
-    digitalWrite(arkaSag2, relayType);
-    digitalWrite(onSol1, relayType);
+    digitalWrite(arkaSol1, !relayType);     // CW
+    digitalWrite(arkaSol2, relayType);
+    digitalWrite(arkaSag1, relayType);      // CCW
+    digitalWrite(arkaSag2, !relayType);
+    digitalWrite(onSol1, relayType);        // CW
     digitalWrite(onSol2, !relayType);
-    digitalWrite(onSag1, !relayType);
+    digitalWrite(onSag1, !relayType);       // CCW
     digitalWrite(onSag2, relayType);
 }
 
 void moveLeft(){
 
-    digitalWrite(arkaSol1, !relayType);
-    digitalWrite(arkaSol2, relayType);
-    digitalWrite(arkaSag1, relayType);
-    digitalWrite(arkaSag2, !relayType);
+    digitalWrite(arkaSol1, relayType);
+    digitalWrite(arkaSol2, !relayType);
+    digitalWrite(arkaSag1, !relayType);
+    digitalWrite(arkaSag2, relayType);
     digitalWrite(onSol1, !relayType);
     digitalWrite(onSol2, relayType);
     digitalWrite(onSag1, relayType);
