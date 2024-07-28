@@ -1,4 +1,4 @@
-from data import Target  # Make sure this is correctly imported
+from data import Target
 import cv2
 import time
 
@@ -11,11 +11,9 @@ mouse_x, mouse_y = -1, -1
 square_size = 50
 
 def get_screen_resolution():
-    # Get screen resolution using a named window
     window_name = "Video"
     cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
     cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-    # Wait for a brief moment to ensure the window is created
     time.sleep(0.1)
     # Get screen size
     screen_width = cv2.getWindowImageRect(window_name)[2]
@@ -85,7 +83,6 @@ def main():
                 cv2.putText(frame, f'X: {int(bbox[0])}, Y: {int(bbox[1])}', (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 1)
                 Target.update({"x": int(bbox[0]), "y": int(bbox[1])})
             else:
-                # Optionally add a message for tracking failure
                 Target.update({"x": -1, "y": -1})
                 target_selected = False
                 target_bbox = (0, 0, 0, 0)
