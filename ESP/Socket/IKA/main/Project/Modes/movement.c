@@ -10,52 +10,60 @@ void returnServo(){
     ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(Comparator, example_angle_to_compare(90)));
 }
 
+// CCW
+// relayType
+// !relayType
+
+// CW
+// !relayType
+// relayType
+
 void shutdownAllPins(){
 
-    digitalWrite(arkaSol1, 0);
-    digitalWrite(arkaSol2, 0);
-    digitalWrite(arkaSag1, 0);
-    digitalWrite(arkaSag2, 0);
-    digitalWrite(onSol1, 0);
-    digitalWrite(onSol2, 0);
-    digitalWrite(onSag1, 0);
-    digitalWrite(onSag2, 0);
-    digitalWrite(udTurret1, 0);
-    digitalWrite(udTurret2, 0);
-    digitalWrite(rlTurret1, 0);
-    digitalWrite(rlTurret2, 0);
+    digitalWrite(arkaSol1, !relayType);
+    digitalWrite(arkaSol2, !relayType);
+    digitalWrite(arkaSag1, !relayType);
+    digitalWrite(arkaSag2, !relayType);
+    digitalWrite(onSol1, !relayType);
+    digitalWrite(onSol2, !relayType);
+    digitalWrite(onSag1, !relayType);
+    digitalWrite(onSag2, !relayType);
+    digitalWrite(udTurret1, !relayType);
+    digitalWrite(udTurret2, !relayType);
+    // digitalWrite(rlTurret1, !relayType);
+    // digitalWrite(rlTurret2, !relayType);
 }
 
 void shutDownMovementPins(){
 
-    digitalWrite(arkaSol1, 0);
-    digitalWrite(arkaSol2, 0);
-    digitalWrite(arkaSag1, 0);
-    digitalWrite(arkaSag2, 0);
-    digitalWrite(onSol1, 0);
-    digitalWrite(onSol2, 0);
-    digitalWrite(onSag1, 0);
-    digitalWrite(onSag2, 0);
+    digitalWrite(arkaSol1, !relayType);
+    digitalWrite(arkaSol2, !relayType);
+    digitalWrite(arkaSag1, !relayType);
+    digitalWrite(arkaSag2, !relayType);
+    digitalWrite(onSol1, !relayType);
+    digitalWrite(onSol2, !relayType);
+    digitalWrite(onSag1, !relayType);
+    digitalWrite(onSag2, !relayType);
 }
 
 void shutDownTurretPins(){
 
-    digitalWrite(udTurret1, 0);
-    digitalWrite(udTurret2, 0);
-    digitalWrite(rlTurret1, 0);
-    digitalWrite(rlTurret2, 0);
+    digitalWrite(udTurret1, !relayType);
+    digitalWrite(udTurret2, !relayType);
+    // digitalWrite(rlTurret1, !relayType);
+    // digitalWrite(rlTurret2, !relayType);
 }
 
 void moveForward(){
 
-    digitalWrite(arkaSol1, !relayType);     // CW
+    // digitalWrite(arkaSol1, !relayType);     // CW
     digitalWrite(arkaSol2, relayType);
-    digitalWrite(arkaSag1, !relayType);
+    // digitalWrite(arkaSag1, !relayType);
     digitalWrite(arkaSag2, relayType);
-    digitalWrite(onSol1, relayType);        // CW
-    digitalWrite(onSol2, !relayType);
-    digitalWrite(onSag1, relayType);
-    digitalWrite(onSag2, !relayType);
+    // digitalWrite(onSol1, !relayType);        // CW
+    digitalWrite(onSol2, relayType);
+    // digitalWrite(onSag1, !relayType);
+    digitalWrite(onSag2, relayType);
 }
 
 void moveBackward(){
@@ -64,10 +72,10 @@ void moveBackward(){
     digitalWrite(arkaSol2, !relayType);
     digitalWrite(arkaSag1, relayType);
     digitalWrite(arkaSag2, !relayType);
-    digitalWrite(onSol1, !relayType);       // CCW
-    digitalWrite(onSol2, relayType);
-    digitalWrite(onSag1, !relayType);
-    digitalWrite(onSag2, relayType);
+    digitalWrite(onSol1, relayType);       // CCW
+    digitalWrite(onSol2, !relayType);
+    digitalWrite(onSag1, relayType);
+    digitalWrite(onSag2, !relayType);
 }
 
 void moveRight(){
@@ -76,10 +84,10 @@ void moveRight(){
     digitalWrite(arkaSol2, relayType);
     digitalWrite(arkaSag1, relayType);      // CCW
     digitalWrite(arkaSag2, !relayType);
-    digitalWrite(onSol1, relayType);        // CW
-    digitalWrite(onSol2, !relayType);
-    digitalWrite(onSag1, !relayType);       // CCW
-    digitalWrite(onSag2, relayType);
+    digitalWrite(onSol1, !relayType);        // CW
+    digitalWrite(onSol2, relayType);
+    digitalWrite(onSag1, relayType);       // CCW
+    digitalWrite(onSag2, !relayType);
 }
 
 void moveLeft(){
@@ -88,10 +96,10 @@ void moveLeft(){
     digitalWrite(arkaSol2, !relayType);
     digitalWrite(arkaSag1, !relayType);
     digitalWrite(arkaSag2, relayType);
-    digitalWrite(onSol1, !relayType);
-    digitalWrite(onSol2, relayType);
-    digitalWrite(onSag1, relayType);
-    digitalWrite(onSag2, !relayType);
+    digitalWrite(onSol1, relayType);
+    digitalWrite(onSol2, !relayType);
+    digitalWrite(onSag1, !relayType);
+    digitalWrite(onSag2, relayType);
 }
 
 void turretUp(){
@@ -106,17 +114,17 @@ void turretDown(){
     digitalWrite(udTurret2, relayType);
 }
 
-void turretRight(){
+// void turretRight(){
 
-    digitalWrite(rlTurret1, relayType);
-    digitalWrite(rlTurret2, !relayType);
-}
+//     digitalWrite(rlTurret1, relayType);
+//     digitalWrite(rlTurret2, !relayType);
+// }
 
-void turretLeft(){
+// void turretLeft(){
 
-    digitalWrite(rlTurret1, !relayType);
-    digitalWrite(rlTurret2, relayType);
-}
+//     digitalWrite(rlTurret1, !relayType);
+//     digitalWrite(rlTurret2, relayType);
+// }
 
 void shoot(){
 
