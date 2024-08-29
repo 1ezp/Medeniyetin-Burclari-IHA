@@ -7,14 +7,14 @@
 long long int previousPIDMillis = 0;
 long long int targetTimoutMillis = 0;
 
-#define setpointX 157.5                      // PID values
-#define setpointY 103.5
+double setpointX;                       // PID values
+double setpointY;
 double outputX;
 double outputY;
 
 #define KP 0.02
-#define KI 0.005
-#define KD 0.002
+#define KI 0.003
+#define KD 0.001
 
 double dt = 1;
 
@@ -30,6 +30,12 @@ bool shouldCalculate = true;
 extern bool isPID;
 extern bool targetLostOverride;
 
+void calculateSetpoint(){
+
+    setpointX = data[6] / 2.0;
+    setpointY = data[7] / 2.0;
+}
+
 void calculatePIDForX(){
 
     double error = setpointX - data[4];
@@ -44,24 +50,24 @@ void calculatePIDForX(){
 
     outputX = (KP * propotional) + (KI * integralX) + (KD * derevetive);
 
-    if(outputX > 100){
+    if(outputX > 30){
 
-        outputX = 100;
+        outputX = 30;
     }
-    else if(outputX < -100){
+    else if(outputX < -30){
 
-        outputX = -100;
+        outputX = -30;
     }
 
     currentXAngle += outputX;
 
-    if(currentXAngle > 180){
+    if(currentXAngle > 120){
 
-        currentXAngle = 180;
+        currentXAngle = 120;
     }
-    else if(currentXAngle < 0){
+    else if(currentXAngle < 60){
 
-        currentXAngle = 0;
+        currentXAngle = 60;
     }
 
 }
@@ -80,24 +86,24 @@ void calculatePIDForY() {
 
     outputY = (KP * propotional) + (KI * integralY) + (KD * derevetive);
 
-    if(outputY > 100){
+    if(outputY > 30){
 
-        outputY = 100;
+        outputY = 30;
     }
-    else if(outputY < -100){
+    else if(outputY < -30){
 
-        outputY = -100;
+        outputY = -30;
     }
 
     currentYAngle += outputY;
 
-    if(currentYAngle > 180){
+    if(currentYAngle > 120){
 
-        currentYAngle = 180;
+        currentYAngle = 120;
     }
-    else if(currentYAngle < 0){
+    else if(currentYAngle < 60){
 
-        currentYAngle = 0;
+        currentYAngle = 60;
     }
 }
 
@@ -124,6 +130,7 @@ void PIDTask(){
     currentXAngle = 0;
     currentYAngle = 0;
     resetValues();
+    calculateSetpoint();
 
     while(isPID){
 
@@ -137,13 +144,13 @@ void PIDTask(){
             shouldCalculate = false;
         }
 
-        if(((esp_timer_get_time() / 1000) - targetTimoutMillis) >= 4000){
+        if(((esp_timer_get_time() / 1000) - targetTimoutMillis) >= 500){
 
             targetLostOverride = true;
             break;
         }
 
-        dt = ((esp_timer_get_time() / 1000) - previousPIDMillis) / 1000.0;
+        dt = ((esp_timer_get_time() / 1000.0) - previousPIDMillis) / 500.0;
         previousPIDMillis = esp_timer_get_time() / 1000;
 
         if(shouldCalculate){
@@ -154,6 +161,7 @@ void PIDTask(){
             ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(udComparator, example_angle_to_compare(currentYAngle)));
         }
 
+        printf("%f,%f\n", outputX, outputY);
         delay(25);
     }
 
