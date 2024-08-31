@@ -112,7 +112,7 @@ void socketTask(){
 
                 rx_buffer[len] = 0; // Null-terminate the received data
                 // ESP_LOGI(SocketTAG, "Received %d bytes: %s", len, rx_buffer);
-                extractNumbers(rx_buffer, &data[0], &data[1], &data[2], &data[3], &data[4], &data[5]);
+                extractNumbers(rx_buffer, &data[0], &data[1], &data[2], &data[3], &data[4], &data[5], &data[6], &data[7]);
             }
             delay(25);
         }
