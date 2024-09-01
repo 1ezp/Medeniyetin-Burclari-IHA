@@ -9,14 +9,16 @@ isTargetLost = False
 isPIDTaskOpen = False
 lock = Lock()
 
+
 def millis():
     return int(round(time.time() * 1000))
+
 
 class Pixhawk:
     def __init__(self):
         self.connection = mavutil.mavlink_connection('udp:127.0.0.1:14550')
         self.connection.wait_heartbeat()
-    
+
     def set_mode(self, mode_name):
         mode_id = self.connection.mode_mapping()[mode_name]
         self.connection.mav.set_mode_send(
@@ -24,7 +26,7 @@ class Pixhawk:
             mavutil.mavlink.MAV_MODE_FLAG_CUSTOM_MODE_ENABLED,
             mode_id
         )
-    
+
     def send_movement_command(self, roll=1500, pitch=1500, throttle=1000, yaw=1447):
         self.connection.mav.rc_channels_override_send(
             self.connection.target_system,  # target_system
@@ -35,7 +37,8 @@ class Pixhawk:
             yaw,     # Channel 4 (Yaw)
             0, 0, 0, 0   # Remaining channels (if needed)
         )
-         
+
+
 class PID:
     def __init__(self, Kp, Ki, Kd):
         self.Kp = Kp
@@ -47,7 +50,8 @@ class PID:
 
     def update(self, setpoint, measured_value):
         current_time = millis()
-        dt = (current_time - self.last_time) / 1000.0  # Convert milliseconds to seconds
+        dt = (current_time - self.last_time) / \
+            1000.0  # Convert milliseconds to seconds
 
         error = setpoint - measured_value
         self.integral += error * dt
@@ -65,14 +69,16 @@ class PID:
         self.previous_error = 0
         self.last_time = millis()
 
+
 # Initialize connection and PID controllers
 connection = Pixhawk()
 pidX = PID(Kp=0.02, Ki=0.005, Kd=0.03)
 pidY = PID(Kp=0.02, Ki=0.005, Kd=0.03)
 
+
 def start():
     global isTargetLost, isPIDTaskOpen, isPID
-    
+
     while True:
         with lock:
             if (IHA["MODE"] == 2 and not isTargetLost) or IHA["MODE"] == 4:
@@ -85,6 +91,7 @@ def start():
                 isPID = False
                 isTargetLost = False
 
+
 def PIDTask():
     global isPID, isPIDTaskOpen, isTargetLost
 
@@ -96,14 +103,14 @@ def PIDTask():
 
     setpointX = CAMERA["width"] / 2
     setpointY = CAMERA["height"] / 2
-    
+
     print(setpointX, setpointY)
 
     pidX.reset()
     pidY.reset()
     pidTimeoutMillis = millis()
     print(isPID)
-    
+
     while isPID:
         with lock:
             if ((millis() - pidTimeoutMillis) >= 10000):
@@ -117,9 +124,20 @@ def PIDTask():
                 currentXAngle += pidX.update(setpointX, Target["x"])
                 currentYAngle += pidY.update(setpointY, Target["y"])
 
-                print(f"X: {currentXAngle}\t\tY: {currentYAngle}\t\t Target: {Target['x']} {Target['y']}")
+                if currentXAngle > 1900:
+                    currentXAngle = 1900
+                elif currentXAngle < 1100:
+                    currentXAngle = 1100
+
+                if currentYAngle > 1900:
+                    currentYAngle = 1900
+                elif currentYAngle < 1100:
+                    currentYAngle = 1100
+
+                print(
+                    f"X: {currentXAngle}\t\tY: {currentYAngle}\t\t Target: {Target['x']} {Target['y']}")
                 time.sleep(0.1)
                 # connection.send_movement_command(roll=currentXAngle, pitch=currentYAngle, throttle=1500)
-    
+
     with lock:
         isPIDTaskOpen = False
