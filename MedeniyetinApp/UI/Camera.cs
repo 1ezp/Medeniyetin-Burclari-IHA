@@ -47,7 +47,7 @@ namespace MedeniyetinApp.UI
             changeRes(host);
             this.host = host;
             server = new Server();
-            String url = $"http://{host}:81/stream";
+            String url = $"http://{host}/stream";
             stream = new MJPEGStream(url);
             stream.NewFrame += GetNewFrame;
         }
@@ -121,10 +121,12 @@ namespace MedeniyetinApp.UI
         private void Camera_Load(object sender, EventArgs e)
         {
             stream.Start();
+            //server.sendCameraRes(panel2.Width, panel2.Height);
         }
 
         private void panel1_DoubleClick(object sender, EventArgs e)
         {
+            
             if (isMax)
             {
                 WindowState = FormWindowState.Normal;
@@ -135,6 +137,7 @@ namespace MedeniyetinApp.UI
                 WindowState = FormWindowState.Maximized;
                 isMax = true;
             }
+            //server.sendCameraRes(panel2.Width, panel2.Height);
         }
 
         private void panel1_MouseMove(object sender, MouseEventArgs e)

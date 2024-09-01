@@ -21,13 +21,20 @@ class RequestHandler(socketserver.BaseRequestHandler):
                     response = json.dumps(YER)
                 elif request == 'Target':
                     response = json.dumps(Target)
+                elif 'Camera' in request:
+                    _,weight, height = request.split(':')
+                    CAMERA.update({
+                        "weight":float(weight),
+                        "height":float(height)
+                    })
+                    response = "ok"
                 else:
                     response = json.dumps({
                         "error": "Invalid request"
                     })
                 
                 self.request.sendall(response.encode('utf-8'))
-
+                print(CAMERA)
             except Exception as e:
                 print(f"An error occurred: {e}")
                 break

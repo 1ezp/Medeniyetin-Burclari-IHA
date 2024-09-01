@@ -191,6 +191,12 @@ namespace MedeniyetinApp.Core
             }
         }
 
+        public void sendCameraRes(double weight, double height)
+        {
+            string request = "Camera:"+weight+":"+height;
+            byte[] requestData = Encoding.UTF8.GetBytes(request);
+            stream.Write(requestData, 0, requestData.Length);
+        }
 
 
     }
