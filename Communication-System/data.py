@@ -1,25 +1,29 @@
 IHA = {
     "MODE":1,
-    "Lat": 0,
-    "Long": 0,
+    "Lat": 38.6532392,
+    "Long": 35.5680363,
     "motorSpeed":0,
-    "groundSpeed":0,
-    "roll":0,
-    "pitch":0,
+    "groundSpeed":15.6,
+    "roll":10,
+    "pitch":5,
     "relative_alt":0,
 }
 
 IKA = {
-    "Lat": 0,
-    "Long": 0,
+    "Lat": 38.653451,
+    "Long": 35.570210,
     "Movment":0,
     "Turret":0,
     "groundSpeed":0,
 }
+CAMERA = { 
+    "weight":0,
+    "height":0,          
+}
 
 YER = {
-    "Lat": 38.727073,
-    "Long": 35.485954
+    "Lat": 38.653578,
+    "Long": 35.570459
 }
 
 Target = {
