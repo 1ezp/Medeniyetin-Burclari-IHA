@@ -72,8 +72,8 @@ class PID:
 
 # Initialize connection and PID controllers
 connection = Pixhawk()
-pidX = PID(Kp=0.02, Ki=0.005, Kd=0.03)
-pidY = PID(Kp=0.02, Ki=0.005, Kd=0.03)
+pidX = PID(Kp=0.2, Ki=0.005, Kd=0.03)
+pidY = PID(Kp=0.2, Ki=0.005, Kd=0.03)
 
 
 def start():
@@ -113,7 +113,7 @@ def PIDTask():
 
     while isPID:
         with lock:
-            if ((millis() - pidTimeoutMillis) >= 10000):
+            if ((millis() - pidTimeoutMillis) >= 1000):
                 pidX.reset()
                 pidY.reset()
                 isTargetLost = True
@@ -121,8 +121,8 @@ def PIDTask():
 
             if Target["x"] != -1:
                 pidTimeoutMillis = millis()
-                currentXAngle += pidX.update(setpointX, Target["x"])
-                currentYAngle += pidY.update(setpointY, Target["y"])
+                currentXAngle -= pidX.update(setpointX, Target["x"])
+                currentYAngle -= pidY.update(setpointY, Target["y"])
 
                 if currentXAngle > 1900:
                     currentXAngle = 1900
@@ -137,7 +137,7 @@ def PIDTask():
                 print(
                     f"X: {currentXAngle}\t\tY: {currentYAngle}\t\t Target: {Target['x']} {Target['y']}")
                 time.sleep(0.1)
-                # connection.send_movement_command(roll=currentXAngle, pitch=currentYAngle, throttle=1500)
+                connection.send_movement_command(roll=int(currentXAngle), pitch=int(currentYAngle), throttle=1500)
 
     with lock:
         isPIDTaskOpen = False
