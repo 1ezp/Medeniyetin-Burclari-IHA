@@ -17,7 +17,7 @@ IKA = {
     "groundSpeed":0,
 }
 CAMERA = { 
-    "weight":0,
+    "width":0,
     "height":0,          
 }
 

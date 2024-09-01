@@ -23,7 +23,7 @@ def get_screen_resolution():
     return screen_width, screen_height
 
 screen_width, screen_height = get_screen_resolution()
-CAMERA.update({"weight": screen_width, "height": screen_height})
+CAMERA.update({"width": screen_width, "height": screen_height})
 print(CAMERA)
 
 def select_target(event, x, y, flags, param):

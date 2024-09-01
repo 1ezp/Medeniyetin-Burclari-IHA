@@ -22,9 +22,9 @@ class RequestHandler(socketserver.BaseRequestHandler):
                 elif request == 'Target':
                     response = json.dumps(Target)
                 elif 'Camera' in request:
-                    _,weight, height = request.split(':')
+                    _,width, height = request.split(':')
                     CAMERA.update({
-                        "weight":float(weight),
+                        "width":float(width),
                         "height":float(height)
                     })
                     response = "ok"

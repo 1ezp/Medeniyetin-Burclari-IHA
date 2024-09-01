@@ -66,38 +66,39 @@ namespace MedeniyetinApp.UI
         private void btnStart_Click(object sender, EventArgs e)
         {
 
-            //Camera cameraFrm = new Camera(cameraIP.Text);
-            Camera cameraFrm = new Camera("172.0.0.1");
-            Main mainFrm = new Main();
-            Map mapFrm = new Map(cmbPorts.Text);
+            Camera cameraFrm = new Camera(cameraIP.Text);
+            //Camera cameraFrm = new Camera("192.168.10.60");
+            cameraFrm.Show();
+            //Main mainFrm = new Main();
+            //Map mapFrm = new Map(cmbPorts.Text);
 
             Screen[] screens = Screen.AllScreens;
             if (screens.Length > 2)
             {
-                mapFrm.StartPosition = FormStartPosition.Manual;
-                mapFrm.Location = screens[0].WorkingArea.Location;
-                mapFrm.WindowState = FormWindowState.Maximized;
-                mapFrm.Show();
+                //mapFrm.StartPosition = FormStartPosition.Manual;
+                //mapFrm.Location = screens[0].WorkingArea.Location;
+                //mapFrm.WindowState = FormWindowState.Maximized;
+                //mapFrm.Show();
 
 
-                mainFrm.StartPosition = FormStartPosition.Manual;
+                /*mainFrm.StartPosition = FormStartPosition.Manual;
                 mainFrm.Location = Screen.AllScreens[1].Bounds.Location;
                 mainFrm.WindowState = FormWindowState.Maximized;
                 mainFrm.Show();
-
-                cameraFrm.StartPosition = FormStartPosition.Manual;
+                */
+                /*cameraFrm.StartPosition = FormStartPosition.Manual;
                 cameraFrm.Location = Screen.AllScreens[2].Bounds.Location;
                 cameraFrm.WindowState = FormWindowState.Maximized;
-                cameraFrm.Show();
+                cameraFrm.Show();*/
 
 
 
             }
             else
             {
-                mapFrm.Show();
-                mainFrm.Show();
-                cameraFrm.Show();
+                //mapFrm.Show();
+                //mainFrm.Show();
+                //cameraFrm.Show();
             }
     
             this.Hide();
