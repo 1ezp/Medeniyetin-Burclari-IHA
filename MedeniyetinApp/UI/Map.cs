@@ -215,6 +215,11 @@ namespace MedeniyetinApp.UI
         {
             if (e.Button == MouseButtons.Left)
             {
+                if (WindowState == FormWindowState.Maximized)
+                {
+                    WindowState = FormWindowState.Normal;
+                    isMax = false;
+                }
                 Point mousePose = Control.MousePosition;
                 mousePose.Offset(mouseLocation.X, mouseLocation.Y);
                 Location = mousePose;
