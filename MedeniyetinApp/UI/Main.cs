@@ -19,6 +19,7 @@ namespace MedeniyetinApp.UI
     {
         private System.Drawing.Point mouseLocation;
         bool isMax = false;
+        Server server = new Server();
 
         public Main()
         {
@@ -35,7 +36,7 @@ namespace MedeniyetinApp.UI
         private void UpdateWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
-            Server server = new Server();
+            
             while (true)
             {
                 VehicleInfo IHAInfo = server.IHA();
@@ -52,6 +53,9 @@ namespace MedeniyetinApp.UI
                         GrelativeAlt.Value = (float)IHAInfo.relative_alt;
                         LrelativeAlt.Text = Convert.ToString(IHAInfo.relative_alt);
                         attitudeIndicatorInstrumentControl1.SetAttitudeIndicatorParameters(IHAInfo.pitch, IHAInfo.roll);
+
+                        GbatteryVoltage.Value = (float)IHAInfo.batteryVoltage;
+                        LBatteryVoltage.Text = Convert.ToString(IHAInfo.batteryVoltage);
                         
                         UpdateIHAMode((int)IHAInfo.MODE);
                         UpdateIHAGPS(IHAInfo.Latitude, IHAInfo.Longitude);
@@ -111,11 +115,31 @@ namespace MedeniyetinApp.UI
         {
             if (e.Button == MouseButtons.Left)
             {
-                
+                if (WindowState == FormWindowState.Maximized)
+                {
+                    WindowState = FormWindowState.Normal;
+                    isMax = false;
+                }
                 System.Drawing.Point mousePose = Control.MousePosition;
                 mousePose.Offset(mouseLocation.X, mouseLocation.Y);
                 Location = mousePose;
             }
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            server.sendArmming("1:0");
+        }
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            server.sendArmming("1:1");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            server.sendArmming("0:0");
         }
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)
@@ -151,5 +175,12 @@ namespace MedeniyetinApp.UI
         {
             this.Cursor = Cursors.Default;
         }
+
+        private void gaugePanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        
     }
 }
