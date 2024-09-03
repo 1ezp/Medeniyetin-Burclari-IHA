@@ -31,12 +31,28 @@
             System.Windows.Forms.AGaugeRange aGaugeRange1 = new System.Windows.Forms.AGaugeRange();
             System.Windows.Forms.AGaugeRange aGaugeRange2 = new System.Windows.Forms.AGaugeRange();
             System.Windows.Forms.AGaugeRange aGaugeRange3 = new System.Windows.Forms.AGaugeRange();
+            System.Windows.Forms.AGaugeRange aGaugeRange4 = new System.Windows.Forms.AGaugeRange();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.LIhaLong = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.LIhaLat = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.ModeOFF = new System.Windows.Forms.Label();
+            this.ModePID = new System.Windows.Forms.Label();
+            this.ModePixhawk = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
             this.gaugePanel = new System.Windows.Forms.Panel();
+            this.LBatteryVoltage = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.GbatteryVoltage = new System.Windows.Forms.AGauge();
             this.LmotorSpeed = new System.Windows.Forms.Label();
             this.LgroundSpeed = new System.Windows.Forms.Label();
             this.LrelativeAlt = new System.Windows.Forms.Label();
@@ -46,15 +62,6 @@
             this.GgroundSpeed = new System.Windows.Forms.AGauge();
             this.label1 = new System.Windows.Forms.Label();
             this.GmotorSpeed = new System.Windows.Forms.AGauge();
-            this.label5 = new System.Windows.Forms.Label();
-            this.ModePixhawk = new System.Windows.Forms.Label();
-            this.ModePID = new System.Windows.Forms.Label();
-            this.ModeOFF = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.LIhaLat = new System.Windows.Forms.Label();
-            this.LIhaLong = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.attitudeIndicatorInstrumentControl1 = new MedeniyetinApp.Controllers.AttitudeIndicatorInstrumentControl();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -84,7 +91,7 @@
             this.panel2.Location = new System.Drawing.Point(0, 16);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(988, 1086);
+            this.panel2.Size = new System.Drawing.Size(988, 1735);
             this.panel2.TabIndex = 3;
             // 
             // panel3
@@ -95,7 +102,7 @@
             this.panel3.Location = new System.Drawing.Point(474, 0);
             this.panel3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(514, 1086);
+            this.panel3.Size = new System.Drawing.Size(514, 1735);
             this.panel3.TabIndex = 2;
             // 
             // panel5
@@ -110,22 +117,169 @@
             this.panel5.Controls.Add(this.ModePixhawk);
             this.panel5.Controls.Add(this.label5);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(0, 550);
+            this.panel5.Location = new System.Drawing.Point(0, 648);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(514, 536);
+            this.panel5.Size = new System.Drawing.Size(514, 1087);
             this.panel5.TabIndex = 20;
+            // 
+            // LIhaLong
+            // 
+            this.LIhaLong.AutoSize = true;
+            this.LIhaLong.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LIhaLong.ForeColor = System.Drawing.Color.Silver;
+            this.LIhaLong.Location = new System.Drawing.Point(404, 252);
+            this.LIhaLong.Name = "LIhaLong";
+            this.LIhaLong.Size = new System.Drawing.Size(23, 25);
+            this.LIhaLong.TabIndex = 9;
+            this.LIhaLong.Text = "0";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.Silver;
+            this.label9.Location = new System.Drawing.Point(342, 252);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(62, 25);
+            this.label9.TabIndex = 8;
+            this.label9.Text = "Long:";
+            // 
+            // LIhaLat
+            // 
+            this.LIhaLat.AutoSize = true;
+            this.LIhaLat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LIhaLat.ForeColor = System.Drawing.Color.Silver;
+            this.LIhaLat.Location = new System.Drawing.Point(117, 252);
+            this.LIhaLat.Name = "LIhaLat";
+            this.LIhaLat.Size = new System.Drawing.Size(23, 25);
+            this.LIhaLat.TabIndex = 7;
+            this.LIhaLat.Text = "0";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.Silver;
+            this.label6.Location = new System.Drawing.Point(66, 252);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(45, 25);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Lat:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(26, 182);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(129, 29);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "IHA GPS:";
+            // 
+            // ModeOFF
+            // 
+            this.ModeOFF.AutoSize = true;
+            this.ModeOFF.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ModeOFF.ForeColor = System.Drawing.Color.Silver;
+            this.ModeOFF.Location = new System.Drawing.Point(415, 105);
+            this.ModeOFF.Name = "ModeOFF";
+            this.ModeOFF.Size = new System.Drawing.Size(52, 25);
+            this.ModeOFF.TabIndex = 3;
+            this.ModeOFF.Text = "OFF";
+            // 
+            // ModePID
+            // 
+            this.ModePID.AutoSize = true;
+            this.ModePID.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ModePID.ForeColor = System.Drawing.Color.Silver;
+            this.ModePID.Location = new System.Drawing.Point(261, 105);
+            this.ModePID.Name = "ModePID";
+            this.ModePID.Size = new System.Drawing.Size(44, 25);
+            this.ModePID.TabIndex = 2;
+            this.ModePID.Text = "PID";
+            // 
+            // ModePixhawk
+            // 
+            this.ModePixhawk.AutoSize = true;
+            this.ModePixhawk.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ModePixhawk.ForeColor = System.Drawing.Color.Silver;
+            this.ModePixhawk.Location = new System.Drawing.Point(66, 105);
+            this.ModePixhawk.Name = "ModePixhawk";
+            this.ModePixhawk.Size = new System.Drawing.Size(85, 25);
+            this.ModePixhawk.TabIndex = 1;
+            this.ModePixhawk.Text = "Pixhawk";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(26, 48);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(140, 29);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "IHA Mode:";
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.button2);
+            this.panel4.Controls.Add(this.button1);
+            this.panel4.Controls.Add(this.btnStart);
             this.panel4.Controls.Add(this.attitudeIndicatorInstrumentControl1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(514, 550);
+            this.panel4.Size = new System.Drawing.Size(514, 648);
             this.panel4.TabIndex = 19;
+            // 
+            // button2
+            // 
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.ForeColor = System.Drawing.Color.White;
+            this.button2.Location = new System.Drawing.Point(370, 560);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(131, 55);
+            this.button2.TabIndex = 21;
+            this.button2.Text = "Disarm";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(172, 560);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(192, 55);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "Force Arm";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // btnStart
+            // 
+            this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStart.ForeColor = System.Drawing.Color.White;
+            this.btnStart.Location = new System.Drawing.Point(31, 560);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(135, 55);
+            this.btnStart.TabIndex = 19;
+            this.btnStart.Text = "Arm";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // gaugePanel
             // 
+            this.gaugePanel.Controls.Add(this.LBatteryVoltage);
+            this.gaugePanel.Controls.Add(this.label8);
+            this.gaugePanel.Controls.Add(this.GbatteryVoltage);
             this.gaugePanel.Controls.Add(this.LmotorSpeed);
             this.gaugePanel.Controls.Add(this.LgroundSpeed);
             this.gaugePanel.Controls.Add(this.LrelativeAlt);
@@ -139,17 +293,94 @@
             this.gaugePanel.Location = new System.Drawing.Point(0, 0);
             this.gaugePanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gaugePanel.Name = "gaugePanel";
-            this.gaugePanel.Size = new System.Drawing.Size(474, 1086);
+            this.gaugePanel.Size = new System.Drawing.Size(474, 1735);
             this.gaugePanel.TabIndex = 1;
+            this.gaugePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gaugePanel_Paint);
             this.gaugePanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gaugePanel_MouseDown);
             this.gaugePanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.gaugePanel_MouseMove);
             this.gaugePanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gaugePanel_MouseUp);
+            // 
+            // LBatteryVoltage
+            // 
+            this.LBatteryVoltage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LBatteryVoltage.ForeColor = System.Drawing.Color.Lime;
+            this.LBatteryVoltage.Location = new System.Drawing.Point(173, 1221);
+            this.LBatteryVoltage.Name = "LBatteryVoltage";
+            this.LBatteryVoltage.Size = new System.Drawing.Size(67, 21);
+            this.LBatteryVoltage.TabIndex = 25;
+            this.LBatteryVoltage.Text = "0";
+            this.LBatteryVoltage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.Lime;
+            this.label8.Location = new System.Drawing.Point(128, 1257);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(139, 20);
+            this.label8.TabIndex = 24;
+            this.label8.Text = "Battery Voltage";
+            // 
+            // GbatteryVoltage
+            // 
+            this.GbatteryVoltage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.GbatteryVoltage.BaseArcColor = System.Drawing.Color.Gray;
+            this.GbatteryVoltage.BaseArcRadius = 80;
+            this.GbatteryVoltage.BaseArcStart = 135;
+            this.GbatteryVoltage.BaseArcSweep = 270;
+            this.GbatteryVoltage.BaseArcWidth = 2;
+            this.GbatteryVoltage.Center = new System.Drawing.Point(110, 110);
+            aGaugeRange1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            aGaugeRange1.EndValue = 5F;
+            aGaugeRange1.InnerRadius = 1;
+            aGaugeRange1.InRange = false;
+            aGaugeRange1.Name = "GaugeRange1";
+            aGaugeRange1.OuterRadius = 2;
+            aGaugeRange1.StartValue = 0F;
+            this.GbatteryVoltage.GaugeRanges.Add(aGaugeRange1);
+            this.GbatteryVoltage.Location = new System.Drawing.Point(68, 1030);
+            this.GbatteryVoltage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.GbatteryVoltage.MaximumSize = new System.Drawing.Size(289, 228);
+            this.GbatteryVoltage.MaxValue = 20F;
+            this.GbatteryVoltage.MinimumSize = new System.Drawing.Size(289, 228);
+            this.GbatteryVoltage.MinValue = 0F;
+            this.GbatteryVoltage.Name = "GbatteryVoltage";
+            this.GbatteryVoltage.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Gray;
+            this.GbatteryVoltage.NeedleColor2 = System.Drawing.Color.DimGray;
+            this.GbatteryVoltage.NeedleRadius = 65;
+            this.GbatteryVoltage.NeedleType = System.Windows.Forms.NeedleType.Simple;
+            this.GbatteryVoltage.NeedleWidth = 2;
+            this.GbatteryVoltage.ScaleLinesInterColor = System.Drawing.Color.Lime;
+            this.GbatteryVoltage.ScaleLinesInterInnerRadius = 73;
+            this.GbatteryVoltage.ScaleLinesInterOuterRadius = 80;
+            this.GbatteryVoltage.ScaleLinesInterWidth = 1;
+            this.GbatteryVoltage.ScaleLinesMajorColor = System.Drawing.Color.Lime;
+            this.GbatteryVoltage.ScaleLinesMajorInnerRadius = 70;
+            this.GbatteryVoltage.ScaleLinesMajorOuterRadius = 80;
+            this.GbatteryVoltage.ScaleLinesMajorStepValue = 1F;
+            this.GbatteryVoltage.ScaleLinesMajorWidth = 2;
+            this.GbatteryVoltage.ScaleLinesMinorColor = System.Drawing.Color.Gray;
+            this.GbatteryVoltage.ScaleLinesMinorInnerRadius = 75;
+            this.GbatteryVoltage.ScaleLinesMinorOuterRadius = 80;
+            this.GbatteryVoltage.ScaleLinesMinorTicks = 9;
+            this.GbatteryVoltage.ScaleLinesMinorWidth = 1;
+            this.GbatteryVoltage.ScaleNumbersColor = System.Drawing.Color.Lime;
+            this.GbatteryVoltage.ScaleNumbersFormat = "";
+            this.GbatteryVoltage.ScaleNumbersRadius = 95;
+            this.GbatteryVoltage.ScaleNumbersRotation = 0;
+            this.GbatteryVoltage.ScaleNumbersStartScaleLine = 1;
+            this.GbatteryVoltage.ScaleNumbersStepScaleLines = 1;
+            this.GbatteryVoltage.Size = new System.Drawing.Size(289, 228);
+            this.GbatteryVoltage.TabIndex = 23;
+            this.GbatteryVoltage.Text = "aGauge1";
+            this.GbatteryVoltage.Value = 0F;
             // 
             // LmotorSpeed
             // 
             this.LmotorSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LmotorSpeed.ForeColor = System.Drawing.Color.Lime;
-            this.LmotorSpeed.Location = new System.Drawing.Point(167, 314);
+            this.LmotorSpeed.Location = new System.Drawing.Point(176, 260);
             this.LmotorSpeed.Name = "LmotorSpeed";
             this.LmotorSpeed.Size = new System.Drawing.Size(67, 21);
             this.LmotorSpeed.TabIndex = 22;
@@ -160,7 +391,7 @@
             // 
             this.LgroundSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LgroundSpeed.ForeColor = System.Drawing.Color.Lime;
-            this.LgroundSpeed.Location = new System.Drawing.Point(168, 820);
+            this.LgroundSpeed.Location = new System.Drawing.Point(177, 588);
             this.LgroundSpeed.Name = "LgroundSpeed";
             this.LgroundSpeed.Size = new System.Drawing.Size(67, 21);
             this.LgroundSpeed.TabIndex = 21;
@@ -171,7 +402,7 @@
             // 
             this.LrelativeAlt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LrelativeAlt.ForeColor = System.Drawing.Color.Lime;
-            this.LrelativeAlt.Location = new System.Drawing.Point(164, 1334);
+            this.LrelativeAlt.Location = new System.Drawing.Point(173, 903);
             this.LrelativeAlt.Name = "LrelativeAlt";
             this.LrelativeAlt.Size = new System.Drawing.Size(67, 21);
             this.LrelativeAlt.TabIndex = 20;
@@ -183,7 +414,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Lime;
-            this.label3.Location = new System.Drawing.Point(136, 1370);
+            this.label3.Location = new System.Drawing.Point(145, 939);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(106, 20);
             this.label3.TabIndex = 19;
@@ -198,15 +429,15 @@
             this.GrelativeAlt.BaseArcSweep = 270;
             this.GrelativeAlt.BaseArcWidth = 2;
             this.GrelativeAlt.Center = new System.Drawing.Point(110, 110);
-            aGaugeRange1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            aGaugeRange1.EndValue = 5F;
-            aGaugeRange1.InnerRadius = 1;
-            aGaugeRange1.InRange = false;
-            aGaugeRange1.Name = "GaugeRange1";
-            aGaugeRange1.OuterRadius = 2;
-            aGaugeRange1.StartValue = 0F;
-            this.GrelativeAlt.GaugeRanges.Add(aGaugeRange1);
-            this.GrelativeAlt.Location = new System.Drawing.Point(59, 1143);
+            aGaugeRange2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            aGaugeRange2.EndValue = 5F;
+            aGaugeRange2.InnerRadius = 1;
+            aGaugeRange2.InRange = false;
+            aGaugeRange2.Name = "GaugeRange1";
+            aGaugeRange2.OuterRadius = 2;
+            aGaugeRange2.StartValue = 0F;
+            this.GrelativeAlt.GaugeRanges.Add(aGaugeRange2);
+            this.GrelativeAlt.Location = new System.Drawing.Point(68, 712);
             this.GrelativeAlt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GrelativeAlt.MaximumSize = new System.Drawing.Size(289, 228);
             this.GrelativeAlt.MaxValue = 400F;
@@ -248,7 +479,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Lime;
-            this.label2.Location = new System.Drawing.Point(105, 847);
+            this.label2.Location = new System.Drawing.Point(114, 615);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(179, 20);
             this.label2.TabIndex = 16;
@@ -263,15 +494,15 @@
             this.GgroundSpeed.BaseArcSweep = 270;
             this.GgroundSpeed.BaseArcWidth = 2;
             this.GgroundSpeed.Center = new System.Drawing.Point(110, 110);
-            aGaugeRange2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            aGaugeRange2.EndValue = 5F;
-            aGaugeRange2.InnerRadius = 1;
-            aGaugeRange2.InRange = false;
-            aGaugeRange2.Name = "GaugeRange1";
-            aGaugeRange2.OuterRadius = 2;
-            aGaugeRange2.StartValue = 0F;
-            this.GgroundSpeed.GaugeRanges.Add(aGaugeRange2);
-            this.GgroundSpeed.Location = new System.Drawing.Point(59, 613);
+            aGaugeRange3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            aGaugeRange3.EndValue = 5F;
+            aGaugeRange3.InnerRadius = 1;
+            aGaugeRange3.InRange = false;
+            aGaugeRange3.Name = "GaugeRange1";
+            aGaugeRange3.OuterRadius = 2;
+            aGaugeRange3.StartValue = 0F;
+            this.GgroundSpeed.GaugeRanges.Add(aGaugeRange3);
+            this.GgroundSpeed.Location = new System.Drawing.Point(68, 381);
             this.GgroundSpeed.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GgroundSpeed.MaximumSize = new System.Drawing.Size(289, 228);
             this.GgroundSpeed.MaxValue = 300F;
@@ -313,7 +544,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Lime;
-            this.label1.Location = new System.Drawing.Point(136, 345);
+            this.label1.Location = new System.Drawing.Point(145, 291);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(121, 20);
             this.label1.TabIndex = 14;
@@ -328,15 +559,15 @@
             this.GmotorSpeed.BaseArcSweep = 270;
             this.GmotorSpeed.BaseArcWidth = 2;
             this.GmotorSpeed.Center = new System.Drawing.Point(110, 110);
-            aGaugeRange3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            aGaugeRange3.EndValue = 5F;
-            aGaugeRange3.InnerRadius = 1;
-            aGaugeRange3.InRange = false;
-            aGaugeRange3.Name = "GaugeRange1";
-            aGaugeRange3.OuterRadius = 2;
-            aGaugeRange3.StartValue = 0F;
-            this.GmotorSpeed.GaugeRanges.Add(aGaugeRange3);
-            this.GmotorSpeed.Location = new System.Drawing.Point(59, 119);
+            aGaugeRange4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            aGaugeRange4.EndValue = 5F;
+            aGaugeRange4.InnerRadius = 1;
+            aGaugeRange4.InRange = false;
+            aGaugeRange4.Name = "GaugeRange1";
+            aGaugeRange4.OuterRadius = 2;
+            aGaugeRange4.StartValue = 0F;
+            this.GmotorSpeed.GaugeRanges.Add(aGaugeRange4);
+            this.GmotorSpeed.Location = new System.Drawing.Point(68, 65);
             this.GmotorSpeed.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GmotorSpeed.MaximumSize = new System.Drawing.Size(289, 228);
             this.GmotorSpeed.MaxValue = 1000F;
@@ -373,105 +604,6 @@
             this.GmotorSpeed.Text = "aGauge1";
             this.GmotorSpeed.Value = 0F;
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(26, 48);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(140, 29);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "IHA Mode:";
-            // 
-            // ModePixhawk
-            // 
-            this.ModePixhawk.AutoSize = true;
-            this.ModePixhawk.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ModePixhawk.ForeColor = System.Drawing.Color.Silver;
-            this.ModePixhawk.Location = new System.Drawing.Point(66, 105);
-            this.ModePixhawk.Name = "ModePixhawk";
-            this.ModePixhawk.Size = new System.Drawing.Size(85, 25);
-            this.ModePixhawk.TabIndex = 1;
-            this.ModePixhawk.Text = "Pixhawk";
-            // 
-            // ModePID
-            // 
-            this.ModePID.AutoSize = true;
-            this.ModePID.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ModePID.ForeColor = System.Drawing.Color.Silver;
-            this.ModePID.Location = new System.Drawing.Point(261, 105);
-            this.ModePID.Name = "ModePID";
-            this.ModePID.Size = new System.Drawing.Size(44, 25);
-            this.ModePID.TabIndex = 2;
-            this.ModePID.Text = "PID";
-            // 
-            // ModeOFF
-            // 
-            this.ModeOFF.AutoSize = true;
-            this.ModeOFF.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ModeOFF.ForeColor = System.Drawing.Color.Silver;
-            this.ModeOFF.Location = new System.Drawing.Point(415, 105);
-            this.ModeOFF.Name = "ModeOFF";
-            this.ModeOFF.Size = new System.Drawing.Size(52, 25);
-            this.ModeOFF.TabIndex = 3;
-            this.ModeOFF.Text = "OFF";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(26, 182);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(129, 29);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "IHA GPS:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.Silver;
-            this.label6.Location = new System.Drawing.Point(66, 252);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(45, 25);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "Lat:";
-            // 
-            // LIhaLat
-            // 
-            this.LIhaLat.AutoSize = true;
-            this.LIhaLat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LIhaLat.ForeColor = System.Drawing.Color.Silver;
-            this.LIhaLat.Location = new System.Drawing.Point(117, 252);
-            this.LIhaLat.Name = "LIhaLat";
-            this.LIhaLat.Size = new System.Drawing.Size(23, 25);
-            this.LIhaLat.TabIndex = 7;
-            this.LIhaLat.Text = "0";
-            // 
-            // LIhaLong
-            // 
-            this.LIhaLong.AutoSize = true;
-            this.LIhaLong.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LIhaLong.ForeColor = System.Drawing.Color.Silver;
-            this.LIhaLong.Location = new System.Drawing.Point(404, 252);
-            this.LIhaLong.Name = "LIhaLong";
-            this.LIhaLong.Size = new System.Drawing.Size(23, 25);
-            this.LIhaLong.TabIndex = 9;
-            this.LIhaLong.Text = "0";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.Silver;
-            this.label9.Location = new System.Drawing.Point(342, 252);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(62, 25);
-            this.label9.TabIndex = 8;
-            this.label9.Text = "Long:";
-            // 
             // attitudeIndicatorInstrumentControl1
             // 
             this.attitudeIndicatorInstrumentControl1.Location = new System.Drawing.Point(31, 19);
@@ -485,7 +617,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(988, 1102);
+            this.ClientSize = new System.Drawing.Size(988, 1751);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -530,5 +662,11 @@
         private System.Windows.Forms.Label LIhaLat;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label LBatteryVoltage;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.AGauge GbatteryVoltage;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnStart;
     }
 }
