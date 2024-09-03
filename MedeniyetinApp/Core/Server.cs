@@ -32,6 +32,9 @@ namespace MedeniyetinApp.Core
 
         [JsonProperty("relative_alt")]
         public double relative_alt { get; set; }
+
+        [JsonProperty("batteryVoltage")]
+        public double batteryVoltage { get; set; }
     }
 
     public class TargetInfo
@@ -196,6 +199,25 @@ namespace MedeniyetinApp.Core
             string request = "Camera:"+weight+":"+height;
             byte[] requestData = Encoding.UTF8.GetBytes(request);
             stream.Write(requestData, 0, requestData.Length);
+        }
+
+        public void sendArmming(string arm) 
+        {
+            try
+            {
+                string request = "arm:"+arm;
+                byte[] requestData = Encoding.UTF8.GetBytes(request);
+                stream.Write(requestData, 0, requestData.Length);
+
+            }
+            catch (SocketException se)
+            {
+                Console.WriteLine($"SocketException: {se.Message}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"An error occurred: {e.Message}");
+            }
         }
 
 
