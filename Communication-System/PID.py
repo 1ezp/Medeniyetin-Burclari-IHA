@@ -17,6 +17,7 @@ def millis():
 class Pixhawk:
     def __init__(self):
         self.connection = mavutil.mavlink_connection('udp:127.0.0.1:14550')
+        # self.connection = mavutil.mavlink_connection('COM17',baud=57600)
         self.connection.wait_heartbeat()
 
     def set_mode(self, mode_name):
@@ -70,13 +71,12 @@ class PID:
         self.last_time = millis()
 
 
-# Initialize connection and PID controllers
-connection = Pixhawk()
+# Initialize PID controllers
 pidX = PID(Kp=0.2, Ki=0.005, Kd=0.03)
 pidY = PID(Kp=0.2, Ki=0.005, Kd=0.03)
 
 
-def start():
+def start(pixy):
     global isTargetLost, isPIDTaskOpen, isPID
 
     while True:
@@ -86,13 +86,13 @@ def start():
                 isTargetLost = False
                 if not isPIDTaskOpen:
                     isPIDTaskOpen = True
-                    Thread(target=PIDTask).start()
+                    Thread(target=PIDTask,args=(pixy,)).start()
             else:
                 isPID = False
                 isTargetLost = False
 
 
-def PIDTask():
+def PIDTask(connection):
     global isPID, isPIDTaskOpen, isTargetLost
 
     with lock:
@@ -113,7 +113,7 @@ def PIDTask():
 
     while isPID:
         with lock:
-            if ((millis() - pidTimeoutMillis) >= 1000):
+            if ((millis() - pidTimeoutMillis) >= 500):
                 pidX.reset()
                 pidY.reset()
                 isTargetLost = True
