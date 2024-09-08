@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Windows.Media;
+
 
 
 
@@ -20,6 +20,8 @@ namespace MedeniyetinApp.UI
         private System.Drawing.Point mouseLocation;
         bool isMax = false;
         Server server = new Server();
+
+        Bitmap ihaImage = new Bitmap(Properties.Resources.iha);
 
         public Main()
         {
@@ -53,6 +55,7 @@ namespace MedeniyetinApp.UI
                         GrelativeAlt.Value = (float)IHAInfo.relative_alt;
                         LrelativeAlt.Text = Convert.ToString(IHAInfo.relative_alt);
                         attitudeIndicatorInstrumentControl1.SetAttitudeIndicatorParameters(IHAInfo.pitch, IHAInfo.roll);
+                        updateIhaImage(IHAInfo.roll, IHAInfo.pitch);
 
                         GbatteryVoltage.Value = (float)IHAInfo.batteryVoltage;
                         LBatteryVoltage.Text = Convert.ToString(IHAInfo.batteryVoltage);
@@ -95,7 +98,39 @@ namespace MedeniyetinApp.UI
             LIhaLat.Text = Lat.ToString();
             LIhaLong.Text = Long.ToString();
         }
+        private void updateIhaImage(double roll, double pitch) {
+            if (roll > 0)
+            {
+                rollRight.BackColor = Color.FromArgb(255, 128, 0);
+                rollLeft.BackColor = Color.FromArgb(192, 0, 0);
+            }
+            else if (roll < 0)
+            {
+                rollRight.BackColor = Color.FromArgb(192, 0, 0); 
+                rollLeft.BackColor = Color.FromArgb(255, 128, 0);
+            }
+        }
 
+        private void Main_Load(object sender, EventArgs e)
+        {
+            /*System.Drawing.Color oldColor = System.Drawing.Color.FromArgb(255, 37, 78, 157);
+            System.Drawing.Color newColor = this.BackColor;
+            for (int y = 0; y < ihaImage.Height; y++)
+            {
+                for (int x = 0; x < ihaImage.Width; x++)
+                {
+                    // Get the pixel color
+                    System.Drawing.Color pixelColor = ihaImage.GetPixel(x, y);
+
+                    // If the pixel matches the oldColor, change it to the newColor
+                    if (pixelColor.ToArgb() == oldColor.ToArgb())
+                    {
+                        ihaImage.SetPixel(x, y, newColor);
+                    }
+                }
+            }*/
+            Piha.Image = ihaImage;
+        }
 
         private void panel1_DoubleClick(object sender, EventArgs e)
         {

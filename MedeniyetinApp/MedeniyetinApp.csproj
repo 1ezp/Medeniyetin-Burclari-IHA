@@ -192,6 +192,18 @@
   <ItemGroup>
     <None Include="Resources\Horizon_Background.bmp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Screenshot 2024-09-03 160923.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Screenshot_2024-09-03_160923-removebg-preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ihaArtboard 2%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iha.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

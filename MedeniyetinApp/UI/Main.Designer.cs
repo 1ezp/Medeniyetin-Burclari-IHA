@@ -28,14 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.AGaugeRange aGaugeRange1 = new System.Windows.Forms.AGaugeRange();
-            System.Windows.Forms.AGaugeRange aGaugeRange2 = new System.Windows.Forms.AGaugeRange();
-            System.Windows.Forms.AGaugeRange aGaugeRange3 = new System.Windows.Forms.AGaugeRange();
-            System.Windows.Forms.AGaugeRange aGaugeRange4 = new System.Windows.Forms.AGaugeRange();
+            System.Windows.Forms.AGaugeRange aGaugeRange13 = new System.Windows.Forms.AGaugeRange();
+            System.Windows.Forms.AGaugeRange aGaugeRange14 = new System.Windows.Forms.AGaugeRange();
+            System.Windows.Forms.AGaugeRange aGaugeRange15 = new System.Windows.Forms.AGaugeRange();
+            System.Windows.Forms.AGaugeRange aGaugeRange16 = new System.Windows.Forms.AGaugeRange();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.Piha = new System.Windows.Forms.PictureBox();
             this.LIhaLong = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.LIhaLat = new System.Windows.Forms.Label();
@@ -49,6 +51,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
+            this.attitudeIndicatorInstrumentControl1 = new MedeniyetinApp.Controllers.AttitudeIndicatorInstrumentControl();
             this.gaugePanel = new System.Windows.Forms.Panel();
             this.LBatteryVoltage = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -62,10 +65,15 @@
             this.GgroundSpeed = new System.Windows.Forms.AGauge();
             this.label1 = new System.Windows.Forms.Label();
             this.GmotorSpeed = new System.Windows.Forms.AGauge();
-            this.attitudeIndicatorInstrumentControl1 = new MedeniyetinApp.Controllers.AttitudeIndicatorInstrumentControl();
+            this.rollRight = new System.Windows.Forms.Panel();
+            this.rollLeft = new System.Windows.Forms.Panel();
+            this.pitchLeft = new System.Windows.Forms.Panel();
+            this.pitchRight = new System.Windows.Forms.Panel();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.panel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Piha)).BeginInit();
             this.panel4.SuspendLayout();
             this.gaugePanel.SuspendLayout();
             this.SuspendLayout();
@@ -91,7 +99,7 @@
             this.panel2.Location = new System.Drawing.Point(0, 16);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(988, 1735);
+            this.panel2.Size = new System.Drawing.Size(988, 1072);
             this.panel2.TabIndex = 3;
             // 
             // panel3
@@ -99,14 +107,15 @@
             this.panel3.Controls.Add(this.panel5);
             this.panel3.Controls.Add(this.panel4);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(474, 0);
+            this.panel3.Location = new System.Drawing.Point(453, 0);
             this.panel3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(514, 1735);
+            this.panel3.Size = new System.Drawing.Size(535, 1072);
             this.panel3.TabIndex = 2;
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.panel6);
             this.panel5.Controls.Add(this.LIhaLong);
             this.panel5.Controls.Add(this.label9);
             this.panel5.Controls.Add(this.LIhaLat);
@@ -117,17 +126,43 @@
             this.panel5.Controls.Add(this.ModePixhawk);
             this.panel5.Controls.Add(this.label5);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(0, 648);
+            this.panel5.Location = new System.Drawing.Point(0, 647);
+            this.panel5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(514, 1087);
+            this.panel5.Size = new System.Drawing.Size(535, 425);
             this.panel5.TabIndex = 20;
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.pitchRight);
+            this.panel6.Controls.Add(this.pitchLeft);
+            this.panel6.Controls.Add(this.rollLeft);
+            this.panel6.Controls.Add(this.rollRight);
+            this.panel6.Controls.Add(this.Piha);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel6.Location = new System.Drawing.Point(0, 0);
+            this.panel6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(535, 409);
+            this.panel6.TabIndex = 10;
+            // 
+            // Piha
+            // 
+            this.Piha.Image = global::MedeniyetinApp.Properties.Resources.iha;
+            this.Piha.Location = new System.Drawing.Point(0, 0);
+            this.Piha.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Piha.Name = "Piha";
+            this.Piha.Size = new System.Drawing.Size(535, 409);
+            this.Piha.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Piha.TabIndex = 0;
+            this.Piha.TabStop = false;
             // 
             // LIhaLong
             // 
             this.LIhaLong.AutoSize = true;
             this.LIhaLong.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LIhaLong.ForeColor = System.Drawing.Color.Silver;
-            this.LIhaLong.Location = new System.Drawing.Point(404, 252);
+            this.LIhaLong.Location = new System.Drawing.Point(404, 662);
             this.LIhaLong.Name = "LIhaLong";
             this.LIhaLong.Size = new System.Drawing.Size(23, 25);
             this.LIhaLong.TabIndex = 9;
@@ -138,7 +173,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.Silver;
-            this.label9.Location = new System.Drawing.Point(342, 252);
+            this.label9.Location = new System.Drawing.Point(341, 662);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(62, 25);
             this.label9.TabIndex = 8;
@@ -149,7 +184,7 @@
             this.LIhaLat.AutoSize = true;
             this.LIhaLat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LIhaLat.ForeColor = System.Drawing.Color.Silver;
-            this.LIhaLat.Location = new System.Drawing.Point(117, 252);
+            this.LIhaLat.Location = new System.Drawing.Point(117, 662);
             this.LIhaLat.Name = "LIhaLat";
             this.LIhaLat.Size = new System.Drawing.Size(23, 25);
             this.LIhaLat.TabIndex = 7;
@@ -160,7 +195,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Silver;
-            this.label6.Location = new System.Drawing.Point(66, 252);
+            this.label6.Location = new System.Drawing.Point(67, 662);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(45, 25);
             this.label6.TabIndex = 5;
@@ -171,7 +206,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(26, 182);
+            this.label4.Location = new System.Drawing.Point(27, 592);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(129, 29);
             this.label4.TabIndex = 4;
@@ -182,7 +217,7 @@
             this.ModeOFF.AutoSize = true;
             this.ModeOFF.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ModeOFF.ForeColor = System.Drawing.Color.Silver;
-            this.ModeOFF.Location = new System.Drawing.Point(415, 105);
+            this.ModeOFF.Location = new System.Drawing.Point(415, 514);
             this.ModeOFF.Name = "ModeOFF";
             this.ModeOFF.Size = new System.Drawing.Size(52, 25);
             this.ModeOFF.TabIndex = 3;
@@ -193,7 +228,7 @@
             this.ModePID.AutoSize = true;
             this.ModePID.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ModePID.ForeColor = System.Drawing.Color.Silver;
-            this.ModePID.Location = new System.Drawing.Point(261, 105);
+            this.ModePID.Location = new System.Drawing.Point(261, 514);
             this.ModePID.Name = "ModePID";
             this.ModePID.Size = new System.Drawing.Size(44, 25);
             this.ModePID.TabIndex = 2;
@@ -204,7 +239,7 @@
             this.ModePixhawk.AutoSize = true;
             this.ModePixhawk.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ModePixhawk.ForeColor = System.Drawing.Color.Silver;
-            this.ModePixhawk.Location = new System.Drawing.Point(66, 105);
+            this.ModePixhawk.Location = new System.Drawing.Point(67, 514);
             this.ModePixhawk.Name = "ModePixhawk";
             this.ModePixhawk.Size = new System.Drawing.Size(85, 25);
             this.ModePixhawk.TabIndex = 1;
@@ -215,7 +250,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(26, 48);
+            this.label5.Location = new System.Drawing.Point(27, 458);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(140, 29);
             this.label5.TabIndex = 0;
@@ -229,8 +264,9 @@
             this.panel4.Controls.Add(this.attitudeIndicatorInstrumentControl1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(0, 0);
+            this.panel4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(514, 648);
+            this.panel4.Size = new System.Drawing.Size(535, 647);
             this.panel4.TabIndex = 19;
             // 
             // button2
@@ -238,7 +274,7 @@
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(370, 560);
+            this.button2.Location = new System.Drawing.Point(371, 560);
             this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(131, 55);
@@ -275,6 +311,14 @@
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
+            // attitudeIndicatorInstrumentControl1
+            // 
+            this.attitudeIndicatorInstrumentControl1.Location = new System.Drawing.Point(31, 18);
+            this.attitudeIndicatorInstrumentControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.attitudeIndicatorInstrumentControl1.Name = "attitudeIndicatorInstrumentControl1";
+            this.attitudeIndicatorInstrumentControl1.Size = new System.Drawing.Size(434, 434);
+            this.attitudeIndicatorInstrumentControl1.TabIndex = 18;
+            // 
             // gaugePanel
             // 
             this.gaugePanel.Controls.Add(this.LBatteryVoltage);
@@ -293,7 +337,7 @@
             this.gaugePanel.Location = new System.Drawing.Point(0, 0);
             this.gaugePanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gaugePanel.Name = "gaugePanel";
-            this.gaugePanel.Size = new System.Drawing.Size(474, 1735);
+            this.gaugePanel.Size = new System.Drawing.Size(453, 1072);
             this.gaugePanel.TabIndex = 1;
             this.gaugePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gaugePanel_Paint);
             this.gaugePanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gaugePanel_MouseDown);
@@ -331,14 +375,14 @@
             this.GbatteryVoltage.BaseArcSweep = 270;
             this.GbatteryVoltage.BaseArcWidth = 2;
             this.GbatteryVoltage.Center = new System.Drawing.Point(110, 110);
-            aGaugeRange1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            aGaugeRange1.EndValue = 5F;
-            aGaugeRange1.InnerRadius = 1;
-            aGaugeRange1.InRange = false;
-            aGaugeRange1.Name = "GaugeRange1";
-            aGaugeRange1.OuterRadius = 2;
-            aGaugeRange1.StartValue = 0F;
-            this.GbatteryVoltage.GaugeRanges.Add(aGaugeRange1);
+            aGaugeRange13.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            aGaugeRange13.EndValue = 5F;
+            aGaugeRange13.InnerRadius = 1;
+            aGaugeRange13.InRange = false;
+            aGaugeRange13.Name = "GaugeRange1";
+            aGaugeRange13.OuterRadius = 2;
+            aGaugeRange13.StartValue = 0F;
+            this.GbatteryVoltage.GaugeRanges.Add(aGaugeRange13);
             this.GbatteryVoltage.Location = new System.Drawing.Point(68, 1030);
             this.GbatteryVoltage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GbatteryVoltage.MaximumSize = new System.Drawing.Size(289, 228);
@@ -429,15 +473,15 @@
             this.GrelativeAlt.BaseArcSweep = 270;
             this.GrelativeAlt.BaseArcWidth = 2;
             this.GrelativeAlt.Center = new System.Drawing.Point(110, 110);
-            aGaugeRange2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            aGaugeRange2.EndValue = 5F;
-            aGaugeRange2.InnerRadius = 1;
-            aGaugeRange2.InRange = false;
-            aGaugeRange2.Name = "GaugeRange1";
-            aGaugeRange2.OuterRadius = 2;
-            aGaugeRange2.StartValue = 0F;
-            this.GrelativeAlt.GaugeRanges.Add(aGaugeRange2);
-            this.GrelativeAlt.Location = new System.Drawing.Point(68, 712);
+            aGaugeRange14.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            aGaugeRange14.EndValue = 5F;
+            aGaugeRange14.InnerRadius = 1;
+            aGaugeRange14.InRange = false;
+            aGaugeRange14.Name = "GaugeRange1";
+            aGaugeRange14.OuterRadius = 2;
+            aGaugeRange14.StartValue = 0F;
+            this.GrelativeAlt.GaugeRanges.Add(aGaugeRange14);
+            this.GrelativeAlt.Location = new System.Drawing.Point(68, 711);
             this.GrelativeAlt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GrelativeAlt.MaximumSize = new System.Drawing.Size(289, 228);
             this.GrelativeAlt.MaxValue = 400F;
@@ -479,7 +523,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Lime;
-            this.label2.Location = new System.Drawing.Point(114, 615);
+            this.label2.Location = new System.Drawing.Point(115, 615);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(179, 20);
             this.label2.TabIndex = 16;
@@ -494,15 +538,15 @@
             this.GgroundSpeed.BaseArcSweep = 270;
             this.GgroundSpeed.BaseArcWidth = 2;
             this.GgroundSpeed.Center = new System.Drawing.Point(110, 110);
-            aGaugeRange3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            aGaugeRange3.EndValue = 5F;
-            aGaugeRange3.InnerRadius = 1;
-            aGaugeRange3.InRange = false;
-            aGaugeRange3.Name = "GaugeRange1";
-            aGaugeRange3.OuterRadius = 2;
-            aGaugeRange3.StartValue = 0F;
-            this.GgroundSpeed.GaugeRanges.Add(aGaugeRange3);
-            this.GgroundSpeed.Location = new System.Drawing.Point(68, 381);
+            aGaugeRange15.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            aGaugeRange15.EndValue = 5F;
+            aGaugeRange15.InnerRadius = 1;
+            aGaugeRange15.InRange = false;
+            aGaugeRange15.Name = "GaugeRange1";
+            aGaugeRange15.OuterRadius = 2;
+            aGaugeRange15.StartValue = 0F;
+            this.GgroundSpeed.GaugeRanges.Add(aGaugeRange15);
+            this.GgroundSpeed.Location = new System.Drawing.Point(68, 382);
             this.GgroundSpeed.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GgroundSpeed.MaximumSize = new System.Drawing.Size(289, 228);
             this.GgroundSpeed.MaxValue = 300F;
@@ -544,7 +588,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Lime;
-            this.label1.Location = new System.Drawing.Point(145, 291);
+            this.label1.Location = new System.Drawing.Point(145, 290);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(121, 20);
             this.label1.TabIndex = 14;
@@ -559,14 +603,14 @@
             this.GmotorSpeed.BaseArcSweep = 270;
             this.GmotorSpeed.BaseArcWidth = 2;
             this.GmotorSpeed.Center = new System.Drawing.Point(110, 110);
-            aGaugeRange4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            aGaugeRange4.EndValue = 5F;
-            aGaugeRange4.InnerRadius = 1;
-            aGaugeRange4.InRange = false;
-            aGaugeRange4.Name = "GaugeRange1";
-            aGaugeRange4.OuterRadius = 2;
-            aGaugeRange4.StartValue = 0F;
-            this.GmotorSpeed.GaugeRanges.Add(aGaugeRange4);
+            aGaugeRange16.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            aGaugeRange16.EndValue = 5F;
+            aGaugeRange16.InnerRadius = 1;
+            aGaugeRange16.InRange = false;
+            aGaugeRange16.Name = "GaugeRange1";
+            aGaugeRange16.OuterRadius = 2;
+            aGaugeRange16.StartValue = 0F;
+            this.GmotorSpeed.GaugeRanges.Add(aGaugeRange16);
             this.GmotorSpeed.Location = new System.Drawing.Point(68, 65);
             this.GmotorSpeed.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GmotorSpeed.MaximumSize = new System.Drawing.Size(289, 228);
@@ -604,20 +648,44 @@
             this.GmotorSpeed.Text = "aGauge1";
             this.GmotorSpeed.Value = 0F;
             // 
-            // attitudeIndicatorInstrumentControl1
+            // rollRight
             // 
-            this.attitudeIndicatorInstrumentControl1.Location = new System.Drawing.Point(31, 19);
-            this.attitudeIndicatorInstrumentControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.attitudeIndicatorInstrumentControl1.Name = "attitudeIndicatorInstrumentControl1";
-            this.attitudeIndicatorInstrumentControl1.Size = new System.Drawing.Size(471, 471);
-            this.attitudeIndicatorInstrumentControl1.TabIndex = 18;
+            this.rollRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.rollRight.Location = new System.Drawing.Point(300, 212);
+            this.rollRight.Name = "rollRight";
+            this.rollRight.Size = new System.Drawing.Size(132, 19);
+            this.rollRight.TabIndex = 1;
+            // 
+            // rollLeft
+            // 
+            this.rollLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.rollLeft.Location = new System.Drawing.Point(73, 212);
+            this.rollLeft.Name = "rollLeft";
+            this.rollLeft.Size = new System.Drawing.Size(138, 19);
+            this.rollLeft.TabIndex = 2;
+            // 
+            // pitchLeft
+            // 
+            this.pitchLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.pitchLeft.Location = new System.Drawing.Point(171, 338);
+            this.pitchLeft.Name = "pitchLeft";
+            this.pitchLeft.Size = new System.Drawing.Size(54, 15);
+            this.pitchLeft.TabIndex = 3;
+            // 
+            // pitchRight
+            // 
+            this.pitchRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.pitchRight.Location = new System.Drawing.Point(292, 338);
+            this.pitchRight.Name = "pitchRight";
+            this.pitchRight.Size = new System.Drawing.Size(54, 15);
+            this.pitchRight.TabIndex = 4;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(988, 1751);
+            this.ClientSize = new System.Drawing.Size(988, 1088);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -625,10 +693,13 @@
             this.Name = "Main";
             this.Text = "s";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.Main_Load);
             this.panel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.panel6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Piha)).EndInit();
             this.panel4.ResumeLayout(false);
             this.gaugePanel.ResumeLayout(false);
             this.gaugePanel.PerformLayout();
@@ -668,5 +739,11 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.PictureBox Piha;
+        private System.Windows.Forms.Panel rollRight;
+        private System.Windows.Forms.Panel rollLeft;
+        private System.Windows.Forms.Panel pitchRight;
+        private System.Windows.Forms.Panel pitchLeft;
     }
 }

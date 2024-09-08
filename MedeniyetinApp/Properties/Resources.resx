@@ -127,4 +127,10 @@
   <data name="Maquette_Avion" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Maquette_Avion.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ihaArtboard 2@3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ihaArtboard 2@3x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="iha" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\iha.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
