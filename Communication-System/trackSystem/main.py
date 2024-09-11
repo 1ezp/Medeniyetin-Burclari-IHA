@@ -81,7 +81,8 @@ class VideoTracker:
     
     def capture_video(self):
         screen_width, screen_height = self.get_screen_resolution()
-
+        CAMERA.update({"width":screen_width,"height":screen_height})
+        print(f"Screen resolution: {screen_width/2}x{screen_height/2}")
         cv2.namedWindow('Video', cv2.WINDOW_NORMAL)
         cv2.setWindowProperty('Video', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
         cv2.setMouseCallback('Video', self.select_target)
@@ -108,9 +109,9 @@ class VideoTracker:
                     p1 = (int(bbox[0]), int(bbox[1]))
                     p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
                     cv2.rectangle(frame, p1, p2, (255, 0, 0), 2, 1)
-                    cv2.putText(frame, f'X: {int(bbox[0])}, Y: {int(bbox[1])}', (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 1)
+                    cv2.putText(frame, f'X: {int(bbox[0] + (self.square_size/2))}, Y: {int(bbox[1] + (self.square_size/2) )}', (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 1)
                     with self.data_lock:
-                        Target.update({"x": int(bbox[0]), "y": int(bbox[1])})
+                        Target.update({"x": int(bbox[0] + (self.square_size/2)), "y": int(bbox[1] + (self.square_size/2) )})
                 else:
                     with self.data_lock:
                         Target.update({"x": -1, "y": -1})
