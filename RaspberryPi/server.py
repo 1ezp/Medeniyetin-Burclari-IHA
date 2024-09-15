@@ -5,6 +5,7 @@ from http import server
 from threading import Condition
 
 from picamera2 import Picamera2
+import libcamera
 from picamera2.encoders import JpegEncoder
 from picamera2.outputs import FileOutput
 
@@ -68,7 +69,9 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
 
 
 picam2 = Picamera2()
-picam2.configure(picam2.create_video_configuration(main={"size": (640, 480)}))
+config = picam2.create_video_configuration(main={"size": (640, 480)},transform=libcamera.Transform(vflip=1,hflip=1))
+picam2.configure(config)
+
 output = StreamingOutput()
 picam2.start_recording(JpegEncoder(), FileOutput(output))
 
