@@ -16,16 +16,18 @@ def connect_serial(port):
   
     
 def main():
-    port = "COM11"
+    # port = "COM11"
+    port = "COM7"
     ser = connect_serial(port)
     while True:
         try:
             recivedData = ser.readline().decode()
+
             if recivedData != '':
                 data = recivedData.split(":")
                 with lock:
                     IHA.update({"MODE": int(data[0])})
-            time.sleep(0.01)  # Add a small sleep to give some breathing room
+            time.sleep(0.01)  
         except serial.SerialException:
             with lock:
                 IHA.update({"MODE": 1})
