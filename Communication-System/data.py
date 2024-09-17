@@ -7,6 +7,7 @@ IHA = {
     "roll":10,
     "pitch":5,
     "relative_alt":0,
+    "batteryVoltage":0,
 }
 
 IKA = {
