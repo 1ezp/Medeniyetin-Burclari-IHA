@@ -46,10 +46,10 @@ void adjustMode(const int* data){
                 turretDown();
                 break;
             case 3:
-                turretRight();
+                // turretRight();
                 break;
             case 4:
-                turretLeft();
+                // turretLeft();
                 break;
             case 5:
                 shoot();
