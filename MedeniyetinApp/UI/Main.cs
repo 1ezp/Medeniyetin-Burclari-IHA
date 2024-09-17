@@ -109,6 +109,18 @@ namespace MedeniyetinApp.UI
                 rollRight.BackColor = Color.FromArgb(192, 0, 0); 
                 rollLeft.BackColor = Color.FromArgb(255, 128, 0);
             }
+
+            if (pitch > 0)
+            {
+                pitchLeft.BackColor = Color.FromArgb(255, 128, 0);
+                pitchRight.BackColor = Color.FromArgb(255, 128, 0);
+            }
+            else if(pitch < 0)
+            {
+                pitchLeft.BackColor = Color.FromArgb(192, 0, 0);
+                pitchRight.BackColor = Color.FromArgb(192, 0, 0);
+
+            }
         }
 
         private void Main_Load(object sender, EventArgs e)

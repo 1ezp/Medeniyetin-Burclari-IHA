@@ -93,16 +93,6 @@ namespace MedeniyetinApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ihaArtboard_2_3x {
-            get {
-                object obj = ResourceManager.GetObject("ihaArtboard 2@3x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Maquette_Avion {
             get {
                 object obj = ResourceManager.GetObject("Maquette_Avion", resourceCulture);
