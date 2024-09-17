@@ -21,6 +21,7 @@
 // Project Files
 #include "Project/Functions.c"
 #include "Project/Pins/initServo.c"
+#include "Project/Pins/initPwm.c"
 #include "Project/Pins/initPins.c"
 #include "Project/Modes/movement.c"
 #include "Project/Modes/modesAdjuster.c"
