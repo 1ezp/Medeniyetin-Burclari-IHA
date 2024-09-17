@@ -14,13 +14,14 @@ from trackSystem.main import VideoTracker
 # pixy = Pixhawk('udp:127.0.0.1:14550')
 pixy = Pixhawk('tcp:127.0.0.1:5760')
 
-tracker = VideoTracker("http://192.168.10.123:7123/stream.mjpg")
+# tracker = VideoTracker("http://192.168.10.123:7123/stream.mjpg")
+# tracker = VideoTracker(0)
 # Thread(target=pixy.fetchData).start()
-# Thread(target=socketServer.start, args=(pixy,)).start()
+Thread(target=socketServer.start, args=(pixy,)).start()
 # Thread(target=usbReciver.main).start()
 
 # Thread(target=IHAConnection.start).start()
 # Thread(target=IKAConnection.start).start()
 
-Thread(target=tracker.start).start()
+# Thread(target=tracker.start).start()
 # Thread(target=PID.start, args=(pixy,)).start()
