@@ -13,6 +13,17 @@
 short int speed = 0;
 long long int previousSpeedMillis = 0;
 
+char lastMovement = 'F';
+
+/*
+
+F --> Forward
+B --> Backwards
+R --> Right
+L --> Left
+
+*/
+
 void adjustSpeed(bool direction){
 
     if((esp_timer_get_time() / 1000) - previousSpeedMillis >= speedSensetivity){
@@ -66,25 +77,48 @@ void adjustSpeed(bool direction){
 
 void shutdownAllPins(){
 
-    adjustSpeed(0);
-
-    analogWrite(leftForawrdChannel, speed);
-    analogWrite(leftRearChannel, speed);
-    analogWrite(rightForawrdChannel, speed);
-    analogWrite(rightRearChannel, speed);
+    analogWrite(leftForawrdChannel, 0);
+    analogWrite(leftRearChannel, 0);
+    analogWrite(rightForawrdChannel, 0);
+    analogWrite(rightRearChannel, 0);
     digitalWrite(udTurret1, 0);
     digitalWrite(udTurret2, 0);
-
+    printf("ShutdownAllPins\n");
+    // digitalWrite(rlTurret1, 0);
+    // digitalWrite(rlTurret2, 0);
 }
 
 void shutDownMovementPins(){
 
     adjustSpeed(0);
 
-    analogWrite(leftForawrdChannel, speed);
-    analogWrite(leftRearChannel, speed);
-    analogWrite(rightForawrdChannel, speed);
-    analogWrite(rightRearChannel, speed);
+    switch(lastMovement){
+
+        case 'F':
+            analogWrite(leftForawrdChannel, speed);
+            analogWrite(leftRearChannel, 0);
+            analogWrite(rightForawrdChannel, speed);
+            analogWrite(rightRearChannel, 0);
+            break;
+        case 'B':
+            analogWrite(leftForawrdChannel, 0);
+            analogWrite(leftRearChannel, speed);
+            analogWrite(rightForawrdChannel, 0);
+            analogWrite(rightRearChannel, speed);
+            break;
+        case 'R':
+            analogWrite(leftForawrdChannel, speed);
+            analogWrite(leftRearChannel, 0);
+            analogWrite(rightForawrdChannel, 0);
+            analogWrite(rightRearChannel, speed);
+            break;
+        case 'L':
+            analogWrite(leftForawrdChannel, 0);
+            analogWrite(leftRearChannel, speed);
+            analogWrite(rightForawrdChannel, speed);
+            analogWrite(rightRearChannel, 0);
+            break;
+    }
 }
 
 void shutDownTurretPins(){
@@ -96,6 +130,7 @@ void shutDownTurretPins(){
 void moveForward(){
 
     adjustSpeed(1);
+    lastMovement = 'F';
 
     analogWrite(leftForawrdChannel, speed);
     analogWrite(leftRearChannel, 0);
@@ -106,6 +141,7 @@ void moveForward(){
 void moveBackward(){
 
     adjustSpeed(1);
+    lastMovement = 'B';
 
     analogWrite(leftForawrdChannel, 0);
     analogWrite(leftRearChannel, speed);
@@ -116,6 +152,7 @@ void moveBackward(){
 void moveRight(){
 
     adjustSpeed(1);
+    lastMovement = 'R';
 
     analogWrite(leftForawrdChannel, speed);
     analogWrite(leftRearChannel, 0);
@@ -126,6 +163,7 @@ void moveRight(){
 void moveLeft(){
 
     adjustSpeed(1);
+    lastMovement = 'L';
 
     analogWrite(leftForawrdChannel, 0);
     analogWrite(leftRearChannel, speed);

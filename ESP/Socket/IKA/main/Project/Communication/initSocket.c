@@ -8,6 +8,8 @@
 #define HOST_IP "192.168.1.21"
 #define HOST_PORT 100
 #define CONNECT_TIMEOUT_MS 25
+#define RECV_TIMEOUT_MS 1000   // Set a 5-second timeout for receiving data
+#define SEND_TIMEOUT_MS 1000   // Set a 5-second timeout for sending data
 
 bool isSocketTaskRunning = false;
 bool isSocketConnected = false;
@@ -54,7 +56,7 @@ void socketTask(){
 
         // Connect to socket
         int err = connect(sock, (struct sockaddr *)&dest_addr, sizeof(dest_addr));
-        if(err < 0 && errno != EINPROGRESS){
+        if (err < 0 && errno != EINPROGRESS) {
 
             // ESP_LOGE(SocketTAG, "Socket unable to connect: errno %d", errno);
             close(sock);
@@ -72,7 +74,7 @@ void socketTask(){
         tv.tv_usec = CONNECT_TIMEOUT_MS * 1000;
 
         err = select(sock + 1, NULL, &write_fds, NULL, &tv);
-        if(err <= 0){
+        if (err <= 0) {
 
             // ESP_LOGE(SocketTAG, "Socket connection timed out or error: errno %d", errno);
             close(sock);
@@ -85,31 +87,55 @@ void socketTask(){
         fcntl(sock, F_SETFL, flags & ~O_NONBLOCK);
         // ESP_LOGI(SocketTAG, "Successfully connected");
 
-        while(true){
+        // Set receive and send timeout for detecting connection loss
+        struct timeval timeout;
+        timeout.tv_sec = RECV_TIMEOUT_MS / 1000;  // Convert to seconds
+        timeout.tv_usec = (RECV_TIMEOUT_MS % 1000) * 1000;  // Remaining microseconds
+        setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
 
-            isSocketConnected = true;
+        timeout.tv_sec = SEND_TIMEOUT_MS / 1000;  // Convert to seconds
+        timeout.tv_usec = (SEND_TIMEOUT_MS % 1000) * 1000;  // Remaining microseconds
+        setsockopt(sock, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout));
+
+        isSocketConnected = true;  // Now socket is connected
+
+        while (isSocketConnected) {
 
             // Update the dataToSend
             snprintf(dataToSend, sizeof(dataToSend), "%f:%f", gpsLat, gpsLng);
 
-            // Send
+            // Send data with timeout
             int err = send(sock, dataToSend, strlen(dataToSend), 0);
-            if(err < 0){
-
-                // ESP_LOGE(SocketTAG, "Error occurred during sending: errno %d", errno);
+            if (err < 0) {
+                if (errno == EWOULDBLOCK || errno == EAGAIN) {
+                    // Timeout occurred during sending
+                    // ESP_LOGE(SocketTAG, "send timeout: could not send data, disconnecting...");
+                } else {
+                    // ESP_LOGE(SocketTAG, "Error occurred during sending: errno %d", errno);
+                }
+                isSocketConnected = false;  // Set to false on error or timeout
                 break;
             }
             // ESP_LOGI(SocketTAG, "Message sent");
 
-            // Receive
+            // Receive data with timeout
             int len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
-            if(len < 0){
-
-                // ESP_LOGE(SocketTAG, "recv failed: errno %d", errno);
+            if (len == 0) {
+                // Connection closed by the remote host
+                // ESP_LOGI(SocketTAG, "Connection closed by host");
+                isSocketConnected = false;
                 break;
-            }
-            else{
-
+            } else if (len < 0) {
+                if (errno == EWOULDBLOCK || errno == EAGAIN) {
+                    // Timeout occurred, no data received within the timeout period
+                    // ESP_LOGE(SocketTAG, "recv timeout: no data received, disconnecting...");
+                } else {
+                    // ESP_LOGE(SocketTAG, "recv failed: errno %d", errno);
+                }
+                isSocketConnected = false;  // Set to false on receive failure
+                break;
+            } else {
+                // Data received successfully
                 rx_buffer[len] = 0; // Null-terminate the received data
                 // ESP_LOGI(SocketTAG, "Received %d bytes: %s", len, rx_buffer);
                 extractNumbers(rx_buffer, &data[0], &data[1]);
@@ -118,13 +144,12 @@ void socketTask(){
         }
 
         // Shutdown the socket if correctly configured, and recreate it
-        if(sock != -1){
-
+        if (sock != -1) {
             shutdown(sock, 0);
             close(sock);
         }
 
-        isSocketConnected = false;
+        isSocketConnected = false;  // Reset when socket is closed
     }
 
     // Disconnected from wifi, stop task

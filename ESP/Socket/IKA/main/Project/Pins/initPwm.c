@@ -10,7 +10,7 @@
 #define leftForward     21
 #define leftRear        22
 #define rightForward    23
-#define rightRear       24
+#define rightRear       4
 
 void init_pwm(){
 

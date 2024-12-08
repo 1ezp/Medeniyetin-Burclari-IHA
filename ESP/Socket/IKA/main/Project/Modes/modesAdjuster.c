@@ -4,11 +4,11 @@
 // --------------------------------------------------
 
 extern bool isWifiConnected;
-extern bool isSocketTaskRunning;
+extern bool isSocketConnected;
 
 void adjustMode(const int* data){
 
-    if(!isWifiConnected || !isSocketTaskRunning){
+    if(!isWifiConnected || !isSocketConnected){
 
         shutdownAllPins();
     }
